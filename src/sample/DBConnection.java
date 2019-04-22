@@ -121,7 +121,41 @@ public class DBConnection {
 
     }
 
-    
+    public void checkValidateEmail (String username){
+
+        String emailQue = "Select email, password from hkrquiz1.user where username =?";
+        int x = 0;
+
+        try(PreparedStatement statement = connection.prepareStatement(emailQue)){
+            statement.setString(1,username);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    Account.getInstance().setEmail(resultSet.getString("email"));
+                    Account.getInstance().setPassword(resultSet.getNString("password"));
+                }
+
+                /*if (x>0){
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("The email entered exist! ");
+                    alert.showAndWait();
+                }
+                else {
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("The email entered not exist! ");
+                    alert.showAndWait();
+                }*/
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error on fetch data from database ");
+            alert.showAndWait();
+        }
+    }
+
 
 
 }

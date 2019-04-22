@@ -57,6 +57,17 @@ public class LoginController {
 
     }
 
+    public void forgotPassPressed(ActionEvent event) {
+
+        StageManager.getInstance().getForgetPass();
+
+    }
+
+    public void registerBtnPress(ActionEvent event) {
+
+        StageManager.getInstance().getRegister();
+    }
+
     public void hooverOverAnchorpane() {
         effect.setNode(logInPane);
         effect.setByX(.1);

@@ -68,6 +68,22 @@ public class LoginController {
         StageManager.getInstance().getRegister();
     }
 
+    public void loadAccount() throws SQLException {
+
+        String username = tfAccountLogin.getText();
+        DBConnection myConnection = new DBConnection();
+        myConnection.getRole(username);
+
+        if (Account.getInstance().getIs_admin() == true) {
+
+            StageManager.getInstance().getAdminScene();
+
+        } else {
+
+            StageManager.getInstance().getMainMenu();
+        }
+    }
+
     public void hooverOverAnchorpane() {
         effect.setNode(logInPane);
         effect.setByX(.1);

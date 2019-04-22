@@ -55,7 +55,44 @@ public class DBConnection {
         }
     }
 
-    
+    public void validateLogin(String username, String password) {
+
+        String query = "SELECT count(*) FROM hkrquiz1.user WHERE username =? And password =?";
+        int i= 0;
+
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+
+
+            statement.setString(1,username);
+            statement.setString(2,password);
+
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    i = resultSet.getInt(1);
+                }
+            }
+
+
+            if (i>0){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Login successful! ");
+                alert.showAndWait();
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(" Wrong username or password ! ");
+                alert.showAndWait();
+            }
+
+            connection.close();
+
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error on fetch data from database ");
+            alert.showAndWait();
+        }
+    }
+
 
 
 }

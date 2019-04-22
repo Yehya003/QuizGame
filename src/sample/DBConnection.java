@@ -93,6 +93,35 @@ public class DBConnection {
         }
     }
 
+    public void getRole (String username){
+
+        String roleQue = "SELECT * From hkrquiz1.user where username =?";
+
+        try (PreparedStatement statement = connection.prepareStatement(roleQue)){
+            statement.setString(1,username);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+
+
+                    Account.getInstance().setUsername(resultSet.getNString("username"));
+                    Account.getInstance().setPassword(resultSet.getNString("password"));
+                    Account.getInstance().setEmail(resultSet.getNString("email"));
+                    Account.getInstance().setIs_admin(resultSet.getBoolean("is_admin"));
+                }
+
+                connection.close();
+            }
+
+        }catch (SQLException ex){
+            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error on fetch data from database ");
+            alert.showAndWait();
+        }
+
+    }
+
+    
 
 
 }

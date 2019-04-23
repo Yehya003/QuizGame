@@ -8,7 +8,8 @@ import java.sql.*;
 
 public class DatabaseConnector {
 
-    private String jdbc = "jdbc:mysql://";
+    //Syntax https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-jdbc-url-format.html
+    private String protocol = "jdbc:mysql://";
     private String host = "den1.mysql5.gear.host";
     private String port = ":3306";
     private String databaseName = "/hkrquiz1";
@@ -16,7 +17,7 @@ public class DatabaseConnector {
     private String userValue = "=hkrquiz1";
     private String password = "&password";
     private String passwordValue = "=HKRQUIZ1!";
-    private String databaseUrl = jdbc + host + port + databaseName + port + user + userValue + password + passwordValue;
+    private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
 
     private Connection connection;
 

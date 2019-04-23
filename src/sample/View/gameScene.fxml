@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXProgressBar?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import javafx.scene.ParallelCamera?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.GameController">
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.ParallelCamera?>
+<AnchorPane  fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.GameController">
+    <ImageView fx:id="background" fitHeight="${mainPane.height}" fitWidth="${mainPane.width}" layoutX="-117.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <image>
+            <Image url="@../../Resources/poss.jpg" />
+        </image>
+    </ImageView>
     <children>
         <Label fx:id="questionLabel" layoutX="142.0" layoutY="125.0" text="Question" />
         <ParallelCamera />

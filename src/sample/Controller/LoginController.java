@@ -1,9 +1,19 @@
 package sample.Controller;
 
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import sample.Model.Account;
+import sample.DBConnection;
+import sample.StageManager;
+
+import java.sql.SQLException;
 
 
 public class LoginController {

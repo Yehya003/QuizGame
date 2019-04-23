@@ -1,22 +1,21 @@
-package sample.Model;
+package application.model;
 
 public class Account {
 
     private String username;
     private String password;
     private String email;
-    private boolean is_admin;
+    private boolean isAdmin;
     private int score;
 
-    private static Account createAccount = new Account();
+    private static Account account = new Account();
 
-    private Account(){
+    private Account() {
 
     }
 
-    public static Account getInstance(){
-
-        return createAccount;
+    public static Account getInstance() {
+        return account;
     }
 
     public String getUsername() {
@@ -43,14 +42,13 @@ public class Account {
         this.email = email;
     }
 
-    public boolean getIs_admin() {
-        return is_admin;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setIs_admin(boolean is_admin) {
-        this.is_admin = is_admin;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
-
 
     public int getScore() {
         return score;

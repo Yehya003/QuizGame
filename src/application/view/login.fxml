@@ -17,11 +17,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.LoginController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
     <children>
         <ImageView fx:id="background" fitHeight="${mainPane.height}" fitWidth="${mainPane.width}" layoutX="-117.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
-                <Image url="@../../Resources/poss.jpg" />
+                <Image url="@../../resources/poss.jpg" />
             </image>
         </ImageView>
         <BorderPane prefHeight="564.0" prefWidth="844.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -32,12 +32,12 @@
                             <children>
                                 <ImageView blendMode="ADD" fitHeight="45.0" fitWidth="192.0" layoutX="14.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../Resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png" />
+                                        <Image url="@../../resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png" />
                                     </image>
                                 </ImageView>
                                 <ImageView blendMode="ADD" fitHeight="60.0" fitWidth="82.0" layoutX="69.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../Resources/creative-idea-512.png" />
+                                        <Image url="@../../resources/creative-idea-512.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -68,9 +68,9 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane fx:id="logInPane" layoutX="544.0" layoutY="162.0" onMouseEntered="#hooverOverAnchorpane" prefHeight="241.0" prefWidth="222.0" style="-fx-background-radius: 30;">
+        <AnchorPane fx:id="logInPane" layoutX="544.0" layoutY="162.0" onMouseEntered="#hooverOverAnchorPane" prefHeight="241.0" prefWidth="222.0" style="-fx-background-radius: 30;">
             <children>
-                <TextFlow onMouseEntered="#hooverOverAnchorpane" opacity="0.4" prefHeight="241.0" prefWidth="215.0" style="-fx-background-color: #7A909E; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0" />
+                <TextFlow onMouseEntered="#hooverOverAnchorPane" opacity="0.4" prefHeight="241.0" prefWidth="215.0" style="-fx-background-color: #7A909E; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0" />
                 <JFXTextField fx:id="tfAccountLogin" layoutX="46.0" layoutY="59.0" onAction="#loginButtonPressed" promptText="Username" />
                 <JFXPasswordField fx:id="pfPasswordLogin" layoutX="43.0" layoutY="102.0" onAction="#loginButtonPressed" prefHeight="25.0" prefWidth="140.0" promptText="Password" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="102.0" />
                 <JFXCheckBox fx:id="bxRememberMe" layoutX="44.0" layoutY="138.0" prefHeight="17.0" prefWidth="101.0" text="Remember me" />
@@ -79,17 +79,17 @@
             <Hyperlink fx:id="linkForgetPass" layoutX="59.0" layoutY="198.0" onAction="#forgotPassPressed" prefHeight="23.0" prefWidth="103.0" text="Forget Password?" underline="true" visited="true" />
                 <ImageView fitHeight="25.0" fitWidth="32.0" layoutX="88.0" layoutY="21.0" opacity="0.68" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../Resources/lock-vector.png" />
+                        <Image url="@../../resources/lock-vector.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="18.0" fitWidth="25.0" layoutX="16.0" layoutY="66.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../Resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />
+                        <Image url="@../../resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="18.0" fitWidth="25.0" layoutX="16.0" layoutY="115.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../Resources/104-512.png" />
+                        <Image url="@../../resources/104-512.png" />
                     </image>
                 </ImageView>
             <Label fx:id="lbUsernameLogin" layoutX="47.0" layoutY="92.0" prefHeight="15.0" prefWidth="135.0" textFill="#f40404">
@@ -106,7 +106,7 @@
         </AnchorPane>
         <ImageView blendMode="SOFT_LIGHT" fitHeight="137.0" fitWidth="140.0" layoutX="655.0" layoutY="113.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../Resources/Question-512.png" />
+                <Image url="@../../resources/Question-512.png" />
             </image>
             <effect>
                 <Glow level="1.0" />

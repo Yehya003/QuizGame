@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.ParallelCamera?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.GameController">
+    <children>
+        <Label fx:id="questionLabel" layoutX="142.0" layoutY="125.0" text="Question" />
+        <ParallelCamera />
+        <JFXButton fx:id="animals" layoutX="220.0" layoutY="31.0" onAction="#populateQuiz" text="Animals" />
+        <JFXRadioButton fx:id="rb1" layoutX="142.0" layoutY="174.0" text="answer1">
+            <toggleGroup>
+                <ToggleGroup fx:id="answers" />
+            </toggleGroup>
+        </JFXRadioButton>
+        <JFXRadioButton fx:id="rb2" layoutX="142.0" layoutY="200.0" text="answer2" toggleGroup="$answers" />
+        <JFXRadioButton fx:id="rb3" layoutX="142.0" layoutY="224.0" text="answer3" toggleGroup="$answers" />
+        <JFXRadioButton fx:id="rb4" layoutX="142.0" layoutY="248.0" text="answer4" toggleGroup="$answers" />
+        <JFXButton fx:id="history" layoutX="335.0" layoutY="31.0" onAction="#populateQuiz" text="History" />
+        <JFXButton fx:id="next" layoutX="437.0" layoutY="305.0" onAction="#nextOrPreviousQuestion" text="next" />
+        <JFXButton fx:id="previous" layoutX="127.0" layoutY="305.0" onAction="#nextOrPreviousQuestion" text="previous" />
+        <JFXProgressBar layoutX="208.0" layoutY="316.0" progress="0.0" />
+        <JFXButton fx:id="sports" layoutX="116.0" layoutY="31.0" onAction="#populateQuiz" text="Sports" />
+    </children>
 </AnchorPane>

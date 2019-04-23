@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.RegisterController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.RegisterController">
 
     <ImageView fx:id="background" fitHeight="${mainPane.height}" fitWidth="${mainPane.width}" layoutX="-117.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <image>
-            <Image url="@../../Resources/poss.jpg" />
+            <Image url="@../../resources/poss.jpg" />
         </image>
     </ImageView>
     <BorderPane prefHeight="564.0" prefWidth="844.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,12 +28,12 @@
                   <children>
                      <ImageView blendMode="ADD" fitHeight="45.0" fitWidth="192.0" layoutX="14.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@../../Resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png" />
+                           <Image url="@../../resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png" />
                         </image>
                      </ImageView>
                      <ImageView blendMode="ADD" fitHeight="60.0" fitWidth="82.0" layoutX="69.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@../../Resources/creative-idea-512.png" />
+                           <Image url="@../../resources/creative-idea-512.png" />
                         </image>
                      </ImageView>
                   </children>
@@ -48,7 +48,7 @@
                      <Button fx:id="Nextbtnpress" layoutX="140.0" layoutY="284.0" mnemonicParsing="false" onAction="#exitBtnPress" prefHeight="25.0" prefWidth="43.0" style="-fx-background-color: #FF6347;" text="Exit" textFill="#f2f7f8" />
                      <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="47.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@../../Resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />
+                           <Image url="@../../resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />
                         </image>
                      </ImageView>
                      <Label layoutX="122.0" layoutY="30.0" text="CREATE NEW ACCOUNT">

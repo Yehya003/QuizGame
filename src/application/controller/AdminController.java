@@ -1,7 +1,7 @@
-package sample.Controller;
+package application.controller;
 
 import javafx.event.ActionEvent;
-import sample.StageManager;
+import application.StageManager;
 
 public class AdminController {
 

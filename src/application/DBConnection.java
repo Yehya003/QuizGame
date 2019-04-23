@@ -1,9 +1,9 @@
-package sample;
+package application;
 
 
 
 import javafx.scene.control.Alert;
-import sample.Model.Account;
+import application.model.Account;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package sample.Controller;
+package application.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
@@ -8,9 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import sample.DBConnection;
-import sample.Model.Account;
-import sample.StageManager;
+import application.DBConnection;
+import application.model.Account;
+import application.StageManager;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;

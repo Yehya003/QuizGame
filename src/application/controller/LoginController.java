@@ -1,4 +1,4 @@
-package sample.Controller;
+package application.controller;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -9,9 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import sample.Model.Account;
-import sample.DBConnection;
-import sample.StageManager;
+import application.model.Account;
+import application.DBConnection;
+import application.StageManager;
 
 import java.sql.SQLException;
 

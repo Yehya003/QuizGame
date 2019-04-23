@@ -1,4 +1,4 @@
-package sample.Controller;
+package application.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -8,10 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import sample.DBConnection;
-import sample.StageManager;
+import application.DBConnection;
+import application.StageManager;
 import java.sql.SQLException;
-import java.util.Random;
 
 public class RegisterController  {
 

@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,7 +40,7 @@ public class StageManager {
 
         public void getLogin() {
             if(login == null){
-                login = createStage("View/LoginView.fxml");
+                login = createStage("view/LoginView.fxml");
                 login.setTitle("Login");
                 stages.add(login);
             }
@@ -50,7 +50,7 @@ public class StageManager {
 
         public void getForgetPass(){
             if (forgetPass == null){
-                forgetPass = createStage("View/ForgetPass.fxml");
+                forgetPass = createStage("view/ForgetPass.fxml");
                 forgetPass.setTitle("Forget Password");
                 stages.add(forgetPass);
             }
@@ -60,7 +60,7 @@ public class StageManager {
 
         public void getRegister() {
             if(register == null){
-                register = createStage("View/Register.fxml");
+                register = createStage("view/Register.fxml");
                 register.setTitle("Create account");
                 stages.add(register);
             }
@@ -71,7 +71,7 @@ public class StageManager {
 
         public void getMainMenu() {
             if(mainMenu == null){
-                mainMenu = createStage("View/MainMenu.fxml");
+                mainMenu = createStage("view/MainMenu.fxml");
                 mainMenu.setTitle("Main Menu");
                 stages.add(mainMenu);
             }
@@ -81,7 +81,7 @@ public class StageManager {
 
         public void getAdminScene() {
             if(admin == null){
-                admin = createStage("View/Admin.fxml");
+                admin = createStage("view/Admin.fxml");
                 admin.setTitle("Admin Menu");
                 stages.add(admin);
             }

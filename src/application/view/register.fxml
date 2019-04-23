@@ -38,7 +38,7 @@
                      </ImageView>
                   </children>
                </AnchorPane>
-               <AnchorPane fx:id="registerPane" layoutX="399.0" layoutY="186.0" onMouseEntered="#hooverOverAnchorpane" prefHeight="344.0" prefWidth="385.0" style="-fx-background-radius: 30;">
+               <AnchorPane fx:id="registerPane" layoutX="399.0" layoutY="186.0" onMouseEntered="#hooverOverAnchorPane" prefHeight="344.0" prefWidth="385.0" style="-fx-background-radius: 30;">
                   <children>
                      <Label fx:id="lbRegisterUsername" layoutX="119.0" layoutY="124.0" prefHeight="18.0" prefWidth="219.0" textFill="#e70404" />
                      <Label fx:id="lbRegisterEmail" layoutX="119.0" layoutY="168.0" prefHeight="18.0" prefWidth="220.0" textFill="#e70404" />

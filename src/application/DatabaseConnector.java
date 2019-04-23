@@ -8,11 +8,20 @@ import java.sql.*;
 
 public class DatabaseConnector {
 
-    private String url1 = "jdbc:mysql://den1.mysql5.gear.host:3306/hkrquiz1?user=hkrquiz1&password=HKRQUIZ1!";
+    private String jdbc = "jdbc:mysql://";
+    private String host = "den1.mysql5.gear.host";
+    private String port = ":3306";
+    private String databaseName = "/hkrquiz1";
+    private String user = "?user";
+    private String userValue = "=hkrquiz1";
+    private String password = "&password";
+    private String passwordValue = "=HKRQUIZ1!";
+    private String databaseUrl = jdbc + host + port + databaseName + port + user + userValue + password + passwordValue;
+
     private Connection connection;
 
     public DatabaseConnector() throws SQLException {
-        connection = DriverManager.getConnection(url1);
+        connection = DriverManager.getConnection(databaseUrl);
     }
 
     public void saveRegistration(String username, String password, String email, boolean is_admin) {

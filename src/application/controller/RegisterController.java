@@ -67,7 +67,7 @@ public class RegisterController {
         StageManager.getInstance().getLogin();
     }
 
-    public void hooverOverAnchorpane() {
+    public void hooverOverAnchorPane() {
         effect.setNode(registerPane);
         effect.setByX(.1);
         effect.setByY(.1);

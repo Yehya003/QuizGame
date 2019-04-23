@@ -77,17 +77,14 @@ public class LoginController {
         DatabaseConnector myConnection = new DatabaseConnector();
         myConnection.getRole(username);
 
-        if (Account.getInstance().getAdmin() == true) {
-
+        if (Account.getInstance().isAdmin()) {
             StageManager.getInstance().getAdminScene();
-
         } else {
-
             StageManager.getInstance().getMainMenu();
         }
     }
 
-    public void hooverOverAnchorpane() {
+    public void hooverOverAnchorPane() {
         effect.setNode(logInPane);
         effect.setByX(.1);
         effect.setByY(.1);

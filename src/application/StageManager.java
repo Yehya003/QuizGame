@@ -37,7 +37,7 @@ public class StageManager {
 
     public void getLogin() {
         if (login == null) {
-            login = createStage("view/LoginView.fxml");
+            login = createStage("view/login.fxml");
             login.setTitle("Login");
             stages.add(login);
         }
@@ -47,7 +47,7 @@ public class StageManager {
 
     public void getForgetPass() {
         if (forgetPass == null) {
-            forgetPass = createStage("view/ForgetPass.fxml");
+            forgetPass = createStage("view/forgotPassword.fxml");
             forgetPass.setTitle("Forget Password");
             stages.add(forgetPass);
         }
@@ -57,7 +57,7 @@ public class StageManager {
 
     public void getRegister() {
         if (register == null) {
-            register = createStage("view/Register.fxml");
+            register = createStage("view/register.fxml");
             register.setTitle("Create account");
             stages.add(register);
         }
@@ -67,7 +67,7 @@ public class StageManager {
 
     public void getMainMenu() {
         if (mainMenu == null) {
-            mainMenu = createStage("view/MainMenu.fxml");
+            mainMenu = createStage("view/mainMenu.fxml");
             mainMenu.setTitle("Main Menu");
             stages.add(mainMenu);
         }
@@ -77,7 +77,7 @@ public class StageManager {
 
     public void getAdminScene() {
         if (admin == null) {
-            admin = createStage("view/Admin.fxml");
+            admin = createStage("view/admin.fxml");
             admin.setTitle("Admin Menu");
             stages.add(admin);
         }

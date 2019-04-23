@@ -1,5 +1,8 @@
 package application.controller;
 
+import application.DatabaseConnector;
+import application.StageManager;
+import application.model.Account;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -8,21 +11,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import application.DatabaseConnector;
-import application.model.Account;
-import application.StageManager;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.Session;
-import javax.mail.Transport;
 
 public class ForgotPasswordController {
 
-
-    ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
+    private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane forgetPassPane;
     @FXML
@@ -30,37 +32,31 @@ public class ForgotPasswordController {
     @FXML
     private Label lbUsername, lbEmail;
 
-
-    public void initialize(){
+    public void initialize() {
 
     }
 
-
-    public void sendPass(ActionEvent event) throws SQLException {
+    public void sendPassword(ActionEvent event) throws SQLException {
 
         String username = tfUsername.getText();
         String email = tfEmail.getText();
         DatabaseConnector myConnection = new DatabaseConnector();
 
-
-        if (username.trim().equals("") && email.trim().equals("")){
-
+        if (username.trim().equals("") && email.trim().equals("")) {
             lbUsername.setText("Fill The Username! ");
             lbEmail.setText("Fill The Email! ");
-        }
-        else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")){
+        } else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")) {
             lbEmail.setText("Invalid Email!");
-        }
-        else {
+        } else {
             lbUsername.setText("");
             lbEmail.setText("");
 
             myConnection.checkValidateEmail(username);
 
-            if (Account.getInstance().getEmail().equals(email)){
+            if (Account.getInstance().getEmail().equals(email)) {
 
                 String password = "Your Password: " + Account.getInstance().getPassword();
-                sendNewPassEmail(email,password);
+                sendNewPassEmail(email, password);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("The password was send! ");
@@ -70,8 +66,7 @@ public class ForgotPasswordController {
                 tfEmail.clear();
 
                 StageManager.getInstance().getLogin();
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("The email entered not exist! ");
                 alert.showAndWait();
@@ -79,16 +74,13 @@ public class ForgotPasswordController {
         }
     }
 
-    public void backBtnPress(ActionEvent event){
-
+    public void backButtonPress(ActionEvent event) {
         StageManager.getInstance().getLogin();
     }
 
     private void sendNewPassEmail(String email, String messageText) {
-
-
-        try{
-            String host ="smtp.gmail.com" ;
+        try {
+            String host = "smtp.gmail.com";
             String user = "yehyaalkhatib70@gmail.com";
             String pass = "0728466958y";
             String from = "yehyaalkhatib70@gmail.com";
@@ -111,26 +103,24 @@ public class ForgotPasswordController {
             msg.setFrom(new InternetAddress(from));
             InternetAddress[] address = {new InternetAddress(email)};
             msg.setRecipients(Message.RecipientType.TO, address);
-            msg.setSubject(subject); msg.setSentDate(new Date());
+            msg.setSubject(subject);
+            msg.setSentDate(new Date());
             msg.setText(messageText);
 
-            Transport transport=mailSession.getTransport("smtp");
+            Transport transport = mailSession.getTransport("smtp");
             transport.connect(host, user, pass);
             transport.sendMessage(msg, msg.getAllRecipients());
             transport.close();
 
-    } catch (MessagingException e) {
+        } catch (MessagingException e) {
             e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.WARNING, "Email not sent." +
                     "\nCheck if you entered a valid email.");
             a.showAndWait();
         }
-
-
-
     }
 
-    public void hooverOverAnchorpane() {
+    public void hooverOverAnchorPane() {
         effect.setNode(forgetPassPane);
         effect.setByX(.1);
         effect.setByY(.1);

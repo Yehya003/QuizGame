@@ -1,23 +1,22 @@
 package application.controller;
 
+import application.DatabaseConnector;
+import application.StageManager;
+import application.model.Account;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import application.model.Account;
-import application.DatabaseConnector;
-import application.StageManager;
 
 import java.sql.SQLException;
 
-
 public class LoginController {
-    ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
+    private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane logInPane;
     // Handel Login
@@ -29,7 +28,6 @@ public class LoginController {
     private Label lbUsernameLogin, lbPasswordLogin;
     @FXML
     private JFXCheckBox bxRememberMe;
-
 
     public void initialize() {
 
@@ -62,19 +60,14 @@ public class LoginController {
                 tfAccountLogin.clear();
                 pfPasswordLogin.clear();
             }
-
         }
-
     }
 
     public void forgotPassPressed(ActionEvent event) {
-
         StageManager.getInstance().getForgetPass();
-
     }
 
     public void registerBtnPress(ActionEvent event) {
-
         StageManager.getInstance().getRegister();
     }
 
@@ -84,7 +77,7 @@ public class LoginController {
         DatabaseConnector myConnection = new DatabaseConnector();
         myConnection.getRole(username);
 
-        if (Account.getInstance().getIs_admin() == true) {
+        if (Account.getInstance().getAdmin() == true) {
 
             StageManager.getInstance().getAdminScene();
 

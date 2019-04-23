@@ -1,21 +1,22 @@
 package application.controller;
 
+import application.DatabaseConnector;
+import application.StageManager;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import application.DatabaseConnector;
-import application.StageManager;
+
 import java.sql.SQLException;
 
-public class RegisterController  {
+public class RegisterController {
 
-    // Handel Registration
-    ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
+    //Handle Registration
+    private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane registerPane;
     @FXML
@@ -27,15 +28,13 @@ public class RegisterController  {
     @FXML
     private JFXPasswordField pfConfirmPassword;
     @FXML
-    private Label lbRegisterUsername,lbRegisterEmail,lbRegisterPass,lbConfirmPass;
+    private Label lbRegisterUsername, lbRegisterEmail, lbRegisterPass, lbConfirmPass;
 
-
-    public void initialize (){
+    public void initialize() {
 
     }
 
-
-    public void registerButtonPressed (ActionEvent event) throws SQLException {
+    public void registerButtonPressed(ActionEvent event) throws SQLException {
 
         DatabaseConnector myConnection = new DatabaseConnector();
         String username = tfUsername.getText();
@@ -44,34 +43,27 @@ public class RegisterController  {
         String confirmPass = pfConfirmPassword.getText();
         boolean is_admin = false;
 
-        if (username.trim().equals("") && password.trim().equals("") && email.trim().equals("") && confirmPass.trim().equals("")){
+        if (username.trim().equals("") && password.trim().equals("") && email.trim().equals("") && confirmPass.trim().equals("")) {
             lbRegisterUsername.setText("Fill the username! ");
             lbRegisterPass.setText("Fill the password! ");
             lbRegisterEmail.setText("Fill the email! ");
             lbConfirmPass.setText("Confirm the password! ");
-        }
-        else if (username.trim().equals("") ){
+        } else if (username.trim().equals("")) {
             lbRegisterUsername.setText("Fill the username! ");
-        }
-        else if (password.trim().equals("") || confirmPass.trim().equals("") ){
+        } else if (password.trim().equals("") || confirmPass.trim().equals("")) {
             lbRegisterPass.setText("Fill the password! ");
-        }
-        else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")){
+        } else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")) {
             lbRegisterEmail.setText("Invalid email!");
-        }
-        else if (!password.equals(confirmPass)){
+        } else if (!password.equals(confirmPass)) {
             lbConfirmPass.setText("Wrong password! ");
-        }
-        else {
-
-            myConnection.saveRegistration(username,password,email,is_admin);
+        } else {
+            myConnection.saveRegistration(username, password, email, is_admin);
             StageManager.getInstance().getMainMenu();
         }
     }
 
 
-    public void exitBtnPress(ActionEvent event){
-
+    public void exitButtonPress(ActionEvent event) {
         StageManager.getInstance().getLogin();
     }
 

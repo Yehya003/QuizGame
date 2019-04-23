@@ -45,7 +45,7 @@
                      <Label fx:id="lbRegisterPass" layoutX="118.0" layoutY="213.0" prefHeight="18.0" prefWidth="220.0" textFill="#e70404" />
                      <Label fx:id="lbConfirmPass" layoutX="117.0" layoutY="254.0" prefHeight="18.0" prefWidth="221.0" textFill="#e70404" />
                      <Button fx:id="registerBtnPress" layoutX="229.0" layoutY="284.0" mnemonicParsing="false" onAction="#registerButtonPressed" style="-fx-background-color: #FF6347;" text="Register" textFill="#f8f4f4" />
-                     <Button fx:id="Nextbtnpress" layoutX="140.0" layoutY="284.0" mnemonicParsing="false" onAction="#exitBtnPress" prefHeight="25.0" prefWidth="43.0" style="-fx-background-color: #FF6347;" text="Exit" textFill="#f2f7f8" />
+                     <Button fx:id="Nextbtnpress" layoutX="140.0" layoutY="284.0" mnemonicParsing="false" onAction="#exitButtonPress" prefHeight="25.0" prefWidth="43.0" style="-fx-background-color: #FF6347;" text="Exit" textFill="#f2f7f8" />
                      <ImageView fitHeight="44.0" fitWidth="51.0" layoutX="47.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                            <Image url="@../../resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />

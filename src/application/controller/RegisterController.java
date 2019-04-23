@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import application.DBConnection;
+import application.DatabaseConnector;
 import application.StageManager;
 import java.sql.SQLException;
 
@@ -37,7 +37,7 @@ public class RegisterController  {
 
     public void registerButtonPressed (ActionEvent event) throws SQLException {
 
-        DBConnection myConnection = new DBConnection();
+        DatabaseConnector myConnection = new DatabaseConnector();
         String username = tfUsername.getText();
         String password = pfPassword.getText();
         String email = tfEmail.getText();

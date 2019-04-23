@@ -7,13 +7,13 @@ import application.model.Account;
 
 import java.sql.*;
 
-public class DBConnection {
+public class DatabaseConnector {
 
     private String url1 = "jdbc:mysql://den1.mysql3.gear.host:3306/hkrquiz1?user=hkrquiz1&password=HKRQUIZ1!";
     Connection connection ;
 
 
-    public DBConnection () throws SQLException {
+    public DatabaseConnector() throws SQLException {
 
         connection = DriverManager.getConnection(url1);
     }

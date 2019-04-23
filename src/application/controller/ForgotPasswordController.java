@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import application.DBConnection;
+import application.DatabaseConnector;
 import application.model.Account;
 import application.StageManager;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import javax.mail.internet.*;
 import javax.mail.Session;
 import javax.mail.Transport;
 
-public class ForgetPassController {
+public class ForgotPasswordController {
 
 
     ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
@@ -40,7 +40,7 @@ public class ForgetPassController {
 
         String username = tfUsername.getText();
         String email = tfEmail.getText();
-        DBConnection myConnection = new DBConnection();
+        DatabaseConnector myConnection = new DatabaseConnector();
 
 
         if (username.trim().equals("") && email.trim().equals("")){

@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import application.model.Account;
-import application.DBConnection;
+import application.DatabaseConnector;
 import application.StageManager;
 
 import java.sql.SQLException;
@@ -39,7 +39,7 @@ public class LoginController {
 
         String username = tfAccountLogin.getText();
         String password = pfPasswordLogin.getText();
-        DBConnection myConnection = new DBConnection();
+        DatabaseConnector myConnection = new DatabaseConnector();
 
         if (username.trim().equals("") && password.trim().equals("")) {
             lbUsernameLogin.setText("Fill The Username!");
@@ -81,7 +81,7 @@ public class LoginController {
     public void loadAccount() throws SQLException {
 
         String username = tfAccountLogin.getText();
-        DBConnection myConnection = new DBConnection();
+        DatabaseConnector myConnection = new DatabaseConnector();
         myConnection.getRole(username);
 
         if (Account.getInstance().getIs_admin() == true) {

@@ -36,53 +36,33 @@ public class StageManager {
     }
 
     public void getLogin() {
-        if (login == null) {
-            login = createStage("view/login.fxml");
-            login.setTitle("Login");
-            stages.add(login);
-        }
-        hideAllOpen();
-        login.show();
+        getScene(login, "view/login.fxml", "Login");
     }
 
     public void getForgetPass() {
-        if (forgetPass == null) {
-            forgetPass = createStage("view/forgotPassword.fxml");
-            forgetPass.setTitle("Forget Password");
-            stages.add(forgetPass);
-        }
-        hideAllOpen();
-        forgetPass.show();
+        getScene(forgetPass, "view/forgotPassword.fxml", "Forgot Password");
     }
 
     public void getRegister() {
-        if (register == null) {
-            register = createStage("view/register.fxml");
-            register.setTitle("Create account");
-            stages.add(register);
-        }
-        hideAllOpen();
-        register.show();
+        getScene(register, "view/register.fxml", "Create Account");
     }
 
     public void getMainMenu() {
-        if (mainMenu == null) {
-            mainMenu = createStage("view/mainMenu.fxml");
-            mainMenu.setTitle("Main Menu");
-            stages.add(mainMenu);
-        }
-        hideAllOpen();
-        mainMenu.show();
+        getScene(mainMenu, "view/mainMenu.fxml", "Main Menu");
     }
 
     public void getAdminScene() {
-        if (admin == null) {
-            admin = createStage("view/admin.fxml");
-            admin.setTitle("Admin Menu");
-            stages.add(admin);
+        getScene(admin, "view/admin.fxml", "Admin Menu");
+    }
+
+    private void getScene(Stage stage, String fxmlFile, String stageTitle) {
+        if (stage == null) {
+            stage = createStage(fxmlFile);
+            stage.setTitle(stageTitle);
+            stages.add(stage);
         }
         hideAllOpen();
-        admin.show();
+        stage.show();
     }
 
     public Stage createStage(String stageName) {

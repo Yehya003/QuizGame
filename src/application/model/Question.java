@@ -2,7 +2,7 @@ package application.model;
 
 public class Question {
 
-    private final int question_id = 0;
+    private int question_id;
     private String category;
     private String difficulty;
     private String question;
@@ -11,7 +11,8 @@ public class Question {
     private String incorrect_answer2;
     private String incorrect_answer3;
 
-    public Question(String category, String difficulty, String question, String answer, String incorrect_answer1, String incorrect_answer2, String incorrect_answer3) {
+    public Question(int question_id, String category, String difficulty, String question, String answer, String incorrect_answer1, String incorrect_answer2, String incorrect_answer3) {
+        this.question_id = question_id;
         this.category = category;
         this.difficulty = difficulty;
         this.question = question;
@@ -47,6 +48,10 @@ public class Question {
 
     public String getIncorrect_answer3() {
         return incorrect_answer3;
+    }
+
+    public int getQuestion_id() {
+        return question_id;
     }
 }
 

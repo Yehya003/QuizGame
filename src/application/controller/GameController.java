@@ -4,6 +4,7 @@ import application.DatabaseConnector;
 import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -14,7 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class GameController {
-    public DatabaseConnector connector = new DatabaseConnector();
+
+
 
     @FXML
     ToggleGroup answers;
@@ -37,23 +39,42 @@ public class GameController {
     @FXML
     private JFXButton previous;
     @FXML
-    Label questionLabel;
+    private JFXButton finish;
+    @FXML
+    private Label questionLabel;
+    @FXML
+    private Label finalScore;
+    @FXML
+    private JFXProgressBar progressBar;
 
     private Quiz quiz;
     private int quizCounter = 0;
     private ArrayList<Question> questions;
+    private boolean isCorrectAnswerSelected;
 
-    public GameController() throws SQLException {
+    /*
+    public void scoreKeeping(boolean rightOrWrong){
+        if(rightOrWrong){
+            quiz.setScore(quiz.getScore()+1);
+        }
+    }
+    */
+    public void finishGame() {
+        int score = quiz.getScore();
+        finalScore.setText("Final Score: "+score+"/"+quiz.getQuestions().size());
+
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
-        System.out.println(event.getSource());
-        System.out.println(event.toString());
-
+        //System.out.println(event.getSource());
+        //System.out.println(event.toString());
+        if (isAnswerCorrect()) {
+            quiz.setScore(quiz.getScore() + 1);
+        }
         if (event.getSource().equals(next)) {
             if (quizCounter == questions.size() - 1) {
-
-                next.setText("Finish");
+                return;
+                //next.setText("Finish");
             } else {
                 quizCounter++;
             }
@@ -64,16 +85,37 @@ public class GameController {
                 quizCounter--;
             }
         }
+        displayQuestion(quizCounter);
+        try {
+            answers.getSelectedToggle().setSelected(false);
+        } catch (Exception e) {
 
-        questionLabel.setText(questions.get(quizCounter).getQuestion());
-        rb1.setText(questions.get(quizCounter).getAnswer());
-        rb2.setText(questions.get(quizCounter).getIncorrect_answer1());
-        rb3.setText(questions.get(quizCounter).getIncorrect_answer2());
-        rb4.setText(questions.get(quizCounter).getIncorrect_answer3());
-
+        }
     }
 
-    public void populateQuiz(ActionEvent event) {
+    public boolean isAnswerCorrect() {
+        String selectedAnswer = questions.get(quizCounter).getAnswer();
+        //System.out.println(answers.selectedToggleProperty());
+        try {
+            isCorrectAnswerSelected = answers.getSelectedToggle().toString().contains(selectedAnswer);
+        } catch (Exception e) {
+
+        }
+        //System.out.println(answers.getSelectedToggle().toString().contains(selectedAnswer));
+        return isCorrectAnswerSelected;
+    }
+
+    public void displayQuestion(int question_id) {
+        progressBar.setProgress((double) question_id / (questions.size() - 1));
+        questionLabel.setText(questions.get(question_id).getQuestion());
+        rb1.setText(questions.get(question_id).getAnswer());
+        rb2.setText(questions.get(question_id).getIncorrect_answer1());
+        rb3.setText(questions.get(question_id).getIncorrect_answer2());
+        rb4.setText(questions.get(question_id).getIncorrect_answer3());
+    }
+
+    public void populateQuiz(ActionEvent event) throws SQLException {
+        DatabaseConnector databaseConnector = new DatabaseConnector();
         String category;
         if (event.getSource().equals(history)) {
             category = "history";
@@ -82,20 +124,9 @@ public class GameController {
         } else {
             category = "sports";
         }
-
-        quiz = new Quiz(category, connector.QuizFill(category));
+        quiz = new Quiz(category, databaseConnector.QuizFill(category));
         quizCounter = 0;
-
         questions = quiz.getQuestions();
-
-        questionLabel.setText(questions.get(quizCounter).getQuestion());
-        rb1.setText(questions.get(quizCounter).getAnswer());
-        rb2.setText(questions.get(quizCounter).getIncorrect_answer1());
-        rb3.setText(questions.get(quizCounter).getIncorrect_answer2());
-        rb4.setText(questions.get(quizCounter).getIncorrect_answer3());
-
-
+        displayQuestion(quizCounter);
     }
-
-
 }

@@ -1,5 +1,4 @@
-package sample.Model;
-
+package application.model;
 
 import java.util.ArrayList;
 import java.util.Date;

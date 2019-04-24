@@ -1,10 +1,8 @@
 package application;
 
-
 import application.model.Account;
+import application.model.Question;
 import javafx.scene.control.Alert;
-import sample.Model.Account;
-import sample.Model.Question;
 
 import java.sql.*;
 import java.util.ArrayList;

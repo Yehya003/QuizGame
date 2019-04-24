@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 
 public class AdminController {
 
-    public void updateQuestion(ActionEvent event){
+    public void updateQuestion(ActionEvent event) {
 
     }
 

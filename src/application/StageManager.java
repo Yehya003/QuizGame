@@ -12,13 +12,6 @@ import java.util.ArrayList;
 public class StageManager {
 
     private static StageManager stageManager = new StageManager();
-
-    private Stage login;
-    private Stage register;
-    private Stage mainMenu;
-    private Stage admin;
-    private Stage forgetPass;
-
     private ArrayList<Stage> stages;
 
     public static StageManager getInstance() {
@@ -36,27 +29,31 @@ public class StageManager {
     }
 
     public void getLogin() {
-        getScene(login, "view/login.fxml", "Login");
+        getScene("login", "Login");
     }
 
     public void getForgetPass() {
-        getScene(forgetPass, "view/forgotPassword.fxml", "Forgot Password");
+        getScene("forgotPassword", "Forgot Password");
     }
 
     public void getRegister() {
-        getScene(register, "view/register.fxml", "Create Account");
+        getScene("register", "Create Account");
     }
 
     public void getMainMenu() {
-        getScene(mainMenu, "view/mainMenu.fxml", "Main Menu");
+        getScene("mainMenu", "Main Menu");
     }
 
     public void getAdminScene() {
-        getScene(admin, "view/admin.fxml", "Admin Menu");
+        getScene("admin", "Admin Menu");
     }
 
     public void getGameSetup() {
-        //TODO game setup scene
+        getScene("gameSetup", "Setup Game");
+    }
+
+    public void getGame() {
+        getScene("game", "Quiz");
     }
 
     public void getPlayerStatistics() {
@@ -71,12 +68,10 @@ public class StageManager {
         //TODO edit player scene
     }
 
-    private void getScene(Stage stage, String fxmlFile, String stageTitle) {
-        if (stage == null) {
-            stage = createStage(fxmlFile);
-            stage.setTitle(stageTitle);
-            stages.add(stage);
-        }
+    private void getScene(String fxmlFile, String stageTitle) {
+        Stage stage = createStage("view/" + fxmlFile + ".fxml");
+        stage.setTitle(stageTitle);
+        stages.add(stage);
         hideAllOpen();
         stage.show();
     }

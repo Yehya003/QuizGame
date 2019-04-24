@@ -55,6 +55,22 @@ public class StageManager {
         getScene(admin, "view/admin.fxml", "Admin Menu");
     }
 
+    public void getGameSetup() {
+        //TODO game setup scene
+    }
+
+    public void getPlayerStatistics() {
+        //TODO player statistics scene
+    }
+
+    public void getLeaderboards() {
+        //TODO leaderboards scene
+    }
+
+    public void getEditPlayer() {
+        //TODO edit player scene
+    }
+
     private void getScene(Stage stage, String fxmlFile, String stageTitle) {
         if (stage == null) {
             stage = createStage(fxmlFile);

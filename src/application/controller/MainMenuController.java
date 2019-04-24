@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.StageManager;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,19 +29,19 @@ public class MainMenuController implements Initializable {
     }
 
     private void playGame() {
-
+        StageManager.getInstance().getGameSetup();
     }
 
     private void openPlayerStatistics() {
-
+        StageManager.getInstance().getPlayerStatistics();
     }
 
     private void openLeaderboards() {
-
+        StageManager.getInstance().getLeaderboards();
     }
 
     private void openEditPlayer() {
-
+        StageManager.getInstance().getEditPlayer();
     }
 
 }

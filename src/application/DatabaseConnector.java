@@ -1,10 +1,11 @@
 package application;
 
-
 import application.model.Account;
+import application.model.Question;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseConnector {
 
@@ -154,5 +155,33 @@ public class DatabaseConnector {
             alert.setContentText("Error on fetch data from database ");
             alert.showAndWait();
         }
+    }
+
+    public ArrayList<Question> QuizFill(String category) {
+        ArrayList<Question> questions = new ArrayList<>();
+        if (connection != null) {
+            try {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
+                while (resultSet.next()) {
+                    String question = resultSet.getString("question");
+                    String difficulty = resultSet.getString("difficulty");
+                    String answer = resultSet.getString("answer");
+                    String incorrect_answer1 = resultSet.getString("incorrect_answer1");
+                    String incorrect_answer2 = resultSet.getString("incorrect_answer2");
+                    String incorrect_answer3 = resultSet.getString("incorrect_answer3");
+
+                    questions.add(new Question(category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+
+                }
+                return questions;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Could not fetch quiz ");
+                alert.showAndWait();
+            }
+        }
+        return null;
     }
 }

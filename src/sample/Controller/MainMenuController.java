@@ -126,7 +126,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             gameMode.valueProperty().addListener((Observable, oldValue, newValue) -> gameMode.resetValidation());
             difficulty.valueProperty().addListener((Observable, oldValue, newValue) -> difficulty.resetValidation());
             // add validators on the buttons so they show or even an emotion to indicate that they need to be chosen
-            
+            //preliminary 
         }
     }
 }

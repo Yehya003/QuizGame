@@ -163,6 +163,7 @@ public class DatabaseConnector {
             try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
+                int questionNumber = 1;
                 while (resultSet.next()) {
                     String question = resultSet.getString("question");
                     String difficulty = resultSet.getString("difficulty");
@@ -170,8 +171,9 @@ public class DatabaseConnector {
                     String incorrect_answer1 = resultSet.getString("incorrect_answer1");
                     String incorrect_answer2 = resultSet.getString("incorrect_answer2");
                     String incorrect_answer3 = resultSet.getString("incorrect_answer3");
+                    questions.add(new Question(questionNumber,category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                    questionNumber++;
 
-                    questions.add(new Question(category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
                 }
                 return questions;
             } catch (SQLException ex) {

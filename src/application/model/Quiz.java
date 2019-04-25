@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Quiz {
 
-    private final int quiz_id = 0;
+    private int quiz_id;
     private String category;
     private int score;
     private int duration;

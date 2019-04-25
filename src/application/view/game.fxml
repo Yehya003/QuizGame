@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.ParallelCamera?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.ParallelCamera?>
-<AnchorPane  fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameController">
-    <ImageView fx:id="background" fitHeight="${mainPane.height}" fitWidth="${mainPane.width}" layoutX="-117.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <image>
-            <Image url="/resources/poss.jpg" />
-        </image>
-    </ImageView>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameController">
+
+
     <children>
         <Label fx:id="questionLabel" layoutX="142.0" layoutY="125.0" text="Question" />
         <ParallelCamera />
@@ -26,9 +25,11 @@
         <JFXRadioButton fx:id="rb3" layoutX="142.0" layoutY="224.0" text="answer3" toggleGroup="$answers" />
         <JFXRadioButton fx:id="rb4" layoutX="142.0" layoutY="248.0" text="answer4" toggleGroup="$answers" />
         <JFXButton fx:id="history" layoutX="335.0" layoutY="31.0" onAction="#populateQuiz" text="History" />
-        <JFXButton fx:id="next" layoutX="437.0" layoutY="305.0" onAction="#nextOrPreviousQuestion" text="next" />
-        <JFXButton fx:id="previous" layoutX="127.0" layoutY="305.0" onAction="#nextOrPreviousQuestion" text="previous" />
-        <JFXProgressBar layoutX="208.0" layoutY="316.0" progress="0.0" />
+        <JFXButton fx:id="next" layoutX="589.0" layoutY="418.0" onAction="#nextOrPreviousQuestion" text="Next" />
+        <JFXButton fx:id="previous" layoutX="239.0" layoutY="417.0" text="Previous" />
+        <JFXProgressBar fx:id="progressBar" layoutX="350.0" layoutY="429.0" progress="0.0" />
         <JFXButton fx:id="sports" layoutX="116.0" layoutY="31.0" onAction="#populateQuiz" text="Sports" />
+        <JFXButton fx:id="finish" layoutX="668.0" layoutY="478.0" onAction="#finishGame" text="Finish" />
+        <Label fx:id="finalScore" layoutX="335.0" layoutY="79.0" prefHeight="17.0" prefWidth="188.0" />
     </children>
 </AnchorPane>

@@ -1,20 +1,21 @@
 package application.controller;
 
-import application.DatabaseConnector;
 import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
-import java.sql.SQLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class GameController {
+public class GameController implements Initializable {
 
 
 
@@ -60,9 +61,11 @@ public class GameController {
     }
     */
     public void finishGame() {
+        if(isAnswerCorrect()){
+            quiz.setScore(quiz.getScore()+1);
+        }
         int score = quiz.getScore();
         finalScore.setText("Final Score: "+score+"/"+quiz.getQuestions().size());
-
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
@@ -113,7 +116,7 @@ public class GameController {
         rb3.setText(questions.get(question_id).getIncorrect_answer2());
         rb4.setText(questions.get(question_id).getIncorrect_answer3());
     }
-
+    /*
     public void populateQuiz(ActionEvent event) throws SQLException {
         DatabaseConnector databaseConnector = new DatabaseConnector();
         String category;
@@ -128,5 +131,15 @@ public class GameController {
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);
+    }
+    */
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        quiz = GameSetupController.quiz;
+        quizCounter = 0;
+        questions = quiz.getQuestions();
+        displayQuestion(quizCounter);
+
     }
 }

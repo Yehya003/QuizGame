@@ -12,13 +12,6 @@ import java.util.ArrayList;
 public class StageManager {
 
     private static StageManager stageManager = new StageManager();
-
-    private Stage login;
-    private Stage register;
-    private Stage mainMenu;
-    private Stage admin;
-    private Stage forgetPass;
-
     private ArrayList<Stage> stages;
 
     public static StageManager getInstance() {
@@ -36,53 +29,51 @@ public class StageManager {
     }
 
     public void getLogin() {
-        if (login == null) {
-            login = createStage("view/login.fxml");
-            login.setTitle("Login");
-            stages.add(login);
-        }
-        hideAllOpen();
-        login.show();
+        getScene("login", "Login");
     }
 
     public void getForgetPass() {
-        if (forgetPass == null) {
-            forgetPass = createStage("view/forgotPassword.fxml");
-            forgetPass.setTitle("Forget Password");
-            stages.add(forgetPass);
-        }
-        hideAllOpen();
-        forgetPass.show();
+        getScene("forgotPassword", "Forgot Password");
     }
 
     public void getRegister() {
-        if (register == null) {
-            register = createStage("view/register.fxml");
-            register.setTitle("Create account");
-            stages.add(register);
-        }
-        hideAllOpen();
-        register.show();
+        getScene("register", "Create Account");
     }
 
     public void getMainMenu() {
-        if (mainMenu == null) {
-            mainMenu = createStage("view/mainMenu.fxml");
-            mainMenu.setTitle("Main Menu");
-            stages.add(mainMenu);
-        }
-        hideAllOpen();
-        mainMenu.show();
+        getScene("mainMenu", "Main Menu");
     }
 
     public void getAdminScene() {
-        if (admin == null) {
-            admin = createStage("view/admin.fxml");
-            admin.setTitle("Admin Menu");
-            stages.add(admin);
-        }
+        getScene("admin", "Admin Menu");
+    }
+
+    public void getGameSetup() {
+        getScene("gameSetup", "Setup Game");
+    }
+
+    public void getGame() {
+        getScene("game", "Quiz");
+    }
+
+    public void getPlayerStatistics() {
+        //TODO player statistics scene
+    }
+
+    public void getLeaderboards() {
+        //TODO leaderboards scene
+    }
+
+    public void getEditPlayer() {
+        //TODO edit player scene
+    }
+
+    private void getScene(String fxmlFile, String stageTitle) {
+        Stage stage = createStage("view/" + fxmlFile + ".fxml");
+        stage.setTitle(stageTitle);
+        stages.add(stage);
         hideAllOpen();
-        admin.show();
+        stage.show();
     }
 
     public Stage createStage(String stageName) {

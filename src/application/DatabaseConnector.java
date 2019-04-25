@@ -171,9 +171,9 @@ public class DatabaseConnector {
                     String incorrect_answer1 = resultSet.getString("incorrect_answer1");
                     String incorrect_answer2 = resultSet.getString("incorrect_answer2");
                     String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-
                     questions.add(new Question(questionNumber,category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
                     questionNumber++;
+
                 }
                 return questions;
             } catch (SQLException ex) {
@@ -182,6 +182,24 @@ public class DatabaseConnector {
                 alert.setContentText("Could not fetch quiz ");
                 alert.showAndWait();
             }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getCategoryList() {
+        ArrayList<String> categories = new ArrayList<>();
+
+        String categoryQuery = "SELECT DISTINCT category FROM question";
+        try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    categories.add(resultSet.getNString("category"));
+                }
+                connection.close();
+            }
+            return categories;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

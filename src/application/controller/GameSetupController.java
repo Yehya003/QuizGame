@@ -2,6 +2,7 @@ package application.controller;
 
 import application.DatabaseConnector;
 import application.StageManager;
+import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
@@ -45,6 +46,22 @@ public class GameSetupController implements Initializable {
 
     private void startGame() {
         //Todo send information to Game regarding category etc.
+        populateQuiz();
         StageManager.getInstance().getGame();
+    }
+
+    public static Quiz quiz;
+
+    public void populateQuiz() {
+        String category = categoryComboBox.getValue().getText();
+        DatabaseConnector connector = null;
+        try {
+            connector = new DatabaseConnector();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        quiz = new Quiz(category, connector.QuizFill(category));
+
     }
 }

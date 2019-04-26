@@ -1,4 +1,4 @@
-package sample.Controller;
+package application.Controller;
 
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;

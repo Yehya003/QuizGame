@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.MainMenuController">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.MainMenuController">
 
     <children>
         <AnchorPane layoutX="262.0" layoutY="-23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMousePressed="#unSelect" prefHeight="629.0" prefWidth="553.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="-23.0">
@@ -18,7 +18,7 @@
                     <graphic>
                         <ImageView fitHeight="74.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/icon_art.png" />
+                                <Image url="@../resources/Icons/icon_art.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -30,7 +30,7 @@
                     <graphic>
                         <ImageView fitHeight="110.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/TV-icon.png" />
+                                <Image url="@../resources/Icons/TV-icon.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -42,7 +42,7 @@
                     <graphic>
                         <ImageView fitHeight="116.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/movie-icon-11.png" />
+                                <Image url="@../resources/Icons/movie-icon-11.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -54,7 +54,7 @@
                     <graphic>
                         <ImageView fitHeight="96.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/music_icon.png" />
+                                <Image url="@../resources/Icons/music_icon.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -66,7 +66,7 @@
                     <graphic>
                         <ImageView fitHeight="66.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/vote-transparent-political-5.gif" />
+                                <Image url="@../resources/Icons/vote-transparent-political-5.gif" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -78,7 +78,7 @@
                     <graphic>
                         <ImageView fitHeight="78.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/zoo.png" />
+                                <Image url="@../resources/Icons/zoo.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -90,7 +90,7 @@
                     <graphic>
                         <ImageView fitHeight="88.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/auto.png" />
+                                <Image url="@../resources/Icons/auto.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -102,7 +102,7 @@
                     <graphic>
                         <ImageView fitHeight="96.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/Html-512.png" />
+                                <Image url="@../resources/Icons/Html-512.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -121,7 +121,7 @@
                     <graphic>
                         <ImageView fitHeight="100.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/Case-Study.png" />
+                                <Image url="@../resources/Icons/Case-Study.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -135,7 +135,7 @@
                <graphic>
                   <ImageView fitHeight="94.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Resources/Icons/creative-idea-512.png" />
+                        <Image url="@../resources/Icons/creative-idea-512.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -147,7 +147,7 @@
                     <graphic>
                         <ImageView fitHeight="111.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/icon.png" />
+                                <Image url="@../resources/Icons/icon.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -159,7 +159,7 @@
                     <graphic>
                         <ImageView fitHeight="107.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Resources/Icons/controller-icon.png" />
+                                <Image url="@../resources/Icons/controller-icon.png" />
                             </image>
                         </ImageView>
                     </graphic>

@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("View/MainMenuView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/mainMenu.fxml"));
         root.getStylesheets().add(getClass().getResource("StyleSheet.css").toExternalForm());
         primaryStage.setTitle("Quiz me");
         primaryStage.setScene(new Scene(root));

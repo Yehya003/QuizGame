@@ -9,13 +9,16 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
     private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane logInPane;
@@ -29,37 +32,42 @@ public class LoginController {
     @FXML
     private JFXCheckBox bxRememberMe;
 
-    public void initialize() {
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        tfAccountLogin.setText("ste");
+        pfPasswordLogin.setText("ste");
     }
 
-    public void loginButtonPressed(ActionEvent event) throws SQLException {
+    public void loginButtonPressed() {
+        try {
+            String username = tfAccountLogin.getText();
+            String password = pfPasswordLogin.getText();
+            DatabaseConnector myConnection = new DatabaseConnector();
 
-        String username = tfAccountLogin.getText();
-        String password = pfPasswordLogin.getText();
-        DatabaseConnector myConnection = new DatabaseConnector();
-
-        if (username.trim().equals("") && password.trim().equals("")) {
-            lbUsernameLogin.setText("Fill The Username!");
-            lbPasswordLogin.setText("Fill The Password!");
-        } else if (username.trim().equals("")) {
-            lbUsernameLogin.setText("Fill The Username!");
-        } else if (password.trim().equals("")) {
-            lbPasswordLogin.setText("Fill The Password!");
-        } else {
-
-            lbUsernameLogin.setText("");
-            lbPasswordLogin.setText("");
-            myConnection.validateLogin(username, password);
-            loadAccount();
-
-            if (bxRememberMe.isSelected()) {
-                tfAccountLogin.getText();
-                pfPasswordLogin.getText();
+            if (username.trim().equals("") && password.trim().equals("")) {
+                lbUsernameLogin.setText("Fill The Username!");
+                lbPasswordLogin.setText("Fill The Password!");
+            } else if (username.trim().equals("")) {
+                lbUsernameLogin.setText("Fill The Username!");
+            } else if (password.trim().equals("")) {
+                lbPasswordLogin.setText("Fill The Password!");
             } else {
-                tfAccountLogin.clear();
-                pfPasswordLogin.clear();
+
+                lbUsernameLogin.setText("");
+                lbPasswordLogin.setText("");
+                myConnection.validateLogin(username, password);
+                loadAccount();
+
+                if (bxRememberMe.isSelected()) {
+                    tfAccountLogin.getText();
+                    pfPasswordLogin.getText();
+                } else {
+                    tfAccountLogin.clear();
+                    pfPasswordLogin.clear();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

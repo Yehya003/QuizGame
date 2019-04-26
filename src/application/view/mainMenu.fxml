@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.scene.effect.Light.Distant?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.MainMenuController">
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainMenuController">
 
     <children>
         <AnchorPane layoutX="262.0" layoutY="-23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMousePressed="#unSelect" prefHeight="629.0" prefWidth="553.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="-23.0">
@@ -112,7 +108,7 @@
                <effect>
                   <Lighting bumpInput="$null">
                      <light>
-                        <Light.Distant />
+
                      </light>
                   </Lighting>
                </effect>

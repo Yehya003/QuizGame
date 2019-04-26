@@ -1,4 +1,4 @@
-package application.Controller;
+package application.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -17,41 +17,30 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     @FXML
     private JFXComboBox<String> gameMode;
-
     @FXML
     private JFXComboBox<String> difficulty;
     @FXML
     private JFXButton art;
-
     @FXML
     private JFXButton tvSeries;
-
     @FXML
     private JFXButton movies;
-
     @FXML
     private JFXButton music;
-
     @FXML
     private JFXButton politics;
-
     @FXML
     private JFXButton animal;
-
     @FXML
     private JFXButton cars;
-
     @FXML
     private JFXButton computerScience;
     @FXML
     private JFXButton random;
-
     @FXML
     private JFXButton sports;
-
     @FXML
     private JFXButton vGAme;
-
     @FXML
     private JFXButton history;
 
@@ -77,7 +66,6 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             selectedCategory = previouslySelected;
         }
     }
-
 
     public void unSelect(MouseEvent event) {
         if (event.getClickCount() == 1) {

@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -55,6 +55,12 @@ public class LoginController implements Initializable {
 
                 lbUsernameLogin.setText("");
                 lbPasswordLogin.setText("");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
                 myConnection.validateLogin(username, password);
                 loadAccount();
 
@@ -79,16 +85,19 @@ public class LoginController implements Initializable {
         StageManager.getInstance().getRegister();
     }
 
-    public void loadAccount() throws SQLException {
+    public void loadAccount() {
+        try {
+            String username = tfAccountLogin.getText();
+            DatabaseConnector myConnection = new DatabaseConnector();
+            myConnection.getRole(username);
 
-        String username = tfAccountLogin.getText();
-        DatabaseConnector myConnection = new DatabaseConnector();
-        myConnection.getRole(username);
-
-        if (Account.getInstance().isAdmin()) {
-            StageManager.getInstance().getAdminScene();
-        } else {
-            StageManager.getInstance().getMainMenu();
+            if (Account.getInstance().isAdmin()) {
+                StageManager.getInstance().getAdminScene();
+            } else {
+                StageManager.getInstance().getMainMenu();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

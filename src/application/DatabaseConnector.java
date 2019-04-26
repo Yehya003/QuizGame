@@ -170,7 +170,6 @@ public class DatabaseConnector {
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
                 statement.executeUpdate();
-                System.out.println("Update complete");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,16 +205,36 @@ public class DatabaseConnector {
         return null;
     }
 
-    public ArrayList<String> getCategoryList() {
+    public ArrayList<String> getUniqueDifficultyList() {
+        ArrayList<String> categories = new ArrayList<>();
+
+        String categoryQuery = "SELECT DISTINCT difficulty FROM question";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        categories.add(resultSet.getNString("difficulty"));
+                    }
+                }
+                return categories;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<String> getUniqueCategoryList() {
         ArrayList<String> categories = new ArrayList<>();
 
         String categoryQuery = "SELECT DISTINCT category FROM question";
-        try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    categories.add(resultSet.getNString("category"));
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        categories.add(resultSet.getNString("category"));
+                    }
                 }
-                connection.close();
             }
             return categories;
         } catch (Exception e) {
@@ -246,6 +265,17 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
         return question;
+    }
+
+    public void addQuestion(String query) {
+        System.out.println("Executing query: " + query);
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Question> getAllQuestions() {

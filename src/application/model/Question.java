@@ -18,6 +18,19 @@ public class Question {
 
     }
 
+    /**
+     * Constructor without id to be used when wanting to avoid manually putting an id
+     */
+    public Question(String category, String difficulty, String question, String answer, String incorrect_answer1, String incorrect_answer2, String incorrect_answer3) {
+        this.category = new SimpleStringProperty(category);
+        this.difficulty = new SimpleStringProperty(difficulty);
+        this.question = new SimpleStringProperty(question);
+        this.answer = new SimpleStringProperty(answer);
+        this.incorrect_answer1 = new SimpleStringProperty(incorrect_answer1);
+        this.incorrect_answer2 = new SimpleStringProperty(incorrect_answer2);
+        this.incorrect_answer3 = new SimpleStringProperty(incorrect_answer3);
+    }
+
     public Question(int question_id, String category, String difficulty, String question, String answer, String incorrect_answer1, String incorrect_answer2, String incorrect_answer3) {
         this.question_id = new SimpleIntegerProperty(question_id);
         this.category = new SimpleStringProperty(category);

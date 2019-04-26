@@ -1,9 +1,12 @@
 package application.controller;
 
 import application.DatabaseConnector;
-import application.DatabaseUpdater;
+import application.DatabaseUpdaterThread;
 import application.StageManager;
 import application.model.Question;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,16 +41,42 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Question, String> incorrectAnswer3Column;
     @FXML
+    private JFXComboBox<String> categoryComboBox;
+    @FXML
+    private JFXComboBox<String> difficultyComboBox;
+    @FXML
+    private JFXTextField questionTextField;
+    @FXML
+    private JFXTextField answerTextField;
+    @FXML
+    private JFXTextField wrongAnswer1TextField;
+    @FXML
+    private JFXTextField wrongAnswer2TextField;
+    @FXML
+    private JFXTextField wrongAnswer3TextField;
+    @FXML
+    private Button buttonAddQuestion;
+    @FXML
+    private Button buttonDeleteSelected;
+    @FXML
     private Button buttonExit;
+
+    ObservableList<Question> observableList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        buttonAddQuestion.setOnAction(e -> addQuestion());
+        buttonDeleteSelected.setOnAction(e -> deleteQuestion());
         buttonExit.setOnAction(e -> exitAdminMenu(e));
-
         configureTable();
         configureColumns();
-        populateTable();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                populateTable();
+                populateComboBoxes();
+            }
+        });
     }
 
     private void configureTable() {
@@ -114,7 +143,7 @@ public class AdminController implements Initializable {
             String columnText = productStringCellEditEvent.getTableColumn().getText(); //Column that is being changed
             String newText = productStringCellEditEvent.getNewValue(); //New text that we want to save
 
-            DatabaseUpdater updater = new DatabaseUpdater(); //Database updater that implements Runnable object
+            DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
             updater.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
             Thread updaterThread = new Thread(updater);
             updaterThread.start();
@@ -124,9 +153,15 @@ public class AdminController implements Initializable {
     private void populateTable() {
         DatabaseConnector databaseConnector = new DatabaseConnector();
         ArrayList<Question> questionArrayList = databaseConnector.getAllQuestions();
-        ObservableList<Question> observableList = FXCollections.observableList(questionArrayList);
+        this.observableList = FXCollections.observableList(questionArrayList);
 
-        tableView.setItems(observableList);
+        tableView.setItems(this.observableList);
+    }
+
+    private void populateComboBoxes() {
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        categoryComboBox.getItems().addAll(databaseConnector.getUniqueCategoryList());
+        difficultyComboBox.getItems().addAll(databaseConnector.getUniqueDifficultyList());
     }
 
     private void viewAllPlayers() {
@@ -134,7 +169,42 @@ public class AdminController implements Initializable {
     }
 
     private void addQuestion() {
+        String question = questionTextField.getText();
+        String answer = answerTextField.getText();
+        String wrong1 = wrongAnswer1TextField.getText();
+        String wrong2 = wrongAnswer2TextField.getText();
+        String wrong3 = wrongAnswer3TextField.getText();
 
+        String category = categoryComboBox.getValue();
+        String difficulty = difficultyComboBox.getValue();
+
+        Question questionObject = new Question(
+                category,
+                difficulty,
+                question,
+                answer,
+                wrong1,
+                wrong2,
+                wrong3
+        );
+        observableList.add(questionObject);
+
+        DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
+        updater.prepareAddingQuestion(questionObject); //Prepare for this action
+        Thread updaterThread = new Thread(updater);
+        updaterThread.start();
+    }
+
+    private void deleteQuestion() {
+        //Will delete only locally because we don't want to accidentally delete any database questions.
+        try {
+            Question selectedQuestion = getQuestionPicked();
+            observableList.remove(selectedQuestion);
+            System.out.println("Removed: " + selectedQuestion);
+        } catch (Exception e) {
+            System.out.println("Removing element went wrong");
+            e.printStackTrace();
+        }
     }
 
     private Question getQuestionPicked() {

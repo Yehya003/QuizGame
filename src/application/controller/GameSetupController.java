@@ -34,7 +34,7 @@ public class GameSetupController implements Initializable {
             e.printStackTrace();
         }
 
-        ArrayList<String> categories = databaseConnector.getCategoryList();
+        ArrayList<String> categories = databaseConnector.getUniqueCategoryList();
         ArrayList<Label> categoryLabels = new ArrayList<>();
 
         for (String element : categories) {

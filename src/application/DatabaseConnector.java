@@ -22,8 +22,16 @@ public class DatabaseConnector {
 
     private Connection connection;
 
-    public DatabaseConnector() throws SQLException {
-        connection = DriverManager.getConnection(databaseUrl);
+    public DatabaseConnector() {
+        try {
+            connection = DriverManager.getConnection(databaseUrl);
+        } catch (SQLException sqlException) {
+            System.out.println("Error on connecting to database");
+            System.out.println("Error code is:");
+            sqlException.getErrorCode();
+            System.out.println("Print stack trace is:");
+            sqlException.printStackTrace();
+        }
     }
 
     public void saveRegistration(String username, String password, String email, boolean is_admin) {
@@ -79,7 +87,8 @@ public class DatabaseConnector {
             if (i > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("Login successful! ");
-                alert.showAndWait();
+                //alert.showAndWait();
+                System.out.println("Login Successful");
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(" Wrong username or password ! ");
@@ -157,6 +166,16 @@ public class DatabaseConnector {
         }
     }
 
+    public void updateDatabase(String updateQuery) {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+                statement.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Question> QuizFill(String category) {
         ArrayList<Question> questions = new ArrayList<>();
         if (connection != null) {
@@ -171,7 +190,7 @@ public class DatabaseConnector {
                     String incorrect_answer1 = resultSet.getString("incorrect_answer1");
                     String incorrect_answer2 = resultSet.getString("incorrect_answer2");
                     String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                    questions.add(new Question(questionNumber,category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                    questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
                     questionNumber++;
 
                 }
@@ -186,18 +205,99 @@ public class DatabaseConnector {
         return null;
     }
 
-    public ArrayList<String> getCategoryList() {
+    public ArrayList<String> getUniqueDifficultyList() {
+        ArrayList<String> categories = new ArrayList<>();
+
+        String categoryQuery = "SELECT DISTINCT difficulty FROM question";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        categories.add(resultSet.getNString("difficulty"));
+                    }
+                }
+                return categories;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<String> getUniqueCategoryList() {
         ArrayList<String> categories = new ArrayList<>();
 
         String categoryQuery = "SELECT DISTINCT category FROM question";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        categories.add(resultSet.getNString("category"));
+                    }
+                }
+            }
+            return categories;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Question getAQuestion(String query) {
+        Question question = new Question();
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        question.setQuestion_id(resultSet.getInt("question_id"));
+                        question.setQuestion(resultSet.getNString("question"));
+                        question.setCategory(resultSet.getNString("category"));
+                        question.setDifficulty(resultSet.getNString("difficulty"));
+                        question.setAnswer(resultSet.getNString("answer"));
+                        question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
+                        question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
+                        question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
+                        return question;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return question;
+    }
+
+    public void addQuestion(String query) {
+        System.out.println("Executing query: " + query);
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Question> getAllQuestions() {
+        ArrayList<Question> questions = new ArrayList<>();
+
+        String categoryQuery = "SELECT * FROM question";
         try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    categories.add(resultSet.getNString("category"));
+                    Question question = new Question();
+                    question.setQuestion(resultSet.getNString("question"));
+                    question.setCategory(resultSet.getNString("category"));
+                    question.setDifficulty(resultSet.getNString("difficulty"));
+                    question.setAnswer(resultSet.getNString("answer"));
+                    question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
+                    question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
+                    question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
+                    questions.add(question);
                 }
                 connection.close();
             }
-            return categories;
+            return questions;
         } catch (Exception e) {
             e.printStackTrace();
         }

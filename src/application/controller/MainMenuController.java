@@ -1,5 +1,8 @@
-package application.Controller;
+package application.controller;
 
+import application.DatabaseConnector;
+import application.StageManager;
+import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.validation.RequiredFieldValidator;
@@ -21,10 +24,34 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     @FXML
     private JFXComboBox<String> difficulty;
     @FXML
+    private JFXButton history;
+
+    @FXML
+    private JFXButton videoGames;
+
+    @FXML
     private JFXButton art;
 
     @FXML
+    private JFXButton politics;
+
+    @FXML
     private JFXButton tvSeries;
+
+    @FXML
+    private JFXButton random;
+
+    @FXML
+    private JFXButton computerScience;
+
+    @FXML
+    private JFXButton sports;
+
+    @FXML
+    private JFXButton geography;
+
+    @FXML
+    private JFXButton animals;
 
     @FXML
     private JFXButton movies;
@@ -33,34 +60,16 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     private JFXButton music;
 
     @FXML
-    private JFXButton politics;
-
-    @FXML
-    private JFXButton animal;
-
-    @FXML
     private JFXButton cars;
 
-    @FXML
-    private JFXButton computerScience;
-    @FXML
-    private JFXButton random;
 
-    @FXML
-    private JFXButton sports;
-
-    @FXML
-    private JFXButton vGAme;
-
-    @FXML
-    private JFXButton history;
 
     private JFXButton[] myButtons;
     private String previouslySelected, selectedCategory, theGameMode, theDifficulty;
+    public static Quiz quiz;
 
     public void setSelection(ActionEvent event) {
         // getting the name of the button to send it later to the next seen for game play
-
         Glow glow = new Glow();
         JFXButton btn = (JFXButton) event.getSource();
         if (!btn.getId().equals(previouslySelected)) {
@@ -74,7 +83,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
                 }
             }
             previouslySelected = btn.getId();
-            selectedCategory = previouslySelected;
+            selectedCategory =previouslySelected ;
         }
     }
 
@@ -89,8 +98,8 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        myButtons = new JFXButton[]{history, vGAme, sports, random, computerScience,
-                cars, animal, politics, music, movies, tvSeries, art};
+        myButtons = new JFXButton[]{cars,music,movies,animals,art,computerScience,history
+                ,politics,videoGames,tvSeries,sports,geography,random}; //
 
         //Adding Items in combo boxes
         gameMode.getItems().add("Time based");
@@ -114,12 +123,24 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         theDifficulty = difficulty.getSelectionModel().getSelectedItem();
     }
 
+    public void populateQuiz() {
+        DatabaseConnector connector = null;
+        try {
+            connector = new DatabaseConnector();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        quiz = new Quiz(selectedCategory, connector.QuizFill(selectedCategory));
+    }
+
     public void nextBtnPressed() {
         //checking if all the required information are given by the user otherwise show validators
         if (!(selectedCategory == null || theGameMode == null || theDifficulty == null)) {
             System.out.println();
             // call a method from playScene to pass info
             // call stageManager and move to playScene
+            populateQuiz();
+            StageManager.getInstance().getGame();
         } else {
             difficulty.validate();
             gameMode.validate();

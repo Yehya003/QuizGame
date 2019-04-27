@@ -136,7 +136,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        quiz = GameSetupController.quiz;
+        quiz = application.controller.MainMenuController.quiz;
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);

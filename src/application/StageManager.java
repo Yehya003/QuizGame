@@ -48,9 +48,9 @@ public class StageManager {
         getScene("admin", "Admin Menu");
     }
 
-    public void getGameSetup() {
-        getScene("gameSetup", "Setup Game");
-    }
+    //public void getGameSetup() {
+    //    getScene("gameSetup", "Setup Game");
+    //}
 
     public void getGame() {
         getScene("game", "Quiz");

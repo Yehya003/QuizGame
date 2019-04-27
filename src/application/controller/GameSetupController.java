@@ -1,3 +1,4 @@
+
 package application.controller;
 
 import application.DatabaseConnector;
@@ -8,11 +9,10 @@ import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+/*
 public class GameSetupController implements Initializable {
 
     @FXML
@@ -52,7 +52,7 @@ public class GameSetupController implements Initializable {
 
     public static Quiz quiz;
 
-    public void populateQuiz() {
+    public  void populateQuiz() {
         String category = categoryComboBox.getValue().getText();
         DatabaseConnector connector = null;
         try {
@@ -65,3 +65,4 @@ public class GameSetupController implements Initializable {
 
     }
 }
+*/

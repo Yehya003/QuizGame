@@ -2,188 +2,268 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.MainMenuController">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainMenuController">
 
     <children>
-        <AnchorPane layoutX="262.0" layoutY="-23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMousePressed="#unSelect" prefHeight="629.0" prefWidth="553.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="-23.0">
+        <AnchorPane layoutX="263.0" layoutY="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMousePressed="#unSelect" prefHeight="620.0" prefWidth="703.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-14.0">
             <children>
-                <JFXButton fx:id="art" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="308.0" layoutY="26.0" onAction="#setSelection" prefHeight="74.0" prefWidth="77.0" style="-fx-background-radius: 40;" text="Art" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="74.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/icon_art.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="tvSeries" buttonType="RAISED" contentDisplay="TOP" layoutX="157.0" layoutY="59.0" onAction="#setSelection" style="-fx-background-radius: 40;" text="TV series" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="110.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/TV-icon.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="movies" buttonType="RAISED" contentDisplay="TOP" layoutX="282.0" layoutY="156.0" onAction="#setSelection" prefHeight="105.0" prefWidth="101.0" style="-fx-background-radius: 40;" text="Movies" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="116.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/movie-icon-11.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="music" buttonType="RAISED" contentDisplay="TOP" layoutX="43.0" layoutY="292.0" onAction="#setSelection" prefHeight="118.0" prefWidth="90.0" style="-fx-background-radius: 40;" text="Music" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="96.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/music_icon.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="politics" buttonType="RAISED" contentDisplay="TOP" layoutX="433.0" layoutY="253.0" onAction="#setSelection" prefHeight="100.0" prefWidth="104.0" style="-fx-background-radius: 40;" text="Politics" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="66.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/vote-transparent-political-5.gif" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="animal" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="445.0" layoutY="31.0" onAction="#setSelection" prefHeight="84.0" prefWidth="90.0" style="-fx-background-radius: 40;" text="Animal" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="78.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/zoo.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="cars" buttonType="RAISED" contentDisplay="TOP" layoutX="438.0" layoutY="137.0" onAction="#setSelection" prefHeight="116.0" prefWidth="55.0" style="-fx-background-radius: 40;" text="Vehicle" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="88.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/auto.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="computerScience" buttonType="RAISED" contentDisplay="TOP" layoutX="157.0" layoutY="343.0" onAction="#setSelection" style="-fx-background-radius: 40;" text="Computer science" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="96.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/Html-512.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-               <effect>
-                  <Lighting bumpInput="$null">
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
-               </effect>
-                </JFXButton>
-                <JFXButton fx:id="history" buttonType="RAISED" contentDisplay="TOP" layoutX="38.0" layoutY="153.0" onAction="#setSelection" style="-fx-background-radius: 40;" text="History" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="100.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/Case-Study.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXComboBox fx:id="gameMode" labelFloat="true" layoutX="345.0" layoutY="499.0" onAction="#getSelectedFromComboBox" promptText="Game mode" unFocusColor="#c61313" />
-                <JFXComboBox fx:id="difficulty" labelFloat="true" layoutX="121.0" layoutY="499.0" onAction="#getSelectedFromComboBox" prefHeight="25.0" prefWidth="107.0" promptText="Difficulty" unFocusColor="#c61313" />
-            <JFXButton fx:id="random" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="33.0" layoutY="31.0" onAction="#setSelection" style="-fx-background-radius: 33;" text="Random" textOverrun="CENTER_WORD_ELLIPSIS">
-               <graphic>
-                  <ImageView fitHeight="94.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/Icons/creative-idea-512.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-            </JFXButton>
-                <JFXButton fx:id="sports" buttonType="RAISED" contentDisplay="TOP" layoutX="320.0" layoutY="298.0" onAction="#setSelection" style="-fx-background-radius: 40;" text="Sports" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="111.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/icon.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-                <JFXButton fx:id="vGAme" buttonType="RAISED" contentDisplay="TOP" layoutX="172.0" layoutY="208.0" onAction="#setSelection" style="-fx-background-radius: 40;" text="Video games" textOverrun="CENTER_WORD_ELLIPSIS">
-                    <graphic>
-                        <ImageView fitHeight="107.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../resources/Icons/controller-icon.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-               <font>
-                  <Font name="Marlett" size="12.0" />
-               </font>
-                </JFXButton>
-            <JFXButton layoutX="398.0" layoutY="551.0" onAction="#nextBtnPressed" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: #1C8ADB;" text="Next" />
+            <ImageView fitHeight="608.0" fitWidth="712.0" layoutX="-1.0" layoutY="12.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../resources/poss.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="5.0" layoutY="60.0" prefHeight="558.0" prefWidth="701.0">
+               <children>
+                  <TextFlow layoutX="6.0" layoutY="-11.0" opacity="0.29" prefHeight="468.0" prefWidth="689.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="-11.0" />
+                  <Group focusTraversable="true">
+                     <children>
+                            <JFXButton fx:id="history" buttonType="RAISED" contentDisplay="TOP" layoutX="21.0" layoutY="11.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="History" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/Case-Study.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="videoGames" buttonType="RAISED" contentDisplay="TOP" layoutX="156.0" layoutY="11.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Video games" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/controller-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="art" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="21.0" layoutY="145.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Art" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/icon_art.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="politics" buttonType="RAISED" contentDisplay="TOP" layoutX="156.0" layoutY="147.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Politics" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/flat-clip-filing-8.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="tvSeries" buttonType="RAISED" contentDisplay="TOP" layoutX="21.0" layoutY="278.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="TV series" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/TV-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                        <JFXButton fx:id="random" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="156.0" layoutY="278.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Random" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                           <graphic>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/Icons/creative-idea-512.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </JFXButton>
+                        <JFXButton fx:id="computerScience" buttonType="RAISED" contentDisplay="TOP" layoutX="267.0" layoutY="118.0" onAction="#setSelection" prefHeight="160.0" prefWidth="140.0" style="-fx-border-radius: 30;" text="Computer Science" textFill="#dadada">
+                           <graphic>
+                              <ImageView fitHeight="140.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Resources/Icons/Html-512.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Marlett" size="13.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </JFXButton>
+                            <JFXButton fx:id="sports" buttonType="RAISED" contentDisplay="TOP" layoutX="444.0" layoutY="11.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Sports" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                        <JFXButton fx:id="geography" buttonType="RAISED" contentDisplay="TOP" layoutX="574.0" layoutY="145.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Geography" textFill="#dadada">
+                           <graphic>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Resources/Icons/geography.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </JFXButton>
+                            <JFXButton fx:id="animals" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="444.0" layoutY="278.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Animal" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/zoo.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="movies" buttonType="RAISED" contentDisplay="TOP" layoutX="574.0" layoutY="11.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Movies" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/movie-icon-11.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="music" buttonType="RAISED" contentDisplay="TOP" layoutX="444.0" layoutY="145.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Music" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/music_icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXButton fx:id="cars" buttonType="RAISED" contentDisplay="TOP" layoutX="574.0" layoutY="278.0" onAction="#setSelection" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 30;" text="Vehicle" textFill="#dadada" textOverrun="CENTER_WORD_ELLIPSIS">
+                                <graphic>
+                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../resources/Icons/auto.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                           <font>
+                              <Font name="Marlett" size="12.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                            </JFXButton>
+                            <JFXComboBox fx:id="gameMode" blendMode="ADD" cache="true" cacheHint="QUALITY" labelFloat="true" layoutX="439.0" layoutY="402.0" onAction="#getSelectedFromComboBox" promptText="Game mode" unFocusColor="#ff8484">
+                           <effect>
+                              <Bloom threshold="0.0" />
+                           </effect>
+                        </JFXComboBox>
+                            <JFXComboBox fx:id="difficulty" blendMode="ADD" labelFloat="true" layoutX="151.0" layoutY="402.0" onAction="#getSelectedFromComboBox" prefHeight="25.0" prefWidth="107.0" promptText="Difficulty" unFocusColor="#ff8484">
+                           <effect>
+                              <Bloom threshold="0.0" />
+                           </effect>
+                        </JFXComboBox>
+                     </children>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Group>
+                  <JFXButton layoutX="557.0" layoutY="501.0" onAction="#nextBtnPressed" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Next" />
+               </children>
+            </AnchorPane>
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="-3.0" layoutY="-2.0" prefHeight="607.0" prefWidth="265.0" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-3.0" AnchorPane.topAnchor="-2.0">
+        <AnchorPane layoutX="-3.0" layoutY="-2.0" prefHeight="607.0" prefWidth="265.0" style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-3.0" AnchorPane.topAnchor="-2.0">
             <children>
-                <JFXButton buttonType="RAISED" layoutX="4.0" layoutY="114.0" prefHeight="35.0" prefWidth="267.0" text="Change Password">
-               <font>
-                  <Font name="Marlett" size="13.0" />
-               </font></JFXButton>
-                <JFXButton buttonType="RAISED" layoutY="74.0" prefHeight="35.0" prefWidth="267.0" text="Leaderboard">
-               <font>
-                  <Font name="Marlett" size="13.0" />
-               </font></JFXButton>
-                <JFXButton buttonType="RAISED" layoutX="3.0" layoutY="150.0" prefHeight="35.0" prefWidth="267.0" text="logout">
-               <font>
-                  <Font name="Marlett" size="13.0" />
-               </font></JFXButton>
-            </children></AnchorPane>
+            <VBox layoutX="-1.0" layoutY="62.0" prefHeight="180.0" prefWidth="266.0">
+               <children>
+                      <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Leaderboard" textFill="#1c8adb">
+                     <font>
+                        <Font name="Marlett" size="13.0" />
+                     </font>
+                  </JFXButton>
+                      <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Change Password" textFill="#1c8adb">
+                     <font>
+                        <Font name="Marlett" size="13.0" />
+                     </font>
+                  </JFXButton>
+                      <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="logout" textFill="#1c8adb">
+                     <font>
+                        <Font name="Marlett" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
+            </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

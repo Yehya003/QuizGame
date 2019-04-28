@@ -91,10 +91,19 @@ public class LoginController implements Initializable {
             DatabaseConnector myConnection = new DatabaseConnector();
             myConnection.getRole(username);
 
-            if (Account.getInstance().isAdmin()) {
+            if (Account.getInstance().isAdmin() == true ) {
+
                 StageManager.getInstance().getAdminScene();
-            } else {
+
+            } else if(Account.getInstance().isAdmin() == false) {
+
                 StageManager.getInstance().getMainMenu();
+            }
+            else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("The User Not Register!  ");
+                alert.showAndWait();
             }
         } catch (Exception e) {
             e.printStackTrace();

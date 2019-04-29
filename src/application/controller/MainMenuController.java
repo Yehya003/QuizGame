@@ -63,7 +63,6 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     private JFXButton cars;
 
 
-
     private JFXButton[] myButtons;
     private String previouslySelected, selectedCategory, theGameMode, theDifficulty;
     public static Quiz quiz;
@@ -83,7 +82,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
                 }
             }
             previouslySelected = btn.getId();
-            selectedCategory =previouslySelected ;
+            selectedCategory = previouslySelected;
         }
     }
 
@@ -98,8 +97,8 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        myButtons = new JFXButton[]{cars,music,movies,animals,art,computerScience,history
-                ,politics,videoGames,tvSeries,sports,geography,random}; //
+        myButtons = new JFXButton[]{cars, music, movies, animals, art, computerScience, history
+                , politics, videoGames, tvSeries, sports, geography, random}; //
 
         //Adding Items in combo boxes
         gameMode.getItems().add("Time based");
@@ -149,5 +148,17 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             // add validators on the buttons so they show or even an emotion to indicate that they need to be chosen
             //preliminary 
         }
+    }
+
+    public void leaderBoardBtnPressed() {
+        StageManager.getInstance().getLeaderBoard();
+    }
+
+    public void editBtnPressed() {
+        StageManager.getInstance().getEditPlayer();
+    }
+
+    public void logOutPressed() {
+        StageManager.getInstance().getLogin();
     }
 }

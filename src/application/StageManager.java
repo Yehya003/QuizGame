@@ -60,12 +60,12 @@ public class StageManager {
         //TODO player statistics scene
     }
 
-    public void getLeaderboards() {
-        //TODO leaderboards scene
+    public void getLeaderBoard() {
+    getScene("LeaderBoard","Leader Board");
     }
 
     public void getEditPlayer() {
-        //TODO edit player scene
+        getScene("edit","Update Account");
     }
 
     private void getScene(String fxmlFile, String stageTitle) {

@@ -28,7 +28,6 @@ public class LoginController {
     private Label lbUsernameLogin, lbPasswordLogin;
     @FXML
     private JFXCheckBox bxRememberMe;
-
     public void initialize() {
 
     }
@@ -76,7 +75,6 @@ public class LoginController {
         String username = tfAccountLogin.getText();
         DatabaseConnector myConnection = new DatabaseConnector();
         myConnection.getRole(username);
-
         if (Account.getInstance().isAdmin()) {
             StageManager.getInstance().getAdminScene();
         } else {

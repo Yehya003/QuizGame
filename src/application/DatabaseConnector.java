@@ -21,6 +21,7 @@ public class DatabaseConnector {
     private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
 
     private Connection connection;
+    private String[] currentLogeedinAccount;
 
     public DatabaseConnector() throws SQLException {
         connection = DriverManager.getConnection(databaseUrl);
@@ -77,9 +78,9 @@ public class DatabaseConnector {
             }
 
             if (i > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Login successful! ");
-                alert.showAndWait();
+                //     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                //     alert.setContentText("Login successful! ");
+                //     alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(" Wrong username or password ! ");
@@ -88,11 +89,13 @@ public class DatabaseConnector {
 
             connection.close();
 
-        } catch (SQLException ex) {
+        } catch (
+                SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error on fetch data from database ");
             alert.showAndWait();
         }
+
     }
 
     public void getRole(String username) {
@@ -171,7 +174,7 @@ public class DatabaseConnector {
                     String incorrect_answer1 = resultSet.getString("incorrect_answer1");
                     String incorrect_answer2 = resultSet.getString("incorrect_answer2");
                     String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                    questions.add(new Question(questionNumber,category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                    questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
                     questionNumber++;
 
                 }
@@ -186,21 +189,72 @@ public class DatabaseConnector {
         return null;
     }
 
-    public ArrayList<String> getCategoryList() {
-        ArrayList<String> categories = new ArrayList<>();
-
-        String categoryQuery = "SELECT DISTINCT category FROM question";
-        try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    categories.add(resultSet.getNString("category"));
-                }
+    public boolean updatePassword(String username, String oldPassword, String newPassword) {
+        boolean ok = checkOldPassword(username, oldPassword);
+        boolean done = false;
+        String theStatement = "update hkrquiz1.user set password =? where username =?";
+        if (ok) {
+            try (PreparedStatement myStatement = connection.prepareStatement(theStatement)) {
+                myStatement.setString(1, newPassword);
+                myStatement.setString(2, username);
+                done = myStatement.execute();
+                done = true;
                 connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            return categories;
+        }
+        return done;
+    }
+
+    public boolean checkOldPassword(String username, String oldPassword) {
+        String validatePassword = null;
+        String sqlStatement = "select password from user where username =?";
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
+            statement.setString(1, username);
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    validatePassword = result.getString("password");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        if (validatePassword.equals(oldPassword)) {
+            return true;
+        } else
+            return false;
     }
+
+    public void getTheHighestScores() {
+        String query = "SELECT user_username,score,category,duration FROM " +
+                "hkrquiz1.quiz group by category order by score desc limit 10";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //public ArrayList<String> getCategoryList() {
+    //    ArrayList<String> categories = new ArrayList<>();
+//
+    //    String categoryQuery = "SELECT DISTINCT category FROM question";
+    //    try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+    //        try (ResultSet resultSet = statement.executeQuery()) {
+    //            while (resultSet.next()) {
+    //                categories.add(resultSet.getNString("category"));
+    //            }
+    //            connection.close();
+    //        }
+    //        return categories;
+    //    } catch (Exception e) {
+    //        e.printStackTrace();
+    //    }
+    //    return null;
+    //}
 }

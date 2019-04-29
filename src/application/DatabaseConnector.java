@@ -204,8 +204,6 @@ public class DatabaseConnector {
         return null;
     }
 
-
-
     public boolean updatePassword(String username, String oldPassword, String newPassword) {
         boolean ok = checkOldPassword(username, oldPassword);
         boolean done = false;
@@ -251,7 +249,11 @@ public class DatabaseConnector {
                 while (resultSet.next()) {
 
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

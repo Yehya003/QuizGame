@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.DatabaseConnector;
+import application.RegexUtils;
 import application.StageManager;
 import application.model.Account;
 import com.jfoenix.controls.JFXTextField;
@@ -45,7 +46,7 @@ public class ForgotPasswordController {
         if (username.trim().equals("") && email.trim().equals("")) {
             lbUsername.setText("Fill The Username! ");
             lbEmail.setText("Fill The Email! ");
-        } else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")) {
+        } else if (!email.matches(RegexUtils.EMAIL_REGEX) || email.trim().equals("")) {
             lbEmail.setText("Invalid Email!");
         } else {
             lbUsername.setText("");

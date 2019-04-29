@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.DatabaseConnector;
+import application.RegexUtils;
 import application.StageManager;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -52,7 +53,7 @@ public class RegisterController {
             lbRegisterUsername.setText("Fill the username! ");
         } else if (password.trim().equals("") || confirmPass.trim().equals("")) {
             lbRegisterPass.setText("Fill the password! ");
-        } else if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$") || email.trim().equals("")) {
+        } else if (!email.matches(RegexUtils.EMAIL_REGEX) || email.trim().equals("")) {
             lbRegisterEmail.setText("Invalid email!");
         } else if (!password.equals(confirmPass)) {
             lbConfirmPass.setText("Wrong password! ");

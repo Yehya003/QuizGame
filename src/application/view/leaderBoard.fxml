@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LeaderBoardController">
 
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0">
+         <children>
+            <AnchorPane layoutX="263.0" layoutY="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="620.0" prefWidth="703.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-14.0">
+               <children>
+                  <ImageView fitHeight="620.0" fitWidth="824.0" layoutX="-113.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../resources/poss.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane layoutX="5.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
+                     <children>
+                        <TableView blendMode="MULTIPLY" layoutX="7.0" layoutY="58.0" prefHeight="298.0" prefWidth="681.0">
+                          <columns>
+                            <TableColumn prefWidth="188.0" text="Username" />
+                            <TableColumn prefWidth="141.0" text="Score" />
+                              <TableColumn prefWidth="183.0" text="Category" />
+                              <TableColumn minWidth="0.0" prefWidth="158.0" text="Duration" />
+                          </columns>
+                           <effect>
+                              <Glow level="0.0" />
+                           </effect>
+                        </TableView>
+                        <TextFlow layoutX="1.0" layoutY="11.0" opacity="0.29" prefHeight="492.0" prefWidth="695.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="11.0" />
+                        <JFXButton layoutX="562.0" layoutY="523.0" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-10.0" layoutY="-14.0" prefHeight="620.0" prefWidth="265.0" style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="-14.0">
+               <children>
+                  <VBox layoutX="-1.0" layoutY="62.0" prefHeight="180.0" prefWidth="266.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Leaderboard" textFill="#1c8adb">
+                           <font>
+                              <Font name="Marlett" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Change Password" textFill="#1c8adb">
+                           <font>
+                              <Font name="Marlett" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="logout" textFill="#1c8adb">
+                           <font>
+                              <Font name="Marlett" size="13.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

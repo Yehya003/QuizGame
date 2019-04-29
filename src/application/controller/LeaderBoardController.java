@@ -1,4 +1,7 @@
 package application.controller;
 
-public class LeaderboardController {
+public class LeaderBoardController {
+    public void showRanking(){
+
+    }
 }

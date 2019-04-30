@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,21 +23,21 @@
                         <Image url="@../../resources/poss.jpg" />
                      </image>
                   </ImageView>
-                  <AnchorPane layoutX="5.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
+                  <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
                      <children>
-                        <TableView blendMode="MULTIPLY" layoutX="7.0" layoutY="58.0" prefHeight="298.0" prefWidth="681.0">
+                        <TextFlow layoutX="3.0" layoutY="24.0" opacity="0.29" prefHeight="405.0" prefWidth="686.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="24.0" />
+                        <JFXButton fx:id="back" layoutX="562.0" layoutY="523.0" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
+                        <TableView fx:id="tableView" blendMode="MULTIPLY" layoutX="2.0" layoutY="25.0" prefHeight="405.0" prefWidth="686.0" style="-fx-background-radius: 50;">
                           <columns>
-                            <TableColumn prefWidth="188.0" text="Username" />
-                            <TableColumn prefWidth="141.0" text="Score" />
-                              <TableColumn prefWidth="183.0" text="Category" />
-                              <TableColumn minWidth="0.0" prefWidth="158.0" text="Duration" />
+                            <TableColumn fx:id="username" prefWidth="177.0" text="Username" />
+                            <TableColumn fx:id="score" prefWidth="152.0" text="Score" />
+                              <TableColumn fx:id="category" prefWidth="171.0" text="Category" />
+                              <TableColumn fx:id="duration" minWidth="0.0" prefWidth="170.0" text="Duration" />
                           </columns>
                            <effect>
-                              <Glow level="0.0" />
+                              <ColorAdjust contrast="1.0" />
                            </effect>
                         </TableView>
-                        <TextFlow layoutX="1.0" layoutY="11.0" opacity="0.29" prefHeight="492.0" prefWidth="695.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="11.0" />
-                        <JFXButton layoutX="562.0" layoutY="523.0" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
                      </children>
                   </AnchorPane>
                </children>

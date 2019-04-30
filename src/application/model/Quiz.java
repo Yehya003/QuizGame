@@ -17,6 +17,12 @@ public class Quiz {
         this.category = category;
         this.questions = questions;
     }
+    public Quiz(String userName,int score,String category,int duration){
+        this.userName=userName;
+        this.score=score;
+        this.category=category;
+        this.duration=duration;
+    }
 
     public String getCategory() {
         return category;

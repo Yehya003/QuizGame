@@ -177,31 +177,27 @@ public class DatabaseConnector {
 
     public ArrayList<Question> QuizFill(String category) {
         ArrayList<Question> questions = new ArrayList<>();
-        if (connection != null) {
-            try {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
-                int questionNumber = 1;
-                while (resultSet.next()) {
-                    String question = resultSet.getString("question");
-                    String difficulty = resultSet.getString("difficulty");
-                    String answer = resultSet.getString("answer");
-                    String incorrect_answer1 = resultSet.getString("incorrect_answer1");
-                    String incorrect_answer2 = resultSet.getString("incorrect_answer2");
-                    String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                    questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
-                    questionNumber++;
-
-                }
-                return questions;
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Could not fetch quiz ");
-                alert.showAndWait();
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
+            int questionNumber = 1;
+            while (resultSet.next()) {
+                String question = resultSet.getString("question");
+                String difficulty = resultSet.getString("difficulty");
+                String answer = resultSet.getString("answer");
+                String incorrect_answer1 = resultSet.getString("incorrect_answer1");
+                String incorrect_answer2 = resultSet.getString("incorrect_answer2");
+                String incorrect_answer3 = resultSet.getString("incorrect_answer3");
+                questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                questionNumber++;
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Could not fetch quiz ");
+            alert.showAndWait();
         }
-        return null;
+        return questions;
     }
 
     public boolean updatePassword(String username, String oldPassword, String newPassword) {
@@ -209,12 +205,13 @@ public class DatabaseConnector {
         boolean done = false;
         String theStatement = "update hkrquiz1.user set password =? where username =?";
         if (ok) {
-            try (PreparedStatement myStatement = connection.prepareStatement(theStatement)) {
-                myStatement.setString(1, newPassword);
-                myStatement.setString(2, username);
-                done = myStatement.execute();
-                done = true;
-                connection.close();
+            try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+                try (PreparedStatement myStatement = connection.prepareStatement(theStatement)) {
+                    myStatement.setString(1, newPassword);
+                    myStatement.setString(2, username);
+                    myStatement.execute();
+                    done = true;
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -237,8 +234,9 @@ public class DatabaseConnector {
         }
         if (validatePassword.equals(oldPassword)) {
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public void getTheHighestScores() {

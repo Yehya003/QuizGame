@@ -16,7 +16,6 @@ import java.sql.SQLException;
 
 public class RegisterController {
 
-    //Handle Registration
     private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane registerPane;
@@ -30,10 +29,6 @@ public class RegisterController {
     private JFXPasswordField pfConfirmPassword;
     @FXML
     private Label lbRegisterUsername, lbRegisterEmail, lbRegisterPass, lbConfirmPass;
-
-    public void initialize() {
-
-    }
 
     public void registerButtonPressed(ActionEvent event) throws SQLException {
 
@@ -68,7 +63,7 @@ public class RegisterController {
         StageManager.getInstance().getLogin();
     }
 
-    public void hooverOverAnchorPane() {
+    public void hoverOverAnchorPane() {
         effect.setNode(registerPane);
         effect.setByX(.1);
         effect.setByY(.1);

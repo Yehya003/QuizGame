@@ -20,48 +20,34 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     @FXML
     private JFXComboBox<String> gameMode;
-
     @FXML
     private JFXComboBox<String> difficulty;
     @FXML
     private JFXButton history;
-
     @FXML
     private JFXButton videoGames;
-
     @FXML
     private JFXButton art;
-
     @FXML
     private JFXButton politics;
-
     @FXML
     private JFXButton tvSeries;
-
     @FXML
     private JFXButton random;
-
     @FXML
     private JFXButton computerScience;
-
     @FXML
     private JFXButton sports;
-
     @FXML
     private JFXButton geography;
-
     @FXML
     private JFXButton animals;
-
     @FXML
     private JFXButton movies;
-
     @FXML
     private JFXButton music;
-
     @FXML
     private JFXButton cars;
-
 
     private JFXButton[] myButtons;
     private String previouslySelected, selectedCategory, theGameMode, theDifficulty;
@@ -117,7 +103,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     }
 
     public void getSelectedFromComboBox() {
-        //getting the comboBoxes selected items and depositing it's value with the field variables
+        //getting the comboBoxes selected items and depositing its value with the field variables
         theGameMode = gameMode.getSelectionModel().getSelectedItem();
         theDifficulty = difficulty.getSelectionModel().getSelectedItem();
     }

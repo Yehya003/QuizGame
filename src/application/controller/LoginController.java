@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -91,16 +92,11 @@ public class LoginController implements Initializable {
             DatabaseConnector myConnection = new DatabaseConnector();
             myConnection.getRole(username);
 
-            if (Account.getInstance().isAdmin() == true ) {
-
+            if (Account.getInstance().isAdmin()) {
                 StageManager.getInstance().getAdminScene();
-
-            } else if(Account.getInstance().isAdmin() == false) {
-
+            } else if(!Account.getInstance().isAdmin()) {
                 StageManager.getInstance().getMainMenu();
-            }
-            else {
-
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("The User Not Register!  ");
                 alert.showAndWait();
@@ -118,6 +114,4 @@ public class LoginController implements Initializable {
         effect.setAutoReverse(true);
         effect.play();
     }
-    // background.fitHeightProperty().bind(mainPane.heightProperty());
-    // background.fitWidthProperty().bind(mainPane.widthProperty());
 }

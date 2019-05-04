@@ -38,7 +38,7 @@ public class DatabaseConnector {
 
         String sql = "INSERT INTO hkrquiz1.user (username, password, email, is_admin) values (?,?,?,?)";
 
-        try {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, username);
@@ -57,14 +57,10 @@ public class DatabaseConnector {
                 alert.setContentText("Registration not complete! ");
                 alert.showAndWait();
             }
-
-            connection.close();
-
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error in access database ");
             alert.showAndWait();
-
         }
     }
 
@@ -237,6 +233,22 @@ public class DatabaseConnector {
         } else {
             return false;
         }
+    }
+
+    public boolean checkIfUserAlreadyExists(String username) {
+        String label = "quantity";
+        String checkUsernameQuery = "SELECT COUNT(*) " + label + " FROM user WHERE username = '" + username + "'";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(checkUsernameQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    return resultSet.getInt(label) >= 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public void getTheHighestScores() {

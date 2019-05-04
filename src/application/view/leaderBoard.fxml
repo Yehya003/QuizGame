@@ -12,7 +12,6 @@
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LeaderBoardController">
-
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0">
          <children>

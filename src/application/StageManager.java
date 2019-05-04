@@ -61,11 +61,11 @@ public class StageManager {
     }
 
     public void getLeaderBoard() {
-    getScene("LeaderBoard","Leader Board");
+    getScene("leaderBoard","Leader Board");
     }
 
     public void getEditPlayer() {
-        getScene("edit","Update Account");
+        getScene("editInfo","Update Account");
     }
 
     private void getScene(String fxmlFile, String stageTitle) {

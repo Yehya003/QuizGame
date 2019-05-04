@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -16,7 +17,6 @@ import java.sql.SQLException;
 
 public class RegisterController {
 
-    //Handle Registration
     private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane registerPane;
@@ -30,10 +30,6 @@ public class RegisterController {
     private JFXPasswordField pfConfirmPassword;
     @FXML
     private Label lbRegisterUsername, lbRegisterEmail, lbRegisterPass, lbConfirmPass;
-
-    public void initialize() {
-
-    }
 
     public void registerButtonPressed(ActionEvent event) throws SQLException {
 
@@ -53,13 +49,19 @@ public class RegisterController {
             lbRegisterUsername.setText("Fill the username! ");
         } else if (password.trim().equals("") || confirmPass.trim().equals("")) {
             lbRegisterPass.setText("Fill the password! ");
-        } else if (!email.matches(RegexUtils.EMAIL_REGEX) || email.trim().equals("")) {
+        } else if (!email.matches(RegexUtils.EMAIL_REGEX)) {
             lbRegisterEmail.setText("Invalid email!");
         } else if (!password.equals(confirmPass)) {
             lbConfirmPass.setText("Wrong password! ");
         } else {
-            myConnection.saveRegistration(username, password, email, is_admin);
-            StageManager.getInstance().getMainMenu();
+            if (myConnection.checkIfUserAlreadyExists(username)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("User with this username already exists!");
+                alert.showAndWait();
+            } else {
+                myConnection.saveRegistration(username, password, email, is_admin);
+                StageManager.getInstance().getMainMenu();
+            }
         }
     }
 
@@ -68,7 +70,7 @@ public class RegisterController {
         StageManager.getInstance().getLogin();
     }
 
-    public void hooverOverAnchorPane() {
+    public void hoverOverAnchorPane() {
         effect.setNode(registerPane);
         effect.setByX(.1);
         effect.setByY(.1);

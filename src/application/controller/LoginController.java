@@ -1,8 +1,10 @@
 package application.controller;
 
 import application.DatabaseConnector;
+import application.DatabaseUpdaterThread;
 import application.StageManager;
 import application.model.Account;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -23,13 +25,14 @@ public class LoginController implements Initializable {
     private ScaleTransition effect = new ScaleTransition(Duration.millis(1500));
     @FXML
     private AnchorPane logInPane;
-    // Handel Login
     @FXML
     private JFXTextField tfAccountLogin;
     @FXML
     private JFXPasswordField pfPasswordLogin;
     @FXML
-    private Label lbUsernameLogin, lbPasswordLogin;
+    private Label lbUsernameLogin;
+    @FXML
+    private Label lbPasswordLogin;
     @FXML
     private JFXCheckBox bxRememberMe;
 
@@ -43,8 +46,6 @@ public class LoginController implements Initializable {
         try {
             String username = tfAccountLogin.getText();
             String password = pfPasswordLogin.getText();
-            DatabaseConnector myConnection = new DatabaseConnector();
-
             if (username.trim().equals("") && password.trim().equals("")) {
                 lbUsernameLogin.setText("Fill The Username!");
                 lbPasswordLogin.setText("Fill The Password!");
@@ -53,25 +54,13 @@ public class LoginController implements Initializable {
             } else if (password.trim().equals("")) {
                 lbPasswordLogin.setText("Fill The Password!");
             } else {
-
                 lbUsernameLogin.setText("");
                 lbPasswordLogin.setText("");
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
 
-                    }
-                });
-                myConnection.validateLogin(username, password);
-
-
-                if (bxRememberMe.isSelected()) {
-                    tfAccountLogin.getText();
-                    pfPasswordLogin.getText();
-                } else {
-                    tfAccountLogin.clear();
-                    pfPasswordLogin.clear();
-                }
+                //TODO add animation for waiting after trying to login
+                DatabaseUpdaterThread updater = new DatabaseUpdaterThread();
+                updater.prepareValidateLogin(username, password);
+                new Thread(updater).start();
             }
         } catch (Exception e) {
             e.printStackTrace();

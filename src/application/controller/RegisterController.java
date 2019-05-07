@@ -40,7 +40,7 @@ public class RegisterController {
     @FXML
     private Label lbRegisterUsername, lbRegisterEmail, lbRegisterPass, lbConfirmPass;
 
-    public void registerButtonPressed(ActionEvent event) throws SQLException {
+    public void registerButtonPressed(ActionEvent event) {
 
         DatabaseConnector myConnection = new DatabaseConnector();
         String username = tfUsername.getText();

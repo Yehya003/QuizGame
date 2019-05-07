@@ -116,6 +116,7 @@ public class GameController implements Initializable {
         rb3.setText(questions.get(question_id).getIncorrect_answer2());
         rb4.setText(questions.get(question_id).getIncorrect_answer3());
     }
+
     /*
     public void populateQuiz(ActionEvent event) throws SQLException {
         DatabaseConnector databaseConnector = new DatabaseConnector();

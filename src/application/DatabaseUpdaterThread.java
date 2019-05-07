@@ -10,8 +10,10 @@ public class DatabaseUpdaterThread implements Runnable {
     private Question questionBeingAdded;
     private String columnText;
     private String newText;
+    private String username;
+    private String password;
 
-    private enum Running {QUESTION_UPDATE, QUESTION_ADDITION}
+    private enum Running {QUESTION_UPDATE, QUESTION_ADDITION, VALIDATE_LOGIN}
 
     private Running currentRun = null;
 
@@ -30,6 +32,13 @@ public class DatabaseUpdaterThread implements Runnable {
         this.questionBeingEdited = questionBeingEdited;
         this.columnText = columnText;
         this.newText = newText;
+    }
+
+    public void prepareValidateLogin(String username, String password){
+        currentRun = Running.VALIDATE_LOGIN;
+
+        this.username = username;
+        this.password = password;
     }
 
     @Override
@@ -66,9 +75,11 @@ public class DatabaseUpdaterThread implements Runnable {
 
                 databaseConnector.addQuestion(query);
                 break;
+            case VALIDATE_LOGIN:
+                databaseConnector.validateLogin(username, password);
+                break;
             default:
                 break;
-
         }
         System.out.println("Query done");
     }

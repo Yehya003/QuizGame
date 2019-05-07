@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,38 +23,34 @@ public class StageManager {
         stages = new ArrayList<>();
     }
 
-    public void hideAllOpen() {
+    private void hideAllOpen() {
         for (Stage s : stages) {
             s.hide();
         }
     }
 
     public void getLogin() {
-        getScene("login", "Login");
+        changeIntoNewScene("login", "Login");
     }
 
     public void getForgetPass() {
-        getScene("forgotPassword", "Forgot Password");
+        changeIntoNewScene("forgotPassword", "Forgot Password");
     }
 
     public void getRegister() {
-        getScene("register", "Create Account");
+        changeIntoNewScene("register", "Create Account");
     }
 
     public void getMainMenu() {
-        getScene("mainMenu", "Main Menu");
+        changeIntoNewScene("mainMenu", "Main Menu");
     }
 
     public void getAdminScene() {
-        getScene("admin", "Admin Menu");
+        changeIntoNewScene("admin", "Admin Menu");
     }
 
-    //public void getGameSetup() {
-    //    getScene("gameSetup", "Setup Game");
-    //}
-
     public void getGame() {
-        getScene("game", "Quiz");
+        changeIntoNewScene("game", "Quiz");
     }
 
     public void getPlayerStatistics() {
@@ -61,22 +58,25 @@ public class StageManager {
     }
 
     public void getLeaderBoard() {
-    getScene("leaderBoard","Leader Board");
+        changeIntoNewScene("leaderBoard", "Leader Board");
     }
 
     public void getEditPlayer() {
-        getScene("editInfo","Update Account");
+        changeIntoNewScene("editInfo", "Update Account");
     }
 
-    private void getScene(String fxmlFile, String stageTitle) {
-        Stage stage = createStage("view/" + fxmlFile + ".fxml");
-        stage.setTitle(stageTitle);
-        stages.add(stage);
-        hideAllOpen();
-        stage.show();
+    private void changeIntoNewScene(String fxmlFile, String stageTitle) {
+        //Handles the changing of the scene in the Main thread as it is illegal to do it in a separate Thread
+        Platform.runLater(() -> {
+            Stage stage = createStage("view/" + fxmlFile + ".fxml");
+            stage.setTitle(stageTitle);
+            stages.add(stage);
+            hideAllOpen();
+            stage.show();
+        });
     }
 
-    public Stage createStage(String stageName) {
+    private Stage createStage(String stageName) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource(stageName));

@@ -15,7 +15,7 @@ public class EditInfoController {
     @FXML
     private JFXTextField username;
 
-    public void editInfo() throws Exception {
+    public void editInfo() {
         Alert myAlert = new Alert(Alert.AlertType.ERROR);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         if (username.getText().isEmpty() || oldPassword.getText().isEmpty() || repeatPassword.getText().isEmpty() || newPassword.getText().isEmpty()) {

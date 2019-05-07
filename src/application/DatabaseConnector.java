@@ -65,41 +65,32 @@ public class DatabaseConnector {
     }
 
     public void validateLogin(String username, String password) {
-
         String query = "SELECT count(*) FROM hkrquiz1.user WHERE username =? And password =?";
         int i = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, username);
-            statement.setString(2, password);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    i = resultSet.getInt(1);
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, username);
+                statement.setString(2, password);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        i = resultSet.getInt(1);
+                    }
                 }
-            }
 
-            if (i > 0) {
-                /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Login successful! ");
-                alert.showAndWait();*/
-                getRole(username);
-                if (Account.getInstance().isAdmin() == true) {
-                    StageManager.getInstance().getAdminScene();
-
+                if (i > 0) {
+                    getRole(username);
+                    if (Account.getInstance().isAdmin()) {
+                        StageManager.getInstance().getAdminScene();
+                    } else {
+                        StageManager.getInstance().getMainMenu();
+                    }
                 } else {
-                    StageManager.getInstance().getMainMenu();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText(" Wrong username or password ! ");
+                    alert.showAndWait();
                 }
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(" Wrong username or password ! ");
-                alert.showAndWait();
             }
-
-            connection.close();
-
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error on fetch data from database ");
@@ -108,23 +99,21 @@ public class DatabaseConnector {
     }
 
     public void getRole(String username) {
-
         String roleQue = "SELECT * From hkrquiz1.user where username =?";
 
-        try (PreparedStatement statement = connection.prepareStatement(roleQue)) {
-            statement.setString(1, username);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(roleQue)) {
+                statement.setString(1, username);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Account.getInstance().setUsername(resultSet.getNString("username"));
+                        Account.getInstance().setPassword(resultSet.getNString("password"));
+                        Account.getInstance().setEmail(resultSet.getNString("email"));
+                        Account.getInstance().setAdmin(resultSet.getBoolean("is_admin"));
+                    }
 
-                    Account.getInstance().setUsername(resultSet.getNString("username"));
-                    Account.getInstance().setPassword(resultSet.getNString("password"));
-                    Account.getInstance().setEmail(resultSet.getNString("email"));
-                    Account.getInstance().setAdmin(resultSet.getBoolean("is_admin"));
                 }
-
-                connection.close();
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);

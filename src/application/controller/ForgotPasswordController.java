@@ -37,7 +37,7 @@ public class ForgotPasswordController {
 
     }
 
-    public void sendPassword(ActionEvent event) throws SQLException {
+    public void sendPassword(ActionEvent event) {
 
         String username = tfUsername.getText();
         String email = tfEmail.getText();

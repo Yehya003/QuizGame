@@ -6,7 +6,6 @@ import application.StageManager;
 import application.model.Question;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,22 +60,19 @@ public class AdminController implements Initializable {
     @FXML
     private Button buttonExit;
 
-    ObservableList<Question> observableList;
+    private ObservableList<Question> observableList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         buttonAddQuestion.setOnAction(e -> addQuestion());
         buttonDeleteSelected.setOnAction(e -> deleteQuestion());
-        buttonExit.setOnAction(e -> exitAdminMenu(e));
+        buttonExit.setOnAction(e -> exitAdminMenu());
         configureTable();
         configureColumns();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                populateTable();
-                populateComboBoxes();
-            }
-        });
+        new Thread(() -> { //Run the populating of the tables which require Database access on a separate thread
+            populateTable();
+            populateComboBoxes();
+        }).start();
     }
 
     private void configureTable() {
@@ -165,7 +161,7 @@ public class AdminController implements Initializable {
     }
 
     private void viewAllPlayers() {
-
+        //TODO possibly add this functionality
     }
 
     private void addQuestion() {
@@ -211,7 +207,7 @@ public class AdminController implements Initializable {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
-    public void exitAdminMenu(ActionEvent event) {
+    private void exitAdminMenu() {
         StageManager.getInstance().getLogin();
     }
 }

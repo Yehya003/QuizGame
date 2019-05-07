@@ -63,7 +63,7 @@ public class LoginController implements Initializable {
                     }
                 });
                 myConnection.validateLogin(username, password);
-                loadAccount();
+
 
                 if (bxRememberMe.isSelected()) {
                     tfAccountLogin.getText();
@@ -86,7 +86,7 @@ public class LoginController implements Initializable {
         StageManager.getInstance().getRegister();
     }
 
-    public void loadAccount() {
+    /*public void loadAccount() {
         try {
             String username = tfAccountLogin.getText();
             DatabaseConnector myConnection = new DatabaseConnector();
@@ -104,7 +104,7 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void hooverOverAnchorPane() {
         effect.setNode(logInPane);

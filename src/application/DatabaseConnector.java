@@ -81,11 +81,19 @@ public class DatabaseConnector {
             }
 
             if (i > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("Login successful! ");
-                alert.showAndWait();
+                alert.showAndWait();*/
+                getRole(username);
+                if (Account.getInstance().isAdmin() == true) {
+                    StageManager.getInstance().getAdminScene();
+
+                } else {
+                    StageManager.getInstance().getMainMenu();
+                }
+
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(" Wrong username or password ! ");
                 alert.showAndWait();
             }

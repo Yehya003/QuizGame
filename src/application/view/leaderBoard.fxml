@@ -26,7 +26,7 @@
                   <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
                      <children>
                         <TextFlow layoutX="3.0" layoutY="24.0" opacity="0.29" prefHeight="405.0" prefWidth="686.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="24.0" />
-                        <JFXButton fx:id="back" layoutX="562.0" layoutY="523.0" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
+                        <JFXButton fx:id="back" layoutX="562.0" layoutY="523.0" onAction="#backBtnPressed" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
                         <TableView fx:id="tableView" blendMode="MULTIPLY" layoutX="2.0" layoutY="25.0" prefHeight="405.0" prefWidth="686.0" style="-fx-background-radius: 50;">
                           <columns>
                             <TableColumn fx:id="username" prefWidth="177.0" text="Username" />

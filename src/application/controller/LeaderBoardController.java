@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.DatabaseConnector;
+import application.StageManager;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class LeaderBoardController implements Initializable {
     private JFXButton back;
 
     public void backBtnPressed() {
-
+        StageManager.getInstance().getMainMenu();
     }
 
     @Override

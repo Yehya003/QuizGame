@@ -102,6 +102,7 @@ public class LoginController implements Initializable {
             }
             else {
 
+                //StageManager.getInstance().getLogin();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("The User Not Register!  ");
                 alert.showAndWait();

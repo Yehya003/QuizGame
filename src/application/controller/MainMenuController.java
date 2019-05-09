@@ -2,6 +2,7 @@ package application.controller;
 
 import application.DatabaseConnector;
 import application.StageManager;
+import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -14,6 +15,8 @@ import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainMenuController extends ToggleGroup implements Initializable {
@@ -52,6 +55,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     private JFXButton[] myButtons;
     private String previouslySelected, selectedCategory, theGameMode, theDifficulty;
     public static Quiz quiz;
+    private ArrayList<Question> possibleQuestions;
 
     public void setSelection(ActionEvent event) {
         // getting the name of the button to send it later to the next seen for game play
@@ -109,13 +113,27 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     }
 
     public void populateQuiz() {
+        SecureRandom random = new SecureRandom();
+        possibleQuestions = getPossibleQuestions();
+        ArrayList<Question> questionsForQuiz = new ArrayList<>();
+        int quizAmountOfQuestions = 10;
+        for (int i = 0; i < quizAmountOfQuestions; i++) {
+            int rand = random.nextInt(possibleQuestions.size()-1);
+            questionsForQuiz.add(possibleQuestions.get(rand));
+            possibleQuestions.remove(rand);
+        }
+        quiz = new Quiz(selectedCategory,questionsForQuiz);
+    }
+
+    public ArrayList<Question> getPossibleQuestions() {
         DatabaseConnector connector = null;
         try {
             connector = new DatabaseConnector();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        quiz = new Quiz(selectedCategory, connector.QuizFill(selectedCategory));
+        possibleQuestions = connector.getQuestionsFromDB(selectedCategory, theDifficulty);
+        return possibleQuestions;
     }
 
     public void nextBtnPressed() {

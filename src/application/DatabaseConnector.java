@@ -168,20 +168,20 @@ public class DatabaseConnector {
         }
     }
 
-    public ArrayList<Question> QuizFill(String category) {
+    public ArrayList<Question> getQuestionsFromDB(String category, String quizDifficulty) {
         ArrayList<Question> questions = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
-            int questionNumber = 1;
+            ResultSet resultSet = statement.executeQuery("select * from (select * from question where category = '"+category+"') as questions where difficulty = '"+quizDifficulty+"' || difficulty = 'medium';");
+            int questionNumber = 0;
             while (resultSet.next()) {
                 String question = resultSet.getString("question");
-                String difficulty = resultSet.getString("difficulty");
+                String questionDifficulty = resultSet.getString("difficulty");
                 String answer = resultSet.getString("answer");
                 String incorrect_answer1 = resultSet.getString("incorrect_answer1");
                 String incorrect_answer2 = resultSet.getString("incorrect_answer2");
                 String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                questions.add(new Question(questionNumber, category, questionDifficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
                 questionNumber++;
             }
         } catch (SQLException ex) {

@@ -2,6 +2,9 @@ package application;
 
 import application.model.Account;
 import application.model.Question;
+import application.model.Quiz;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -266,25 +269,25 @@ public class DatabaseConnector {
         return true;
     }
 
-    public void getTheHighestScores() {
+    public ObservableList getTheHighestScores() {
+        ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         String query = "SELECT user_username,score,category,duration FROM " +
                 "hkrquiz1.quiz group by category order by score desc limit 10";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-
+                    highScoreList.add(new Quiz(resultSet.getNString("user_username"), resultSet.getInt("score"),
+                            resultSet.getNString("category"), resultSet.getInt("duration")));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return highScoreList;
     }
 
     public ArrayList<String> getUniqueDifficultyList() {
         ArrayList<String> categories = new ArrayList<>();
-
         String categoryQuery = "SELECT DISTINCT difficulty FROM question";
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
@@ -381,3 +384,4 @@ public class DatabaseConnector {
         return null;
     }
 }
+

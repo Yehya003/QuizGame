@@ -18,6 +18,12 @@ public class Quiz {
         this.questions = questions;
         this.userName = Account.getInstance().getUsername();
     }
+    public Quiz(String userName,int score,String category,int duration){
+        this.userName=userName;
+        this.score=score;
+        this.category=category;
+        this.duration=duration;
+    }
 
     public String getCategory() {
         return category;

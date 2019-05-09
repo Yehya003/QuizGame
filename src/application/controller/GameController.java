@@ -107,11 +107,14 @@ public class GameController implements Initializable {
             }
         }
         displayQuestion(quizCounter);
+
         try {
             answers.getSelectedToggle().setSelected(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("No answer Selected");
+            //e.printStackTrace();
         }
+
     }
 
     public boolean isAnswerCorrect() {
@@ -120,7 +123,9 @@ public class GameController implements Initializable {
         try {
             isCorrectAnswerSelected = answers.getSelectedToggle().toString().contains(selectedAnswer);
         } catch (Exception e) {
-
+            //e.printStackTrace();
+            isCorrectAnswerSelected = false;
+            System.out.println("No answer Selected");
         }
         //System.out.println(answers.getSelectedToggle().toString().contains(selectedAnswer));
         return isCorrectAnswerSelected;

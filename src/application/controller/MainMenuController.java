@@ -112,7 +112,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         theDifficulty = difficulty.getSelectionModel().getSelectedItem();
     }
 
-    public void populateQuiz() {
+    public void populateQuiz() { //Selects 10 random questions from the corresponding possible questions
         SecureRandom random = new SecureRandom();
         possibleQuestions = getPossibleQuestions();
         ArrayList<Question> questionsForQuiz = new ArrayList<>();
@@ -125,13 +125,8 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         quiz = new Quiz(selectedCategory,questionsForQuiz);
     }
 
-    public ArrayList<Question> getPossibleQuestions() {
-        DatabaseConnector connector = null;
-        try {
-            connector = new DatabaseConnector();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ArrayList<Question> getPossibleQuestions() {   //Gets all possible, corresponding questions from database
+        DatabaseConnector connector = new DatabaseConnector();
         possibleQuestions = connector.getQuestionsFromDB(selectedCategory, theDifficulty);
         return possibleQuestions;
     }

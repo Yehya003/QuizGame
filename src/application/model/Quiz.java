@@ -35,9 +35,7 @@ public class Quiz {
         this.score = score;
     }
 
-    public long getDuration() {
-        return duration;
-    }
+    public long getDuration() { return duration; }
 
     public void setDuration(long duration) {
         this.duration = duration;
@@ -65,6 +63,14 @@ public class Quiz {
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public int getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
     }
 }
 

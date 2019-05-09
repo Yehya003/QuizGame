@@ -170,19 +170,22 @@ public class DatabaseConnector {
 
     public ArrayList<Question> getQuestionsFromDB(String category, String quizDifficulty) {
         ArrayList<Question> questions = new ArrayList<>();
+        String queryString = "select * from (select * from question where category = '" + category +
+                "') as questions where difficulty = '" + quizDifficulty + "' || difficulty = 'medium';";
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from (select * from question where category = '"+category+"') as questions where difficulty = '"+quizDifficulty+"' || difficulty = 'medium';");
-            int questionNumber = 0;
-            while (resultSet.next()) {
-                String question = resultSet.getString("question");
-                String questionDifficulty = resultSet.getString("difficulty");
-                String answer = resultSet.getString("answer");
-                String incorrect_answer1 = resultSet.getString("incorrect_answer1");
-                String incorrect_answer2 = resultSet.getString("incorrect_answer2");
-                String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                questions.add(new Question(questionNumber, category, questionDifficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
-                questionNumber++;
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery(queryString)) {
+                    while (resultSet.next()) {
+                        int question_id = resultSet.getInt("question_id");
+                        String question = resultSet.getString("question");
+                        String questionDifficulty = resultSet.getString("difficulty");
+                        String answer = resultSet.getString("answer");
+                        String incorrect_answer1 = resultSet.getString("incorrect_answer1");
+                        String incorrect_answer2 = resultSet.getString("incorrect_answer2");
+                        String incorrect_answer3 = resultSet.getString("incorrect_answer3");
+                        questions.add(new Question(question_id, category, questionDifficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                    }
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -191,6 +194,21 @@ public class DatabaseConnector {
             alert.showAndWait();
         }
         return questions;
+    }
+
+    public int getLastestQuizID() {
+        int quiz_ID = 0;
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select max(quiz_Id) as quiz_id from quiz;");
+            while (resultSet.next()){
+                quiz_ID = resultSet.getInt("quiz_id");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return quiz_ID;
     }
 
     public boolean updatePassword(String username, String oldPassword, String newPassword) {

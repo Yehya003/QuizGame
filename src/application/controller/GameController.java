@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.DatabaseConnector;
 import application.StageManager;
 import application.model.Question;
 import application.model.Quiz;
@@ -60,43 +61,47 @@ public class GameController implements Initializable {
     private Duration quizDuration;
 
 
-    public void scoreKeeping(boolean isCorrect) {
+    public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
             quiz.setScore(quiz.getScore() + 1);
         }
     }
 
-    public String calculateQuizDuration() {
+    public String calculateQuizDuration() { //Checks duration of quiz
         quizEnd = Instant.now();
         quizDuration = Duration.between(quizStart, quizEnd);
         long quizDurationLong = quizDuration.getSeconds();
-        return quizDurationLong / 60 + ":" + quizDurationLong % 60;
-
+        quiz.setDuration(quizDurationLong); //saves duration in seconds to quiz object
+        return quizDurationLong / 60 + ":" + quizDurationLong % 60; // returns string in MINUTES:SECONDS
     }
 
-    public void finishGame() {
+    public int getNewQuizID() { //Gets the highest quiz id from database and adds 1 for new quiz
+        DatabaseConnector connector = new DatabaseConnector();
+        int quizID = connector.getLastestQuizID()+1;
+        return quizID;
+    }
+
+    public void finishGame() { //Ends the game
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        quiz.setQuiz_id(getNewQuizID()); //Saves latest quiz_id to object, will later also save to database
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);  //End game message with final score and time taken
         alert.setHeaderText("Quiz Complete!");
         alert.setContentText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
         alert.showAndWait();
-        StageManager.getInstance().getMainMenu();
-
+        StageManager.getInstance().getMainMenu();  //returns to main menu
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
-        //System.out.println(event.getSource());
-        //System.out.println(event.toString());
-        scoreKeeping(isAnswerCorrect());
+        scoreKeeping(isAnswerCorrect()); //checks if selected answer is correct
+        /*  Previous button disabled, no need to check event as of now
         if (event.getSource().equals(next)) {
             if (quizCounter == questions.size() - 2) {
                 next.setText("Finish");
                 quizCounter++;
-            }else if(quizCounter == questions.size() - 1){
+            } else if (quizCounter == questions.size() - 1) {
                 finishGame();
-            }
-            else {
+            } else {
                 quizCounter++;
             }
         } else {
@@ -106,28 +111,33 @@ public class GameController implements Initializable {
                 quizCounter--;
             }
         }
+        */
+        if (quizCounter == questions.size() - 2) {
+            next.setText("Finish"); //changes NEXT button text to finish for the final question
+            quizCounter++;
+        } else if (quizCounter == questions.size() - 1) {
+            finishGame(); //terminates game
+        } else {
+            quizCounter++;
+        }
         displayQuestion(quizCounter);
-
         try {
             answers.getSelectedToggle().setSelected(false);
         } catch (Exception e) {
             System.out.println("No answer Selected");
-            //e.printStackTrace();
         }
-
     }
 
     public boolean isAnswerCorrect() {
         String selectedAnswer = questions.get(quizCounter).getAnswer();
-        //System.out.println(answers.selectedToggleProperty());
         try {
             isCorrectAnswerSelected = answers.getSelectedToggle().toString().contains(selectedAnswer);
+            //If answer is selected will return true if correct, false if incorrect
         } catch (Exception e) {
-            //e.printStackTrace();
+            //if no answer is selected, make sure it will return false
             isCorrectAnswerSelected = false;
             System.out.println("No answer Selected");
         }
-        //System.out.println(answers.getSelectedToggle().toString().contains(selectedAnswer));
         return isCorrectAnswerSelected;
     }
 

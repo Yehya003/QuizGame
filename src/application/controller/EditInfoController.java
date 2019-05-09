@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
-public class editController {
+public class EditInfoController {
     @FXML
     private JFXTextField oldPassword;
 

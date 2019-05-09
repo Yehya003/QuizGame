@@ -23,11 +23,11 @@ public class DatabaseConnector {
     private String passwordValue = "=HKRQUIZ1!";
     private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
 
-    private Connection connection;
+    private Connection theConnection;
 
     public DatabaseConnector() {
         try {
-            connection = DriverManager.getConnection(databaseUrl);
+            theConnection = DriverManager.getConnection(databaseUrl);
         } catch (SQLException sqlException) {
             System.out.println("Error on connecting to database");
             System.out.println("Error code is:");
@@ -131,7 +131,7 @@ public class DatabaseConnector {
         String emailQue = "Select email, password from hkrquiz1.user where username =?";
         int x = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(emailQue)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(emailQue)) {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -151,7 +151,7 @@ public class DatabaseConnector {
                     alert.setContentText("The email entered not exist! ");
                     alert.showAndWait();
                 }*/
-                connection.close();
+                theConnection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -236,7 +236,7 @@ public class DatabaseConnector {
     public boolean checkOldPassword(String username, String oldPassword) {
         String validatePassword = null;
         String sqlStatement = "select password from user where username =?";
-        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(sqlStatement)) {
             statement.setString(1, username);
             try (ResultSet result = statement.executeQuery()) {
                 while (result.next()) {
@@ -270,12 +270,20 @@ public class DatabaseConnector {
     }
 
     public ObservableList getTheHighestScores() {
+       //To work with tableView we will need an ObservableList<The object>
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
+        //Here we do the query on the database
         String query = "SELECT user_username,score,category,duration FROM " +
                 "hkrquiz1.quiz group by category order by score desc limit 10";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        //Here we instantiate the preparedStatement to execute the query we also call the variable theConnection
+        //that is assigned in the databaseConnector() above and call the .prepareStatement(Give it the query string)
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
+           //executing the query by using the resultSet
             try (ResultSet resultSet = statement.executeQuery()) {
+                //putting it on a loop to go through the whole database and execute
                 while (resultSet.next()) {
+                    //adding the result to the ObservableList in the form of a quiz object
+                    //using the resultSet.getString(giving it the name of the column in the database) to populate the quiz object
                     highScoreList.add(new Quiz(resultSet.getNString("user_username"), resultSet.getInt("score"),
                             resultSet.getNString("category"), resultSet.getInt("duration")));
                 }
@@ -362,7 +370,7 @@ public class DatabaseConnector {
         ArrayList<Question> questions = new ArrayList<>();
 
         String categoryQuery = "SELECT * FROM question";
-        try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(categoryQuery)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Question question = new Question();
@@ -375,7 +383,7 @@ public class DatabaseConnector {
                     question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
                     questions.add(question);
                 }
-                connection.close();
+                theConnection.close();
             }
             return questions;
         } catch (Exception e) {

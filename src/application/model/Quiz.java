@@ -8,7 +8,7 @@ public class Quiz {
     private int quiz_id;
     private String category;
     private int score;
-    private int duration;
+    private long duration;
     private Date date;
     private String userName;
     private ArrayList<Question> questions;
@@ -34,11 +34,11 @@ public class Quiz {
         this.score = score;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 

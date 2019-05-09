@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.StageManager;
 import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
@@ -7,16 +8,18 @@ import com.jfoenix.controls.JFXProgressBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
-
 
 
     @FXML
@@ -52,33 +55,48 @@ public class GameController implements Initializable {
     private int quizCounter = 0;
     private ArrayList<Question> questions;
     private boolean isCorrectAnswerSelected;
+    private Instant quizStart;
+    private Instant quizEnd;
+    private Duration quizDuration;
 
-    /*
-    public void scoreKeeping(boolean rightOrWrong){
-        if(rightOrWrong){
-            quiz.setScore(quiz.getScore()+1);
+
+    public void scoreKeeping(boolean isCorrect) {
+        if (isCorrect) {
+            quiz.setScore(quiz.getScore() + 1);
         }
     }
-    */
+
+    public String calculateQuizDuration() {
+        quizEnd = Instant.now();
+        quizDuration = Duration.between(quizStart, quizEnd);
+        long quizDurationLong = quizDuration.getSeconds();
+        return quizDurationLong / 60 + ":" + quizDurationLong % 60;
+
+    }
+
     public void finishGame() {
-        if(isAnswerCorrect()){
-            quiz.setScore(quiz.getScore()+1);
-        }
+        String duration = calculateQuizDuration();
         int score = quiz.getScore();
-        finalScore.setText("Final Score: "+score+"/"+quiz.getQuestions().size());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Quiz Complete!");
+        alert.setContentText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
+        alert.showAndWait();
+        StageManager.getInstance().getMainMenu();
+
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
         //System.out.println(event.getSource());
         //System.out.println(event.toString());
-        if (isAnswerCorrect()) {
-            quiz.setScore(quiz.getScore() + 1);
-        }
+        scoreKeeping(isAnswerCorrect());
         if (event.getSource().equals(next)) {
-            if (quizCounter == questions.size() - 1) {
-                return;
-                //next.setText("Finish");
-            } else {
+            if (quizCounter == questions.size() - 2) {
+                next.setText("Finish");
+                quizCounter++;
+            }else if(quizCounter == questions.size() - 1){
+                finishGame();
+            }
+            else {
                 quizCounter++;
             }
         } else {
@@ -92,7 +110,7 @@ public class GameController implements Initializable {
         try {
             answers.getSelectedToggle().setSelected(false);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -117,23 +135,6 @@ public class GameController implements Initializable {
         rb4.setText(questions.get(question_id).getIncorrect_answer3());
     }
 
-    /*
-    public void populateQuiz(ActionEvent event) throws SQLException {
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        String category;
-        if (event.getSource().equals(history)) {
-            category = "history";
-        } else if (event.getSource().equals(animals)) {
-            category = "animals";
-        } else {
-            category = "sports";
-        }
-        quiz = new Quiz(category, databaseConnector.QuizFill(category));
-        quizCounter = 0;
-        questions = quiz.getQuestions();
-        displayQuestion(quizCounter);
-    }
-    */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -141,6 +142,7 @@ public class GameController implements Initializable {
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);
+        quizStart = Instant.now();
 
     }
 }

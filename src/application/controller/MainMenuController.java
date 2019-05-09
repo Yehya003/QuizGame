@@ -115,7 +115,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        quiz = new Quiz(selectedCategory, connector.QuizFill(selectedCategory));
+        quiz = new Quiz(selectedCategory, connector.getQuestionsFromDB(selectedCategory,theDifficulty));
     }
 
     public void nextBtnPressed() {

@@ -16,6 +16,7 @@ public class Quiz {
     public Quiz(String category, ArrayList<Question> questions) {
         this.category = category;
         this.questions = questions;
+        this.userName = Account.getInstance().getUsername();
     }
 
     public String getCategory() {

@@ -1,6 +1,6 @@
 package application.model;
 
-public class Account {
+public class Account implements Serializable{
 
     private String username;
     private String password;
@@ -8,7 +8,7 @@ public class Account {
     private boolean isAdmin;
     private int score;
 
-    private static Account account = new Account();
+    public static Account account = new Account();
 
     private Account() {
 

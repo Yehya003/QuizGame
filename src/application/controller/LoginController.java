@@ -36,10 +36,24 @@ public class LoginController implements Initializable {
     @FXML
     private JFXCheckBox bxRememberMe;
 
+    private String accountInfo = "Account.txt";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tfAccountLogin.setText("ste");
-        pfPasswordLogin.setText("ste");
+        //tfAccountLogin.setText("ste");
+        //pfPasswordLogin.setText("ste");
+        try (ObjectInputStream x = new ObjectInputStream(new FileInputStream(accountInfo))) {
+
+            Account.createAccount = (Account) x.readObject();
+
+            tfAccountLogin.setText(Account.getInstance().getUsername());
+            pfPasswordLogin.setText(Account.getInstance().getPassword());
+            //x.close();
+
+        } catch (IOException e) {
+        } catch (ClassNotFoundException e) {
+        }
+    }
     }
 
     public void loginButtonPressed() {
@@ -61,7 +75,19 @@ public class LoginController implements Initializable {
                 DatabaseUpdaterThread updater = new DatabaseUpdaterThread();
                 updater.prepareValidateLogin(username, password);
                 new Thread(updater).start();
-            }
+                Account.getInstance().setUsername(username);
+                Account.getInstance().setPassword(password);
+
+                if (bxRememberMe.isSelected()) {
+                    tfAccountLogin.getText();
+                    pfPasswordLogin.getText();
+
+                    writeObject(accountInfo,Account.getInstance());
+                }
+                else {
+                    tfAccountLogin.clear();
+                    pfPasswordLogin.clear();
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,4 +129,14 @@ public class LoginController implements Initializable {
         effect.setAutoReverse(true);
         effect.play();
     }
+
+    private void writeObject(String filename, Object serializableObject) {
+        File file = new File(filename);
+        try (ObjectOutputStream oOut = new ObjectOutputStream(new FileOutputStream(file))) {
+            oOut.writeObject(serializableObject);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            }
+
+        }
 }

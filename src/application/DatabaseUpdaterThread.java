@@ -2,6 +2,8 @@ package application;
 
 import application.model.Question;
 import application.utils.FileUtils;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
 public class DatabaseUpdaterThread implements Runnable {
 
@@ -14,12 +16,14 @@ public class DatabaseUpdaterThread implements Runnable {
     private String username;
     private String password;
     private boolean rememberMe;
+    private Stage currentStage;
 
     private enum Running {QUESTION_UPDATE, QUESTION_ADDITION, VALIDATE_LOGIN}
 
     private Running currentRun = null;
 
     public DatabaseUpdaterThread() {
+        this.currentStage = (Stage) Stage.getWindows().filtered(window -> window.isShowing()).get(0);
     }
 
     public void prepareAddingQuestion(Question questionBeingAdded) {
@@ -46,6 +50,9 @@ public class DatabaseUpdaterThread implements Runnable {
 
     @Override
     public void run() {
+        Platform.runLater(() -> {
+            StageManager.getInstance().showProgressBar(currentStage);
+        });
         databaseConnector = new DatabaseConnector();
         String query;
         switch (currentRun) {
@@ -87,6 +94,9 @@ public class DatabaseUpdaterThread implements Runnable {
             default:
                 break;
         }
+        Platform.runLater(() -> {
+            StageManager.getInstance().stopProgressBar();
+        });
         System.out.println("Query done");
     }
 }

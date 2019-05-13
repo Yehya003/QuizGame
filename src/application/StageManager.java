@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -87,5 +88,25 @@ public class StageManager {
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.DECORATED);
         return stage;
+    }
+
+    private Stage progressStage;
+
+    public void showProgressBar(Stage currentStage) {
+        try {
+            Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("view/progressBar.fxml")));
+            progressStage = new Stage(); //Window
+            progressStage.setScene(newScene);
+            progressStage.initStyle(StageStyle.UNDECORATED);
+            progressStage.initModality(Modality.WINDOW_MODAL);
+            progressStage.initOwner(currentStage); //To disallow input form the user to the window behind
+            progressStage.show();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public void stopProgressBar() {
+        progressStage.close();
     }
 }

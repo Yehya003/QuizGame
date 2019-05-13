@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.CurrentAccountSingleton;
-import application.DatabaseUpdaterThread;
+import application.DatabaseRunnable;
 import application.StageManager;
 import application.model.Account;
 import application.utils.FileUtils;
@@ -44,6 +44,7 @@ public class LoginController implements Initializable {
             Account accountFromFile = (Account) x.readObject();
             if (accountFromFile != null) {
                 CurrentAccountSingleton.getInstance().setAccount(accountFromFile);
+                bxRememberMe.setSelected(true);
                 tfAccountLogin.setText(accountFromFile.getUsername());
                 pfPasswordLogin.setText(accountFromFile.getPassword());
             }
@@ -74,9 +75,9 @@ public class LoginController implements Initializable {
                 lbPasswordLogin.setText("");
 
                 //TODO add animation for waiting after trying to login
-                DatabaseUpdaterThread updater = new DatabaseUpdaterThread();
-                updater.prepareValidateLogin(username, password, bxRememberMe.isSelected());
-                new Thread(updater).start();
+                DatabaseRunnable runnable = new DatabaseRunnable();
+                runnable.prepareValidateLogin(username, password, bxRememberMe.isSelected());
+                new Thread(runnable).start();
             }
         } catch (Exception e) {
             e.printStackTrace();

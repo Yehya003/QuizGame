@@ -7,12 +7,14 @@ import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.validation.RequiredFieldValidator;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.security.SecureRandom;
@@ -118,9 +120,14 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         ArrayList<Question> questionsForQuiz = new ArrayList<>();
         int quizAmountOfQuestions = 10;
         for (int i = 0; i < quizAmountOfQuestions; i++) {
-            int rand = random.nextInt(possibleQuestions.size() - 1);
-            questionsForQuiz.add(possibleQuestions.get(rand));
-            possibleQuestions.remove(rand);
+            int rand = random.nextInt(possibleQuestions.size()); //nextInt has exclusive upper bound so no need for -1
+            Question questionToAdd = possibleQuestions.get(rand);
+            if (questionsForQuiz.contains(questionToAdd)) {
+                i--;//If it has already been picked, do not add it and run the iteration of the loop again
+            } else {
+                questionsForQuiz.add(possibleQuestions.get(rand));
+                possibleQuestions.remove(rand);
+            }
         }
         quiz = new Quiz(selectedCategory, questionsForQuiz);
     }
@@ -137,8 +144,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             System.out.println();
             // call a method from playScene to pass info
             // call stageManager and move to playScene
-            populateQuiz();
-            StageManager.getInstance().getGame();
+            startGame();
         } else {
             difficulty.validate();
             gameMode.validate();
@@ -147,6 +153,16 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             // add validators on the buttons so they show or even an emotion to indicate that they need to be chosen
             //preliminary 
         }
+    }
+
+    private void startGame() {
+        //Use gameMode as a way to access the current stage
+        new Thread(() -> {
+            Platform.runLater(() -> StageManager.getInstance().showProgressBar((Stage) gameMode.getScene().getWindow()));
+            populateQuiz();
+            StageManager.getInstance().getGame();
+            Platform.runLater(() -> StageManager.getInstance().stopProgressBar());
+        }).start();
     }
 
     public void leaderBoardBtnPressed() {

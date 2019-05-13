@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DatabaseConnector {
 
@@ -202,19 +204,43 @@ public class DatabaseConnector {
         return questions;
     }
 
-    public int getLastestQuizID() {
-        int quiz_ID = 0;
+    public boolean insertQuiz(Quiz quiz) {
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select max(quiz_Id) as quiz_id from quiz;");
-            while (resultSet.next()) {
-                quiz_ID = resultSet.getInt("quiz_id");
+            //Since id is not auto-increment, will have to make an extra query
+            Statement idStatement = connection.createStatement();
+            ResultSet resultSet = idStatement.executeQuery("select max(quiz_Id) as quiz_id from quiz;");
+            int quizId = 0;
+            if (resultSet.next()) {
+                quizId = resultSet.getInt("quiz_id");
             }
+            if (quizId == 0) {
+                //If the query fails for any reason, put a random id to id, to avoid duplication of PK
+                //This will most likely never run anyway
+                quizId = new Random().nextInt(99999999) + 1000;
+            }
+
+            //TODO change all insert queries to look like this (prepared statement with ? and this formatting)
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "INSERT " +
+                    "INTO quiz " +
+                    "(quiz_Id, category, score, duration, date, user_username) " +
+                    "VALUES " +
+                    "( ? , ? , ? , ? , ? , ? )");
+
+            statement.setInt(1, quizId + 1);
+            statement.setString(2, quiz.getCategory());
+            statement.setInt(3, quiz.getScore());
+            statement.setLong(4, quiz.getDuration());
+            statement.setObject(5, LocalDate.now());
+            statement.setString(6, quiz.getUserName());
+
+            statement.executeUpdate();
+            System.out.println("Quiz inserted: " + quiz);
+            return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        return quiz_ID;
+        return false;
     }
 
     public boolean updatePassword(String username, String oldPassword, String newPassword) {

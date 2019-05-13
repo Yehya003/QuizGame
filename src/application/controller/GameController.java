@@ -75,16 +75,17 @@ public class GameController implements Initializable {
         return quizDurationLong / 60 + ":" + quizDurationLong % 60; // returns string in MINUTES:SECONDS
     }
 
-    public int getNewQuizID() { //Gets the highest quiz id from database and adds 1 for new quiz
-        DatabaseConnector connector = new DatabaseConnector();
-        int quizID = connector.getLastestQuizID() + 1;
-        return quizID;
+    public void insertQuizIntoDatabase() {
+        new Thread(() -> { //Simply do this on another thread, no need for comfirmation for the user
+            new DatabaseConnector().insertQuiz(this.quiz);
+        }).start();
+
     }
 
     public void finishGame() { //Ends the game
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
-        quiz.setQuiz_id(getNewQuizID()); //Saves latest quiz_id to object, will later also save to database
+        insertQuizIntoDatabase();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);  //End game message with final score and time taken
         alert.setHeaderText("Quiz Complete!");
         alert.setContentText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
@@ -158,6 +159,5 @@ public class GameController implements Initializable {
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);
         quizStart = Instant.now();
-
     }
 }

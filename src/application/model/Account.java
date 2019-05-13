@@ -61,5 +61,14 @@ public class Account implements Serializable {
         this.score = score;
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", score=" + score +
+                '}';
+    }
 }

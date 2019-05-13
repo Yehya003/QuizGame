@@ -2,8 +2,8 @@ package application.model;
 
 import application.CurrentAccountSingleton;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Quiz {
 
@@ -80,6 +80,19 @@ public class Quiz {
 
     public void setQuiz_id(int quiz_id) {
         this.quiz_id = quiz_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "quiz_id=" + quiz_id +
+                ", category='" + category + '\'' +
+                ", score=" + score +
+                ", duration=" + duration +
+                ", date=" + date +
+                ", userName='" + userName + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }
 

@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.DatabaseConnector;
-import application.DatabaseUpdaterThread;
+import application.DatabaseRunnable;
 import application.StageManager;
 import application.model.Question;
 import com.jfoenix.controls.JFXComboBox;
@@ -95,6 +95,10 @@ public class AdminController implements Initializable {
         incorrectAnswer2Column.setCellFactory(TextFieldTableCell.forTableColumn());
         incorrectAnswer3Column.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        for (TableColumn<Question, ?> element : tableView.getColumns()) {
+            element.setStyle("-fx-alignment: CENTER");
+        }
+
         categoryColumn.setEditable(false);
         difficultyColumn.setEditable(false);
 
@@ -138,9 +142,9 @@ public class AdminController implements Initializable {
             String columnText = productStringCellEditEvent.getTableColumn().getText(); //Column that is being changed
             String newText = productStringCellEditEvent.getNewValue(); //New text that we want to save
 
-            DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
-            updater.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
-            Thread updaterThread = new Thread(updater);
+            DatabaseRunnable runnable = new DatabaseRunnable(); //Database runnable that implements Runnable object
+            runnable.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
+            Thread updaterThread = new Thread(runnable);
             updaterThread.start();
         }
     }
@@ -184,9 +188,9 @@ public class AdminController implements Initializable {
         );
         observableList.add(questionObject);
 
-        DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
-        updater.prepareAddingQuestion(questionObject); //Prepare for this action
-        Thread updaterThread = new Thread(updater);
+        DatabaseRunnable runnable = new DatabaseRunnable(); //Database runnable that implements Runnable object
+        runnable.prepareAddingQuestion(questionObject); //Prepare for this action
+        Thread updaterThread = new Thread(runnable);
         updaterThread.start();
     }
 

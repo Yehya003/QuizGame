@@ -77,7 +77,7 @@ public class GameController implements Initializable {
 
     public int getNewQuizID() { //Gets the highest quiz id from database and adds 1 for new quiz
         DatabaseConnector connector = new DatabaseConnector();
-        int quizID = connector.getLastestQuizID()+1;
+        int quizID = connector.getLastestQuizID() + 1;
         return quizID;
     }
 

@@ -47,7 +47,7 @@ public class LeaderBoardController implements Initializable {
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
-       //Setting the column content alignment to be in the center
+        //Setting the column content alignment to be in the center
         username.setStyle("-fx-alignment: CENTER;");
         score.setStyle("-fx-alignment: CENTER;");
         category.setStyle("-fx-alignment: CENTER;");

@@ -67,7 +67,7 @@ public class DatabaseConnector {
         }
     }
 
-    public void validateLogin(String username, String password) {
+    public boolean validateLogin(String username, String password) {
         String query = "SELECT count(*) FROM hkrquiz1.user WHERE username =? And password =?";
         int i = 0;
 
@@ -82,12 +82,13 @@ public class DatabaseConnector {
                 }
 
                 if (i > 0) {
-                    getRole(username);
-                    if (Account.getInstance().isAdmin()) {
+                    setAccountSingleton(username);
+                    if (CurrentAccountSingleton.getInstance().getAccount().isAdmin()) {
                         StageManager.getInstance().getAdminScene();
                     } else {
                         StageManager.getInstance().getMainMenu();
                     }
+                    return true;
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText(" Wrong username or password ! ");
@@ -99,22 +100,24 @@ public class DatabaseConnector {
             alert.setContentText("Error on fetch data from database ");
             alert.showAndWait();
         }
+        return false;
     }
 
-    public void getRole(String username) {
+    public void setAccountSingleton(String username) {
         String roleQue = "SELECT * From hkrquiz1.user where username =?";
 
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             try (PreparedStatement statement = connection.prepareStatement(roleQue)) {
                 statement.setString(1, username);
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        Account.getInstance().setUsername(resultSet.getNString("username"));
-                        Account.getInstance().setPassword(resultSet.getNString("password"));
-                        Account.getInstance().setEmail(resultSet.getNString("email"));
-                        Account.getInstance().setAdmin(resultSet.getBoolean("is_admin"));
+                    if (resultSet.next()) {
+                        Account newAccount = new Account();
+                        newAccount.setUsername(resultSet.getNString("username"));
+                        newAccount.setPassword(resultSet.getNString("password"));
+                        newAccount.setEmail(resultSet.getNString("email"));
+                        newAccount.setAdmin(resultSet.getBoolean("is_admin"));
+                        CurrentAccountSingleton.getInstance().setAccount(newAccount);
                     }
-
                 }
             }
         } catch (SQLException ex) {
@@ -135,8 +138,8 @@ public class DatabaseConnector {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Account.getInstance().setEmail(resultSet.getString("email"));
-                    Account.getInstance().setPassword(resultSet.getNString("password"));
+                    CurrentAccountSingleton.getInstance().getAccount().setEmail(resultSet.getString("email"));
+                    CurrentAccountSingleton.getInstance().getAccount().setPassword(resultSet.getNString("password"));
                 }
 
                 /*if (x>0){
@@ -204,7 +207,7 @@ public class DatabaseConnector {
         try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select max(quiz_Id) as quiz_id from quiz;");
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 quiz_ID = resultSet.getInt("quiz_id");
             }
         } catch (SQLException ex) {
@@ -270,7 +273,7 @@ public class DatabaseConnector {
     }
 
     public ObservableList getTheHighestScores() {
-       //To work with tableView we will need an ObservableList<The object>
+        //To work with tableView we will need an ObservableList<The object>
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         //Here we do the query on the database
         String query = "SELECT user_username,score,category,duration FROM " +
@@ -278,7 +281,7 @@ public class DatabaseConnector {
         //Here we instantiate the preparedStatement to execute the query we also call the variable theConnection
         //that is assigned in the databaseConnector() above and call the .prepareStatement(Give it the query string)
         try (PreparedStatement statement = theConnection.prepareStatement(query)) {
-           //executing the query by using the resultSet
+            //executing the query by using the resultSet
             try (ResultSet resultSet = statement.executeQuery()) {
                 //putting it on a loop to go through the whole database and execute
                 while (resultSet.next()) {

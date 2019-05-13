@@ -1,9 +1,9 @@
 package application.controller;
 
+import application.CurrentAccountSingleton;
 import application.DatabaseConnector;
-import application.RegexUtils;
 import application.StageManager;
-import application.model.Account;
+import application.utils.RegexUtils;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -19,7 +19,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -54,9 +53,9 @@ public class ForgotPasswordController {
 
             myConnection.checkValidateEmail(username);
 
-            if (Account.getInstance().getEmail().equals(email)) {
+            if (CurrentAccountSingleton.getInstance().getAccount().getEmail().equals(email)) {
 
-                String password = "Your Password: " + Account.getInstance().getPassword();
+                String password = "Your Password: " + CurrentAccountSingleton.getInstance().getAccount().getPassword();
                 sendNewPassEmail(email, password);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

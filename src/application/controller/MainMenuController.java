@@ -57,34 +57,6 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     public static Quiz quiz;
     private ArrayList<Question> possibleQuestions;
 
-    public void setSelection(ActionEvent event) {
-        // getting the name of the button to send it later to the next seen for game play
-        Glow glow = new Glow();
-        JFXButton btn = (JFXButton) event.getSource();
-        if (!btn.getId().equals(previouslySelected)) {
-            for (JFXButton button : myButtons) {
-                if (btn.getId().equals(button.getId())) {
-                    button.setEffect(glow);
-                }
-                if (previouslySelected != null) {
-                    if (previouslySelected.equals(button.getId()))
-                        button.setEffect(null);
-                }
-            }
-            previouslySelected = btn.getId();
-            selectedCategory = previouslySelected;
-        }
-    }
-
-
-    public void unSelect(MouseEvent event) {
-        if (event.getClickCount() == 1) {
-            for (JFXButton button : myButtons) {
-                button.setDisable(false);
-            }
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         myButtons = new JFXButton[]{cars, music, movies, animals, art, computerScience, history
@@ -106,6 +78,34 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     }
 
+    public void setSelection(ActionEvent event) {
+        // getting the name of the button to send it later to the next seen for game play
+        Glow glow = new Glow();
+        JFXButton btn = (JFXButton) event.getSource();
+        if (!btn.getId().equals(previouslySelected)) {
+            for (JFXButton button : myButtons) {
+                if (btn.getId().equals(button.getId())) {
+                    button.setEffect(glow);
+                }
+                if (previouslySelected != null) {
+                    if (previouslySelected.equals(button.getId())) {
+                        button.setEffect(null);
+                    }
+                }
+            }
+            previouslySelected = btn.getId();
+            selectedCategory = previouslySelected;
+        }
+    }
+
+    public void unSelect(MouseEvent event) {
+        if (event.getClickCount() == 1) {
+            for (JFXButton button : myButtons) {
+                button.setDisable(false);
+            }
+        }
+    }
+
     public void getSelectedFromComboBox() {
         //getting the comboBoxes selected items and depositing its value with the field variables
         theGameMode = gameMode.getSelectionModel().getSelectedItem();
@@ -118,11 +118,11 @@ public class MainMenuController extends ToggleGroup implements Initializable {
         ArrayList<Question> questionsForQuiz = new ArrayList<>();
         int quizAmountOfQuestions = 10;
         for (int i = 0; i < quizAmountOfQuestions; i++) {
-            int rand = random.nextInt(possibleQuestions.size()-1);
+            int rand = random.nextInt(possibleQuestions.size() - 1);
             questionsForQuiz.add(possibleQuestions.get(rand));
             possibleQuestions.remove(rand);
         }
-        quiz = new Quiz(selectedCategory,questionsForQuiz);
+        quiz = new Quiz(selectedCategory, questionsForQuiz);
     }
 
     public ArrayList<Question> getPossibleQuestions() {   //Gets all possible, corresponding questions from database

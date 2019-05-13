@@ -1,23 +1,25 @@
 package application.controller;
 
-import application.DatabaseConnector;
+import application.CurrentAccountSingleton;
 import application.DatabaseUpdaterThread;
 import application.StageManager;
 import application.model.Account;
-import com.jfoenix.controls.JFXButton;
+import application.utils.FileUtils;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,24 +38,24 @@ public class LoginController implements Initializable {
     @FXML
     private JFXCheckBox bxRememberMe;
 
-    private String accountInfo = "Account.txt";
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //tfAccountLogin.setText("ste");
-        //pfPasswordLogin.setText("ste");
-        try (ObjectInputStream x = new ObjectInputStream(new FileInputStream(accountInfo))) {
-
-            Account.createAccount = (Account) x.readObject();
-
-            tfAccountLogin.setText(Account.getInstance().getUsername());
-            pfPasswordLogin.setText(Account.getInstance().getPassword());
-            //x.close();
-
+        try (ObjectInputStream x = new ObjectInputStream(new FileInputStream(FileUtils.accountFilePath))) {
+            Account accountFromFile = (Account) x.readObject();
+            if (accountFromFile != null) {
+                CurrentAccountSingleton.getInstance().setAccount(accountFromFile);
+                tfAccountLogin.setText(accountFromFile.getUsername());
+                pfPasswordLogin.setText(accountFromFile.getPassword());
+            }
+        } catch (EOFException e) {
+            System.out.println("There is no account saved yet");
         } catch (IOException e) {
+            System.out.println("Error reading file");
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            System.out.println("File did not contain an account");
+            e.printStackTrace();
         }
-    }
     }
 
     public void loginButtonPressed() {
@@ -73,21 +75,9 @@ public class LoginController implements Initializable {
 
                 //TODO add animation for waiting after trying to login
                 DatabaseUpdaterThread updater = new DatabaseUpdaterThread();
-                updater.prepareValidateLogin(username, password);
+                updater.prepareValidateLogin(username, password, bxRememberMe.isSelected());
                 new Thread(updater).start();
-                Account.getInstance().setUsername(username);
-                Account.getInstance().setPassword(password);
-
-                if (bxRememberMe.isSelected()) {
-                    tfAccountLogin.getText();
-                    pfPasswordLogin.getText();
-
-                    writeObject(accountInfo,Account.getInstance());
-                }
-                else {
-                    tfAccountLogin.clear();
-                    pfPasswordLogin.clear();
-                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,26 +91,6 @@ public class LoginController implements Initializable {
         StageManager.getInstance().getRegister();
     }
 
-    /*public void loadAccount() {
-        try {
-            String username = tfAccountLogin.getText();
-            DatabaseConnector myConnection = new DatabaseConnector();
-            myConnection.getRole(username);
-
-            if (Account.getInstance().isAdmin()) {
-                StageManager.getInstance().getAdminScene();
-            } else if(!Account.getInstance().isAdmin()) {
-                StageManager.getInstance().getMainMenu();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("The User Not Register!  ");
-                alert.showAndWait();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     public void hooverOverAnchorPane() {
         effect.setNode(logInPane);
         effect.setByX(.1);
@@ -129,14 +99,4 @@ public class LoginController implements Initializable {
         effect.setAutoReverse(true);
         effect.play();
     }
-
-    private void writeObject(String filename, Object serializableObject) {
-        File file = new File(filename);
-        try (ObjectOutputStream oOut = new ObjectOutputStream(new FileOutputStream(file))) {
-            oOut.writeObject(serializableObject);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            }
-
-        }
 }

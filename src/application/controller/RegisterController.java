@@ -1,8 +1,8 @@
 package application.controller;
 
 import application.DatabaseConnector;
-import application.RegexUtils;
 import application.StageManager;
+import application.utils.RegexUtils;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.ScaleTransition;
@@ -12,17 +12,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
-
-import java.sql.SQLException;
 
 public class RegisterController {
 
@@ -71,7 +69,7 @@ public class RegisterController {
                 myConnection.saveRegistration(username, password, email, is_admin);
                 String welcomeMessage = "Dear:" + username + "\n\n Your registration has been successfully completed!" +
                         " \n\n Username: " + username + "\n\n Password:" + password;
-                sendRegisterConfirmation(email,welcomeMessage);
+                sendRegisterConfirmation(email, welcomeMessage);
                 StageManager.getInstance().getMainMenu();
             }
         }

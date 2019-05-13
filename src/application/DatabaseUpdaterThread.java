@@ -1,6 +1,7 @@
 package application;
 
 import application.model.Question;
+import application.utils.FileUtils;
 
 public class DatabaseUpdaterThread implements Runnable {
 
@@ -12,6 +13,7 @@ public class DatabaseUpdaterThread implements Runnable {
     private String newText;
     private String username;
     private String password;
+    private boolean rememberMe;
 
     private enum Running {QUESTION_UPDATE, QUESTION_ADDITION, VALIDATE_LOGIN}
 
@@ -34,11 +36,12 @@ public class DatabaseUpdaterThread implements Runnable {
         this.newText = newText;
     }
 
-    public void prepareValidateLogin(String username, String password){
+    public void prepareValidateLogin(String username, String password, boolean rememberMe) {
         currentRun = Running.VALIDATE_LOGIN;
 
         this.username = username;
         this.password = password;
+        this.rememberMe = rememberMe;
     }
 
     @Override
@@ -76,7 +79,10 @@ public class DatabaseUpdaterThread implements Runnable {
                 databaseConnector.addQuestion(query);
                 break;
             case VALIDATE_LOGIN:
-                databaseConnector.validateLogin(username, password);
+                boolean successfulLogin = databaseConnector.validateLogin(username, password);
+                if (successfulLogin && rememberMe) {
+                    FileUtils.writeObject(FileUtils.accountFilePath, CurrentAccountSingleton.getInstance().getAccount());
+                }
                 break;
             default:
                 break;

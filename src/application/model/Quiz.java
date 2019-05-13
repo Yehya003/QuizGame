@@ -1,5 +1,7 @@
 package application.model;
 
+import application.CurrentAccountSingleton;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,13 +18,14 @@ public class Quiz {
     public Quiz(String category, ArrayList<Question> questions) {
         this.category = category;
         this.questions = questions;
-        this.userName = Account.getInstance().getUsername();
+        this.userName = CurrentAccountSingleton.getInstance().getAccount().getUsername();
     }
-    public Quiz(String userName,int score,String category,int duration){
-        this.userName=userName;
-        this.score=score;
-        this.category=category;
-        this.duration=duration;
+
+    public Quiz(String userName, int score, String category, int duration) {
+        this.userName = userName;
+        this.score = score;
+        this.category = category;
+        this.duration = duration;
     }
 
     public String getCategory() {

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,11 +27,10 @@
                         <Image url="@../../resources/poss.jpg" />
                      </image>
                   </ImageView>
-                  <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
+                  <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="369.0" prefWidth="630.0">
                      <children>
-                        <TextFlow layoutX="3.0" layoutY="24.0" opacity="0.29" prefHeight="405.0" prefWidth="686.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="24.0" />
-                        <JFXButton fx:id="back" layoutX="562.0" layoutY="523.0" onAction="#backBtnPressed" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
-                        <TableView fx:id="tableView" blendMode="MULTIPLY" layoutX="2.0" layoutY="25.0" prefHeight="405.0" prefWidth="686.0" style="-fx-background-radius: 50;">
+                        <TextFlow layoutX="3.0" layoutY="24.0" opacity="0.29" prefHeight="239.0" prefWidth="682.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="248.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="24.0" />
+                        <TableView fx:id="tableView" blendMode="MULTIPLY" layoutX="2.0" layoutY="25.0" prefHeight="239.0" prefWidth="682.0" style="-fx-background-radius: 50;">
                           <columns>
                             <TableColumn fx:id="username" prefWidth="177.0" text="Username" />
                             <TableColumn fx:id="score" prefWidth="152.0" text="Score" />
@@ -38,8 +41,21 @@
                               <ColorAdjust contrast="1.0" />
                            </effect>
                         </TableView>
+                        <TextFlow layoutX="2.0" layoutY="295.0" opacity="0.29" prefHeight="222.0" prefWidth="682.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" />
+                        <LineChart fx:id="lineChart" blendMode="MULTIPLY" layoutX="344.0" layoutY="330.0" prefHeight="173.0" prefWidth="320.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                           <effect>
+                              <Glow />
+                           </effect>
+                        </LineChart>
                      </children>
                   </AnchorPane>
+                  <JFXButton fx:id="back" layoutX="539.0" layoutY="554.0" onAction="#backBtnPressed" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="-10.0" layoutY="-14.0" prefHeight="620.0" prefWidth="265.0" style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="-14.0">

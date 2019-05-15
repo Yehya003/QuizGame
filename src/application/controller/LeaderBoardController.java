@@ -6,6 +6,8 @@ import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,6 +33,9 @@ public class LeaderBoardController implements Initializable {
 
     @FXML
     private JFXButton back;
+    @FXML
+    private LineChart<?, ?> lineChart;
+    XYChart.Series<?,?> myChart = new XYChart.Series<>();
 
     public void backBtnPressed() {
         StageManager.getInstance().getMainMenu();
@@ -43,8 +48,16 @@ public class LeaderBoardController implements Initializable {
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
-       try {
-           tableView.setItems(connector.getTheHighestScores());
-       }catch(Exception e){e.printStackTrace();}
-       }
+        username.setStyle("-fx-alignment: CENTER;");
+        score.setStyle("-fx-alignment: CENTER;");
+        category.setStyle("-fx-alignment: CENTER;");
+        duration.setStyle("-fx-alignment: CENTER;");
+
+        try {
+            tableView.setItems(connector.getTheHighestScores());
+            tableView.setEditable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

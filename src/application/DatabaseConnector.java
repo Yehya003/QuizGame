@@ -267,13 +267,13 @@ public class DatabaseConnector {
         return highScoreList;
     }
     public ObservableList getPlayedCategoriesRatio(){
-        String query="select distinct count category from hkrquiz1.quiz where user_name=?";
+        String query="select category,count(*) from quiz where user_username=? group by category";
         ObservableList<PieChart.Data> myPieChart = FXCollections.observableArrayList();
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1,StageManager.getInstance().getUsername());
             try(ResultSet set = statement.executeQuery()){
                 while(set.next()){
-                    myPieChart.add(new PieChart.Data(set.getString(),set.getString()));
+                    myPieChart.add(new PieChart.Data(set.getString(1),Double.valueOf(set.getString(2))));
                 }
             }
         }catch(Exception e){e.printStackTrace();}

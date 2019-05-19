@@ -1,10 +1,13 @@
 package application;
 
+import application.controller.LoginController;
 import application.model.Account;
 import application.model.Question;
 import application.model.Quiz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -22,6 +25,7 @@ public class DatabaseConnector {
     private String password = "&password";
     private String passwordValue = "=HKRQUIZ1!";
     private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
+    private String loggedInUser;
 
     private Connection connection;
 
@@ -88,9 +92,10 @@ public class DatabaseConnector {
             }
 
             if (i > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Login successful! ");
-                alert.showAndWait();
+                StageManager.getInstance().setUsername(username);
+                //Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                //alert.setContentText("Login successful! ");
+                //alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText(" Wrong username or password ! ");
@@ -105,6 +110,7 @@ public class DatabaseConnector {
             alert.showAndWait();
         }
     }
+
 
     public void getRole(String username) {
 
@@ -247,7 +253,7 @@ public class DatabaseConnector {
     public ObservableList getTheHighestScores() {
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         String query = "SELECT user_username,score,category,duration FROM " +
-                "hkrquiz1.quiz group by category order by score desc limit 10";
+                "hkrquiz1.quiz";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -260,6 +266,67 @@ public class DatabaseConnector {
         }
         return highScoreList;
     }
+    public ObservableList getPlayedCategoriesRatio(){
+        String query="select distinct count category from hkrquiz1.quiz where user_name=?";
+        ObservableList<PieChart.Data> myPieChart = FXCollections.observableArrayList();
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1,StageManager.getInstance().getUsername());
+            try(ResultSet set = statement.executeQuery()){
+                while(set.next()){
+                    myPieChart.add(new PieChart.Data(set.getString(),set.getString()));
+                }
+            }
+        }catch(Exception e){e.printStackTrace();}
+        return myPieChart;
+    }
+    public ObservableList smartFilterData(String from ,String to,boolean top10){
+        ObservableList<Quiz> filtered = FXCollections.observableArrayList();
+        String query;
+        if (top10){
+            query="SELECT distinct user_username,score,category,duration FROM hkrquiz1.quiz where score >=? and score <=? limit 10";
+
+        }else{
+            query="SELECT user_username,score,category,duration FROM hkrquiz1.quiz where score >=? and score <=?";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,from);
+            statement.setString(2,to);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    filtered.add(new Quiz(resultSet.getNString("user_username"), resultSet.getInt("score"),
+                            resultSet.getNString("category"), resultSet.getInt("duration")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filtered;
+    }
+
+    //this method is designed to retrieve Score data from the database and adds it to XYChart.series to be further used for statistics
+    public XYChart.Series<String,Integer> getDataForStatistics() {
+      // I create a new object of the XYChart.series<Specifying the data which will be entered from the database columns>
+        XYChart.Series<String,Integer> myChart = new XYChart.Series<>();
+        //querying the database
+        String query = "select category,score from quiz where user_username=? order by score";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+           //setting the preparedStatements input when we use ? we need to specify where it will read from;
+            statement.setString(1,StageManager.getInstance().getUsername());
+            try (ResultSet result = statement.executeQuery()) {
+                //looping through the database to check all rows
+                while (result.next()) {
+                    //adding the matching results with the previously written query to the XYChart.Series
+                    myChart.getData().add(new XYChart.Data<>(result.getNString("category"),result.getInt("score")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Returning the chart after filling it if the conditions in the query match
+        return myChart;
+    }
+
 
     public ArrayList<String> getUniqueDifficultyList() {
         ArrayList<String> categories = new ArrayList<>();

@@ -1,5 +1,6 @@
 package application;
 
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -99,7 +100,9 @@ public class StageManager {
             progressStage.setScene(newScene);
             progressStage.initStyle(StageStyle.UNDECORATED);
             progressStage.initModality(Modality.WINDOW_MODAL);
-            progressStage.initOwner(currentStage); //To disallow input form the user to the window behind
+            //Set to the middle of the screen //TODO make this more beautiful
+            progressStage.setX(((currentStage.getX() + (currentStage.getX() + currentStage.getWidth())) / 2) - 100);
+            progressStage.setY(((currentStage.getY() + (currentStage.getY() + currentStage.getHeight())) / 2) - 10);
             progressStage.show();
         } catch (IOException ioException) {
             ioException.printStackTrace();

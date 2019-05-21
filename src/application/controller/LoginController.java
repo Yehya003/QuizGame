@@ -74,7 +74,6 @@ public class LoginController implements Initializable {
                 lbUsernameLogin.setText("");
                 lbPasswordLogin.setText("");
 
-                //TODO add animation for waiting after trying to login
                 DatabaseRunnable runnable = new DatabaseRunnable();
                 runnable.prepareValidateLogin(username, password, bxRememberMe.isSelected());
                 new Thread(runnable).start();

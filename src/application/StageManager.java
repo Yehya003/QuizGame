@@ -14,21 +14,14 @@ import java.util.ArrayList;
 
 public class StageManager {
 
+    private Stage progressStage;
     private static StageManager stageManager = new StageManager();
-    private ArrayList<Stage> stages;
 
     public static StageManager getInstance() {
         return stageManager;
     }
 
     private StageManager() {
-        stages = new ArrayList<>();
-    }
-
-    private void hideAllOpen() {
-        for (Stage s : stages) {
-            s.hide();
-        }
     }
 
     public void getLogin() {
@@ -70,28 +63,18 @@ public class StageManager {
     private void changeIntoNewScene(String fxmlFile, String stageTitle) {
         //Handles the changing of the scene in the Main thread as it is illegal to do it in a separate Thread
         Platform.runLater(() -> {
-            Stage stage = createStage("view/" + fxmlFile + ".fxml");
+            Stage stage = (Stage)Stage.getWindows().filtered(window -> window.isShowing()).get(0);
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("view/" + fxmlFile + ".fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
             stage.setTitle(stageTitle);
-            stages.add(stage);
-            hideAllOpen();
             stage.show();
         });
     }
-
-    private Stage createStage(String stageName) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource(stageName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.initStyle(StageStyle.DECORATED);
-        return stage;
-    }
-
-    private Stage progressStage;
 
     public void showProgressBar(Stage currentStage) {
         try {

@@ -1,0 +1,16 @@
+.table-view{
+    -fx-font-family: Marlett;
+    -fx-text-fill:red;
+    -fx-font-size: 13;
+    -fx-border-radius:50;
+    -fx-base: transparent;
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-selection-bar: #8B0000;
+    -fx-selection-bar-non-focused: salmon;
+}
+.table-cell{
+    -fx-text-fill:#E6E6FA;
+    -fx-font-family: Marlett;
+    -fx-font-size: 12;
+}

@@ -22,6 +22,10 @@
                 <Font name="System Bold" size="20.0"/>
             </font>
         </Label>
+        <TextField layoutX="1000.0" layoutY="10" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
+                   disable="true" text="FilterCategory" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+        <JFXComboBox fx:id="categoryFilterComboBox" layoutX="1000.0" layoutY="35" prefHeight="25.0" prefWidth="150.0"/>
+
         <TableView blendMode="MULTIPLY" fx:id="tableView" layoutX="50.0" layoutY="75.0" prefHeight="350.0"
                    prefWidth="1115.0"><!--15 extra pixels for the scroll bar-->
             <columns>

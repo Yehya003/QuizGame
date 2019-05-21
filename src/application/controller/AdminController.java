@@ -39,6 +39,8 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Question, String> incorrectAnswer3Column;
     @FXML
+    private JFXComboBox<String> categoryFilterComboBox;
+    @FXML
     private JFXComboBox<String> categoryComboBox;
     @FXML
     private JFXComboBox<String> difficultyComboBox;
@@ -150,8 +152,17 @@ public class AdminController implements Initializable {
     }
 
     private void populateTable() {
+        populateTable("");
+    }
+
+    private void populateTable(String category) {
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        ArrayList<Question> questionArrayList = databaseConnector.getAllQuestions();
+        ArrayList<Question> questionArrayList;
+        if (category.equals("")) {
+            questionArrayList = databaseConnector.getAllQuestions();
+        } else {
+            questionArrayList = databaseConnector.getAllQuestionsFromCategory(category);
+        }
         this.observableList = FXCollections.observableList(questionArrayList);
 
         tableView.setItems(this.observableList);
@@ -159,8 +170,16 @@ public class AdminController implements Initializable {
 
     private void populateComboBoxes() {
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        categoryComboBox.getItems().addAll(databaseConnector.getUniqueCategoryList());
+        ArrayList<String> uniqueCategoriesArrayList = databaseConnector.getUniqueCategoryList();
+        categoryFilterComboBox.getItems().addAll(uniqueCategoriesArrayList);
+        categoryComboBox.getItems().addAll(uniqueCategoriesArrayList);
         difficultyComboBox.getItems().addAll(databaseConnector.getUniqueDifficultyList());
+
+        categoryFilterComboBox.setOnAction(e -> {
+            new Thread(() -> {
+                populateTable(categoryFilterComboBox.getValue());
+            }).start();
+        });
     }
 
     private void viewAllPlayers() {

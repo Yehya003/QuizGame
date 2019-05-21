@@ -399,26 +399,47 @@ public class DatabaseConnector {
         ArrayList<Question> questions = new ArrayList<>();
 
         String categoryQuery = "SELECT * FROM question";
-        try (PreparedStatement statement = theConnection.prepareStatement(categoryQuery)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Question question = new Question();
-                    question.setQuestion(resultSet.getNString("question"));
-                    question.setCategory(resultSet.getNString("category"));
-                    question.setDifficulty(resultSet.getNString("difficulty"));
-                    question.setAnswer(resultSet.getNString("answer"));
-                    question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
-                    question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
-                    question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
-                    questions.add(question);
-                }
-                theConnection.close();
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            PreparedStatement statement = connection.prepareStatement(categoryQuery);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                questions.add(readQuestionFromResultSet(resultSet));
             }
             return questions;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList<Question> getAllQuestionsFromCategory(String category) {
+        ArrayList<Question> questions = new ArrayList<>();
+
+        String categoryQuery = "SELECT * FROM question WHERE category = ?";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            PreparedStatement statement = connection.prepareStatement(categoryQuery);
+            statement.setString(1, category);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                questions.add(readQuestionFromResultSet(resultSet));
+            }
+            return questions;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Question readQuestionFromResultSet(ResultSet resultSet) throws SQLException {
+        Question question = new Question();
+        question.setQuestion(resultSet.getNString("question"));
+        question.setCategory(resultSet.getNString("category"));
+        question.setDifficulty(resultSet.getNString("difficulty"));
+        question.setAnswer(resultSet.getNString("answer"));
+        question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
+        question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
+        question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
+        return question;
     }
 }
 

@@ -338,7 +338,6 @@ public class DatabaseConnector {
                 }
             }
         }catch(Exception e){e.printStackTrace();}
-        System.out.println(myPieChart);
         return myPieChart;
     }
     public ObservableList smartFilterData(String from ,String to,boolean top10){

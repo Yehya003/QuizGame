@@ -29,7 +29,8 @@
                         <Glow level="1.0" />
                      </effect>
                   </VBox>
-                  <JFXButton layoutX="562.0" layoutY="523.0" onAction="#edit" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Confirm" />
+                   <JFXButton layoutX="562.0" layoutY="523.0" onAction="#editInfo" prefHeight="35.0" prefWidth="125.0"
+                              ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Confirm"/>
                   <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="213.0" layoutY="197.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />

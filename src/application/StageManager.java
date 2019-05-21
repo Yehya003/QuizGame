@@ -1,6 +1,8 @@
 package application;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,11 +23,20 @@ public class StageManager {
     private StageManager() {
         stages = new ArrayList<>();
     }
+    private String username;
 
     public void hideAllOpen() {
         for (Stage s : stages) {
             s.hide();
         }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void getLogin() {
@@ -48,20 +59,12 @@ public class StageManager {
         getScene("admin", "Admin Menu");
     }
 
-    //public void getGameSetup() {
-    //    getScene("gameSetup", "Setup Game");
-    //}
-
     public void getGame() {
         getScene("game", "Quiz");
     }
 
-    public void getPlayerStatistics() {
-        //TODO player statistics scene
-    }
-
     public void getLeaderBoard() {
-    getScene("LeaderBoard","Leader Board");
+    getScene("leaderBoard","Leader Board");
     }
 
     public void getEditPlayer() {
@@ -86,6 +89,20 @@ public class StageManager {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.DECORATED);
+
         return stage;
     }
+    /*public void getMeAnotherScene(ActionEvent event) throws Exception {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SecondScene.fxml"));
+        Parent root = loader.load();
+        root.getStylesheets().add((getClass().getResource("MyStyle.css")).toExternalForm());
+
+        Scene scene = new Scene(root);
+        // stage.setScene(scene);
+        // stage.setTitle("Second one");
+        stage.show();
+    }
+*/
 }

@@ -16,6 +16,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -76,8 +77,7 @@ public class GameController implements Initializable {
     private Instant quizStart;
     private Instant quizEnd;
     private Duration quizDuration;
-
-
+    SecureRandom random = new SecureRandom();
 
     public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
@@ -194,10 +194,25 @@ public class GameController implements Initializable {
     public void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
-        rb1.setText(questions.get(question_id).getAnswer());
-        rb2.setText(questions.get(question_id).getIncorrect_answer1());
-        rb3.setText(questions.get(question_id).getIncorrect_answer2());
-        rb4.setText(questions.get(question_id).getIncorrect_answer3());
+        ArrayList<String> answers = new ArrayList<>();
+        answers.add(questions.get(question_id).getAnswer());
+        answers.add(questions.get(question_id).getIncorrect_answer1());
+        answers.add(questions.get(question_id).getIncorrect_answer2());
+        answers.add(questions.get(question_id).getIncorrect_answer3());
+        for (int i = 0; i <4; i++) {
+            int number = random.nextInt(4-i);
+            switch (i){
+                case 0:
+                    rb1.setText(answers.get(number));
+                case 1:
+                    rb2.setText(answers.get(number));
+                case 2:
+                    rb3.setText(answers.get(number));
+                case 3:
+                    rb4.setText(answers.get(number));
+            }
+            answers.remove(number);
+        }
     }
 
 

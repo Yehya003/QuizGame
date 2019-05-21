@@ -33,10 +33,11 @@ public class LoginController implements Initializable {
     @FXML
     private JFXCheckBox bxRememberMe;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tfAccountLogin.setText("ste");
-        pfPasswordLogin.setText("ste");
+        tfAccountLogin.setText("Joe");
+        pfPasswordLogin.setText("1");
     }
 
     public void loginButtonPressed() {
@@ -93,11 +94,8 @@ public class LoginController implements Initializable {
             myConnection.getRole(username);
 
             if (Account.getInstance().isAdmin() == true ) {
-
                 StageManager.getInstance().getAdminScene();
-
             } else if(Account.getInstance().isAdmin() == false) {
-
                 StageManager.getInstance().getMainMenu();
             }
             else {
@@ -111,6 +109,7 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     public void hooverOverAnchorPane() {
         effect.setNode(logInPane);

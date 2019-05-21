@@ -1,7 +1,6 @@
 package application;
 
 import application.model.Question;
-import application.model.Quiz;
 import application.utils.FileUtils;
 import javafx.application.Platform;
 import javafx.stage.Stage;

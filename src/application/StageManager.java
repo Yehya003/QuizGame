@@ -1,10 +1,7 @@
 package application;
 
-import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -12,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class StageManager {
 
@@ -24,15 +20,6 @@ public class StageManager {
     }
 
     private StageManager() {
-    }
-    private String username;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void getLogin() {
@@ -70,7 +57,7 @@ public class StageManager {
     private void changeIntoNewScene(String fxmlFile, String stageTitle) {
         //Handles the changing of the scene in the Main thread as it is illegal to do it in a separate Thread
         Platform.runLater(() -> {
-            Stage stage = (Stage)Stage.getWindows().filtered(window -> window.isShowing()).get(0);
+            Stage stage = (Stage) Stage.getWindows().filtered(window -> window.isShowing()).get(0);
             Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("view/" + fxmlFile + ".fxml"));

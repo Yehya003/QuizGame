@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXProgressBar?>
-<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameController">
-    
+
     <children>
         <Label fx:id="questionLabel" layoutX="142.0" layoutY="125.0" text="Question" />
         <JFXRadioButton fx:id="rb1" layoutX="142.0" layoutY="174.0" text="answer1">
@@ -21,6 +18,6 @@
         <JFXRadioButton fx:id="rb4" layoutX="142.0" layoutY="248.0" text="answer4" toggleGroup="$answers" />
         <JFXButton fx:id="previous" layoutX="239.0" layoutY="417.0" text="Previous" />
         <JFXProgressBar fx:id="progressBar" layoutX="350.0" layoutY="429.0" progress="0.0" />
-        <JFXButton fx:id="next" layoutX="589.0" layoutY="418.0" onAction="#nextOrPreviousQuestion" text="Next" />
+        <JFXButton fx:id="next" layoutX="589.0" layoutY="418.0" onAction="#nextOrPreviousQuestion" text="Next"/>
     </children>
 </AnchorPane>

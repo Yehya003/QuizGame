@@ -3,28 +3,19 @@ package application.controller;
 import application.DatabaseConnector;
 import application.StageManager;
 import application.model.Quiz;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.animation.Animation;
-import javafx.animation.Transition;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -82,7 +73,7 @@ public class LeaderBoardController implements Initializable {
         duration.setStyle("-fx-alignment: CENTER;");
 
         try {
-            tableView.setItems(connector.getTheHighestScores());
+            tableView.setItems(new DatabaseConnector().getTheHighestScores());
             tableView.setEditable(false);
             //getting the return value of the method and saving it to the XYChart
             myChart = connector.getDataForStatistics();

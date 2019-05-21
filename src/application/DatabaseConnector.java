@@ -1,6 +1,5 @@
 package application;
 
-import application.controller.LoginController;
 import application.model.Account;
 import application.model.Question;
 import application.model.Quiz;
@@ -302,7 +301,7 @@ public class DatabaseConnector {
         return true;
     }
 
-    public ObservableList getTheHighestScores() {
+    public ObservableList<Quiz> getTheHighestScores() {
         //To work with tableView we will need an ObservableList<The object>
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         //Here we do the query on the database
@@ -326,17 +325,20 @@ public class DatabaseConnector {
         }
         return highScoreList;
     }
-    public ObservableList getPlayedCategoriesRatio(){
+    public ObservableList<PieChart.Data> getPlayedCategoriesRatio() {
         String query="select category,count(*) from quiz where user_username=? group by category";
         ObservableList<PieChart.Data> myPieChart = FXCollections.observableArrayList();
-        try(PreparedStatement statement = theConnection.prepareStatement(query)){
-            statement.setString(1,StageManager.getInstance().getUsername());
-            try(ResultSet set = statement.executeQuery()){
-                while(set.next()){
-                    myPieChart.add(new PieChart.Data(set.getString(1),Double.valueOf(set.getString(2))));
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        myPieChart.add(new PieChart.Data(resultSet.getString(1), Double.valueOf(resultSet.getString(2))));
+                    }
                 }
             }
         }catch(Exception e){e.printStackTrace();}
+        System.out.println(myPieChart);
         return myPieChart;
     }
     public ObservableList smartFilterData(String from ,String to,boolean top10){
@@ -372,7 +374,7 @@ public class DatabaseConnector {
         String query = "select category,score from quiz where user_username=? order by score";
         try (PreparedStatement statement = theConnection.prepareStatement(query)) {
            //setting the preparedStatements input when we use ? we need to specify where it will read from;
-            statement.setString(1,StageManager.getInstance().getUsername());
+            statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
             try (ResultSet result = statement.executeQuery()) {
                 //looping through the database to check all rows
                 while (result.next()) {

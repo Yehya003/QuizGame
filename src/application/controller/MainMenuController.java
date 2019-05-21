@@ -134,6 +134,9 @@ public class MainMenuController extends ToggleGroup implements Initializable {
 
     public ArrayList<Question> getPossibleQuestions() {   //Gets all possible, corresponding questions from database
         DatabaseConnector connector = new DatabaseConnector();
+        if (selectedCategory.equals("random")) {
+            selectedCategory = "computerScience";
+        }//TODO actually random
         possibleQuestions = connector.getQuestionsFromDB(selectedCategory, theDifficulty);
         return possibleQuestions;
     }

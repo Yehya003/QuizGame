@@ -1,0 +1,60 @@
+
+.jfx-button:hover {
+    -fx-background-color:#1C8ADB;
+    -fx-text-fill:white;
+    -fx-effect:glow;
+}
+.bounce {
+    -webkit-animation-name: bounce;
+    animation-name: bounce;
+    -webkit-transform-origin: center bottom;
+    transform-origin: center bottom;
+}
+.jfx-button:hover{
+    -fx-animated:bouce;
+}
+.chart{
+    -fx-base: transparent;
+    -fx-border-color:transparent;
+}
+.chart-line-symbol {
+    -fx-background-color: #f9d900, transparent;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+.chart-series-line {
+    -fx-stroke: #f9d900;
+    -fx-stroke-width: 4px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0,0,0,0.3) , 8, 0.0 , 0 , 3 );
+}
+.default-color0.chart-line-symbol { -fx-background-color: #f9d900, transparent; }
+.default-color1.chart-line-symbol { -fx-background-color: #a9e200, transparent; }
+.default-color2.chart-line-symbol { -fx-background-color: #22bad9, transparent; }
+.default-color3.chart-line-symbol { -fx-background-color: #0181e2, transparent; }
+.default-color4.chart-line-symbol { -fx-background-color: #2f357f, transparent; }
+.default-color5.chart-line-symbol { -fx-background-color: #860061, white; }
+.default-color6.chart-line-symbol { -fx-background-color: #c62b00, white; }
+.default-color7.chart-line-symbol { -fx-background-color: #ff5700, white; }
+.default-color0.chart-series-line { -fx-stroke: #f9d900; }
+.default-color1.chart-series-line { -fx-stroke: #a9e200; }
+.default-color2.chart-series-line { -fx-stroke: #22bad9; }
+.default-color3.chart-series-line { -fx-stroke: #0181e2; }
+.default-color4.chart-series-line { -fx-stroke: #2f357f; }
+.default-color5.chart-series-line { -fx-stroke: #860061; }
+.default-color6.chart-series-line { -fx-stroke: #c62b00; }
+.default-color7.chart-series-line { -fx-stroke: #ff5700; }
+
+.chart-pie-label-line {
+    -fx-stroke: salmon;
+    -fx-fill: salmon;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: yellow;
+    -fx-font-size: 1em;
+}
+.chart-legend {
+    -fx-background-color:  #fafad2;
+    -fx-stroke: #daa520;
+}

@@ -1,4 +1,10 @@
+.column {
+    -fx-alignment: CENTER;
+}
 
+#duration {
+    -fx-alignment: CENTER;
+}
 .jfx-button:hover {
     -fx-background-color:#1C8ADB;
     -fx-text-fill:white;

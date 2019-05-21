@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="20.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ProgressBarController">
+   <children>
+      <JFXProgressBar fx:id="progressBar" prefHeight="20.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

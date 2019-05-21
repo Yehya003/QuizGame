@@ -1,48 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="application.controller.AdminController">
+    <children>
+        <ImageView fitHeight="600" fitWidth="1200" pickOnBounds="true">
+            <image>
+                <Image url="@../../resources/poss.jpg"/>
+            </image>
+        </ImageView>
+        <TextFlow opacity="0.3" layoutX="50" layoutY="75" prefHeight="350" prefWidth="1115" style="-fx-background-color: #1C8ADB;" />
+        <Label alignment="CENTER" layoutX="500.0" layoutY="20.0" prefWidth="200.0" text="Admin Menu">
+            <font>
+                <Font name="System Bold" size="20.0"/>
+            </font>
+        </Label>
+        <TextField layoutX="1000.0" layoutY="10" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
+                   disable="true" text="FilterCategory" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+        <JFXComboBox fx:id="categoryFilterComboBox" layoutX="1000.0" layoutY="35" prefHeight="25.0" prefWidth="150.0"/>
 
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.AdminController">
-   <children>
-      <Label alignment="CENTER" layoutX="500.0" layoutY="20.0" prefWidth="200.0" text="Admin Menu">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tableView" layoutX="50.0" layoutY="75.0" prefHeight="350.0" prefWidth="1115.0"><!--15 extra pixels for the scroll bar-->
-        <columns>
-            <TableColumn fx:id="categoryColumn" minWidth="4.0" prefWidth="100.0" text="Category" />
-            <TableColumn fx:id="difficultyColumn" minWidth="4.0" prefWidth="70.0" text="Difficulty" />
-            <TableColumn fx:id="questionColumn" minWidth="4.0" prefWidth="330.0" text="Question" />
-            <TableColumn fx:id="answerColumn" minWidth="4.0" prefWidth="150.0" text="Answer" />
-            <TableColumn fx:id="incorrectAnswer1Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer1" />
-            <TableColumn fx:id="incorrectAnswer2Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer2" />
-            <TableColumn fx:id="incorrectAnswer3Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer3" />
-        </columns>
-      </TableView>
+        <TableView blendMode="MULTIPLY" fx:id="tableView" layoutX="50.0" layoutY="75.0" prefHeight="350.0"
+                   prefWidth="1115.0"><!--15 extra pixels for the scroll bar-->
+            <columns>
+                <TableColumn fx:id="categoryColumn" minWidth="4.0" prefWidth="100.0" text="Category"/>
+                <TableColumn fx:id="difficultyColumn" minWidth="4.0" prefWidth="70.0" text="Difficulty"/>
+                <TableColumn fx:id="questionColumn" minWidth="4.0" prefWidth="330.0" text="Question"/>
+                <TableColumn fx:id="answerColumn" minWidth="4.0" prefWidth="150.0" text="Answer"/>
+                <TableColumn fx:id="incorrectAnswer1Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer1"/>
+                <TableColumn fx:id="incorrectAnswer2Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer2"/>
+                <TableColumn fx:id="incorrectAnswer3Column" minWidth="4.0" prefWidth="150.0" text="WrongAnswer3"/>
+            </columns>
+        </TableView>
+        <TextField layoutX="400.0" layoutY="430.0" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
+                   disable="true" text="Category" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+        <JFXComboBox fx:id="categoryComboBox" layoutX="400.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0"/>
+        <TextField layoutX="650.0" layoutY="430.0" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
+                   disable="true" text="Difficulty" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+        <JFXComboBox fx:id="difficultyComboBox" layoutX="650.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0"/>
 
-       <TextField layoutX="400.0" layoutY="430.0" prefHeight="25.0" prefWidth="150.0" focusTraversable="false" disable="true" text="Category" alignment="CENTER" style="-fx-background-color: gray" />
-       <JFXComboBox fx:id="categoryComboBox" layoutX="400.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0" />
-       <TextField layoutX="650.0" layoutY="430.0" prefHeight="25.0" prefWidth="150.0" focusTraversable="false" disable="true" text="Difficulty" alignment="CENTER" style="-fx-background-color: gray" />
-       <JFXComboBox fx:id="difficultyComboBox" layoutX="650.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0" />
+        <JFXTextField fx:id="questionTextField" layoutX="50.0" layoutY="500.0" prefWidth="100" prefHeight="35"
+                      promptText="Question"/>
+        <JFXTextField fx:id="answerTextField" layoutX="300.0" layoutY="500.0" prefWidth="100" prefHeight="35"
+                      promptText="Correct Answer"/>
+        <JFXTextField fx:id="wrongAnswer1TextField" layoutX="550.0" layoutY="500.0" prefWidth="100" prefHeight="35"
+                      promptText="Wrong Answer"/>
+        <JFXTextField fx:id="wrongAnswer2TextField" layoutX="800.0" layoutY="500.0" prefWidth="100" prefHeight="35"
+                      promptText="Wrong Answer"/>
+        <JFXTextField fx:id="wrongAnswer3TextField" layoutX="1050.0" layoutY="500.0" prefWidth="100" prefHeight="35"
+                      promptText="Wrong Answer"/>
 
-       <JFXTextField fx:id="questionTextField" layoutX="50.0" layoutY="500.0" prefWidth="100" prefHeight="35" promptText="Question" />
-       <JFXTextField fx:id="answerTextField" layoutX="300.0" layoutY="500.0" prefWidth="100" prefHeight="35" promptText="Correct Answer" />
-       <JFXTextField fx:id="wrongAnswer1TextField" layoutX="550.0" layoutY="500.0" prefWidth="100" prefHeight="35" promptText="Wrong Answer" />
-       <JFXTextField fx:id="wrongAnswer2TextField" layoutX="800.0" layoutY="500.0" prefWidth="100" prefHeight="35" promptText="Wrong Answer" />
-       <JFXTextField fx:id="wrongAnswer3TextField" layoutX="1050.0" layoutY="500.0" prefWidth="100" prefHeight="35" promptText="Wrong Answer" />
-
-       <Button fx:id="buttonAddQuestion" layoutX="350.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #22b2da;" text="Add Question" textFill="#fcf8f8"/>
-       <Button fx:id="buttonDeleteSelected" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #22b2da;" text="Delete Selected" textFill="#fcf8f8"/>
-       <Button fx:id="buttonExit" layoutX="750.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #22b2da;" text="Log Out" textFill="#fcf8f8"/>
-   </children>
+        <Button fx:id="buttonAddQuestion" layoutX="350.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0"
+                style="-fx-background-color: #22b2da;" text="Add Question" textFill="#fcf8f8"/>
+        <Button fx:id="buttonDeleteSelected" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0"
+                style="-fx-background-color: #22b2da;" text="Delete Selected" textFill="#fcf8f8"/>
+        <Button fx:id="buttonExit" layoutX="750.0" layoutY="550.0" mnemonicParsing="false" prefWidth="100.0"
+                style="-fx-background-color: #22b2da;" text="Log Out" textFill="#fcf8f8"/>
+    </children>
 </AnchorPane>

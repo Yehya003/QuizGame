@@ -1,14 +1,16 @@
 package application.model;
 
+import application.CurrentAccountSingleton;
+
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Quiz {
 
     private int quiz_id;
     private String category;
     private int score;
-    private int duration;
+    private long duration;
     private Date date;
     private String userName;
     private ArrayList<Question> questions;
@@ -16,12 +18,14 @@ public class Quiz {
     public Quiz(String category, ArrayList<Question> questions) {
         this.category = category;
         this.questions = questions;
+        this.userName = CurrentAccountSingleton.getInstance().getAccount().getUsername();
     }
-    public Quiz(String userName,int score,String category,int duration){
-        this.userName=userName;
-        this.score=score;
-        this.category=category;
-        this.duration=duration;
+
+    public Quiz(String userName, int score, String category, int duration) {
+        this.userName = userName;
+        this.score = score;
+        this.category = category;
+        this.duration = duration;
     }
 
     public String getCategory() {
@@ -40,11 +44,9 @@ public class Quiz {
         this.score = score;
     }
 
-    public int getDuration() {
-        return duration;
-    }
+    public long getDuration() { return duration; }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 
@@ -70,6 +72,27 @@ public class Quiz {
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public int getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "quiz_id=" + quiz_id +
+                ", category='" + category + '\'' +
+                ", score=" + score +
+                ", duration=" + duration +
+                ", date=" + date +
+                ", userName='" + userName + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }
 

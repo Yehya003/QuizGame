@@ -1,6 +1,8 @@
 package application.model;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
 
     private String username;
     private String password;
@@ -8,14 +10,15 @@ public class Account {
     private boolean isAdmin;
     private int score;
 
-    private static Account account = new Account();
-
-    private Account() {
-
+    public Account() {
     }
 
-    public static Account getInstance() {
-        return account;
+    public Account(String username, String password, String email, boolean isAdmin, int score) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isAdmin = isAdmin;
+        this.score = score;
     }
 
     public String getUsername() {
@@ -58,5 +61,14 @@ public class Account {
         this.score = score;
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", score=" + score +
+                '}';
+    }
 }

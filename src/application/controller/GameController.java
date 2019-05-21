@@ -6,13 +6,14 @@ import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXRadioButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.time.Duration;
@@ -34,23 +35,39 @@ public class GameController implements Initializable {
     @FXML
     RadioButton rb4;
     @FXML
-    private JFXButton animals;
-    @FXML
-    private JFXButton history;
-    @FXML
-    private JFXButton sports;
-    @FXML
     private JFXButton next;
     @FXML
     private JFXButton previous;
     @FXML
-    private JFXButton finish;
-    @FXML
     private Label questionLabel;
     @FXML
-    private Label finalScore;
+    private Label timeTakenLabel;
     @FXML
     private JFXProgressBar progressBar;
+    @FXML
+    private JFXRadioButton question1isCorrectRadio;
+    @FXML
+    private JFXRadioButton question2isCorrectRadio;
+    @FXML
+    private JFXRadioButton question3isCorrectRadio;
+    @FXML
+    private JFXRadioButton question4isCorrectRadio;
+    @FXML
+    private JFXRadioButton question5isCorrectRadio;
+    @FXML
+    private JFXRadioButton question6isCorrectRadio;
+    @FXML
+    private JFXRadioButton question7isCorrectRadio;
+    @FXML
+    private JFXRadioButton question8isCorrectRadio;
+    @FXML
+    private JFXRadioButton question9isCorrectRadio;
+    @FXML
+    private JFXRadioButton question10isCorrectRadio;
+    @FXML
+    private AnchorPane endGameAnchor;
+    @FXML
+    private AnchorPane gameAnchor;
 
     private Quiz quiz;
     private int quizCounter = 0;
@@ -59,6 +76,7 @@ public class GameController implements Initializable {
     private Instant quizStart;
     private Instant quizEnd;
     private Duration quizDuration;
+
 
 
     public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
@@ -81,19 +99,51 @@ public class GameController implements Initializable {
         return quizID;
     }
 
+    public void toMainMenu(){
+        StageManager.getInstance().getMainMenu();  //returns to main menu
+    }
+
+    public void setEndGameDisplay(int quizCounter,boolean isCorrectAnswerSelected){
+        switch (quizCounter){
+            case 0:
+                question1isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 1:
+                question2isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 2:
+                question3isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 3:
+                question4isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 4:
+                question5isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 5:
+                question6isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 6:
+                question7isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 7:
+                question8isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 8:
+                question9isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 9:
+                question10isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            default:
+
+        }
+    }
+
     public void finishGame() { //Ends the game
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
         quiz.setQuiz_id(getNewQuizID()); //Saves latest quiz_id to object, will later also save to database
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);  //End game message with final score and time taken
-        alert.setHeaderText("Quiz Complete!");
-        alert.setContentText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
-        alert.showAndWait();
-        StageManager.getInstance().getMainMenu();  //returns to main menu
+        timeTakenLabel.setText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
+        gameAnchor.toBack();
+        endGameAnchor.toFront();
+        //StageManager.getInstance().getMainMenu();  //returns to main menu
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
-        scoreKeeping(isAnswerCorrect()); //checks if selected answer is correct
+        boolean isAnswerCorrect = isAnswerCorrect();
+        scoreKeeping(isAnswerCorrect); //checks if selected answer is correct
+        setEndGameDisplay(quizCounter,isAnswerCorrect);//calls to set the end game radio buttons selected or not
         /*  Previous button disabled, no need to check event as of now
         if (event.getSource().equals(next)) {
             if (quizCounter == questions.size() - 2) {

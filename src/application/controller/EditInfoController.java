@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.DatabaseConnector;
+import application.StageManager;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -36,4 +37,15 @@ public class EditInfoController {
             myAlert.showAndWait();
         }
     }
+    public void leaderBoardBtnPressed() {
+        StageManager.getInstance().getLeaderBoard();
+    }
+    public void logOutPressed() {
+        StageManager.getInstance().getLogin();
+    }
+    public void editBtnPressed() {
+        StageManager.getInstance().getEditPlayer();
+    }
+    public void mainMenuPressed(){StageManager.getInstance().getMainMenu();}
+
 }

@@ -5,6 +5,8 @@ import application.model.Question;
 import application.model.Quiz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -24,6 +26,7 @@ public class DatabaseConnector {
     private String password = "&password";
     private String passwordValue = "=HKRQUIZ1!";
     private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
+    private String loggedInUser;
 
     private Connection theConnection;
 
@@ -298,7 +301,7 @@ public class DatabaseConnector {
         return true;
     }
 
-    public ObservableList getTheHighestScores() {
+    public ObservableList<Quiz> getTheHighestScores() {
         //To work with tableView we will need an ObservableList<The object>
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         //Here we do the query on the database
@@ -322,6 +325,69 @@ public class DatabaseConnector {
         }
         return highScoreList;
     }
+    public ObservableList<PieChart.Data> getPlayedCategoriesRatio() {
+        String query="select category,count(*) from quiz where user_username=? group by category";
+        ObservableList<PieChart.Data> myPieChart = FXCollections.observableArrayList();
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        myPieChart.add(new PieChart.Data(resultSet.getString(1), Double.valueOf(resultSet.getString(2))));
+                    }
+                }
+            }
+        }catch(Exception e){e.printStackTrace();}
+        return myPieChart;
+    }
+    public ObservableList smartFilterData(String from ,String to,boolean top10){
+        ObservableList<Quiz> filtered = FXCollections.observableArrayList();
+        String query;
+        if (top10){
+            query="SELECT distinct user_username,score,category,duration FROM hkrquiz1.quiz where score >=? and score <=? limit 10";
+
+        }else{
+            query="SELECT user_username,score,category,duration FROM hkrquiz1.quiz where score >=? and score <=?";
+        }
+
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
+            statement.setString(1,from);
+            statement.setString(2,to);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    filtered.add(new Quiz(resultSet.getNString("user_username"), resultSet.getInt("score"),
+                            resultSet.getNString("category"), resultSet.getInt("duration")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filtered;
+    }
+
+    //this method is designed to retrieve Score data from the database and adds it to XYChart.series to be further used for statistics
+    public XYChart.Series<String,Integer> getDataForStatistics() {
+      // I create a new object of the XYChart.series<Specifying the data which will be entered from the database columns>
+        XYChart.Series<String,Integer> myChart = new XYChart.Series<>();
+        //querying the database
+        String query = "select category,score from quiz where user_username=? order by score";
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
+           //setting the preparedStatements input when we use ? we need to specify where it will read from;
+            statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
+            try (ResultSet result = statement.executeQuery()) {
+                //looping through the database to check all rows
+                while (result.next()) {
+                    //adding the matching results with the previously written query to the XYChart.Series
+                    myChart.getData().add(new XYChart.Data<>(result.getNString("category"),result.getInt("score")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Returning the chart after filling it if the conditions in the query match
+        return myChart;
+    }
+
 
     public ArrayList<String> getUniqueDifficultyList() {
         ArrayList<String> categories = new ArrayList<>();

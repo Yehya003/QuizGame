@@ -16,14 +16,16 @@
                 <Image url="@../../resources/poss.jpg"/>
             </image>
         </ImageView>
-        <TextFlow opacity="0.3" layoutX="50" layoutY="75" prefHeight="350" prefWidth="1115" style="-fx-background-color: #1C8ADB;" />
+        <TextFlow opacity="0.3" layoutX="50" layoutY="75" prefHeight="350" prefWidth="1115"
+                  style="-fx-background-color: #1C8ADB;"/>
         <Label alignment="CENTER" layoutX="500.0" layoutY="20.0" prefWidth="200.0" text="Admin Menu">
             <font>
                 <Font name="System Bold" size="20.0"/>
             </font>
         </Label>
         <TextField layoutX="1000.0" layoutY="10" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
-                   disable="true" text="FilterCategory" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+                   disable="true" text="FilterCategory" alignment="CENTER" blendMode="MULTIPLY"
+                   style="-fx-text-fill: black"/>
         <JFXComboBox fx:id="categoryFilterComboBox" layoutX="1000.0" layoutY="35" prefHeight="25.0" prefWidth="150.0"/>
 
         <TableView blendMode="MULTIPLY" fx:id="tableView" layoutX="50.0" layoutY="75.0" prefHeight="350.0"
@@ -42,7 +44,8 @@
                    disable="true" text="Category" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
         <JFXComboBox fx:id="categoryComboBox" layoutX="400.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0"/>
         <TextField layoutX="650.0" layoutY="430.0" prefHeight="25.0" prefWidth="150.0" focusTraversable="false"
-                   disable="true" text="Difficulty" alignment="CENTER" blendMode="MULTIPLY" style="-fx-text-fill: black"/>
+                   disable="true" text="Difficulty" alignment="CENTER" blendMode="MULTIPLY"
+                   style="-fx-text-fill: black"/>
         <JFXComboBox fx:id="difficultyComboBox" layoutX="650.0" layoutY="470.0" prefHeight="25.0" prefWidth="150.0"/>
 
         <JFXTextField fx:id="questionTextField" layoutX="50.0" layoutY="500.0" prefWidth="100" prefHeight="35"

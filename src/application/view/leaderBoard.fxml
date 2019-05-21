@@ -1,70 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="611.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/9.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LeaderBoardController">
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LeaderBoardController">
-   <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0">
-         <children>
-            <AnchorPane layoutX="263.0" layoutY="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="620.0" prefWidth="703.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-14.0">
-               <children>
-                  <ImageView fitHeight="620.0" fitWidth="824.0" layoutX="-113.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../resources/poss.jpg" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="572.0" prefWidth="701.0">
-                     <children>
-                        <TextFlow layoutX="3.0" layoutY="24.0" opacity="0.29" prefHeight="405.0" prefWidth="686.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="24.0" />
-                        <JFXButton fx:id="back" layoutX="562.0" layoutY="523.0" onAction="#backBtnPressed" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Back" />
-                        <TableView fx:id="tableView" blendMode="MULTIPLY" layoutX="2.0" layoutY="25.0" prefHeight="405.0" prefWidth="686.0" style="-fx-background-radius: 50;">
-                          <columns>
-                            <TableColumn fx:id="username" prefWidth="177.0" text="Username" />
-                            <TableColumn fx:id="score" prefWidth="152.0" text="Score" />
-                              <TableColumn fx:id="category" prefWidth="171.0" text="Category" />
-                              <TableColumn fx:id="duration" minWidth="0.0" prefWidth="170.0" text="Duration" />
-                          </columns>
-                           <effect>
-                              <ColorAdjust contrast="1.0" />
-                           </effect>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="-10.0" layoutY="-14.0" prefHeight="620.0" prefWidth="265.0" style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="-14.0">
-               <children>
-                  <VBox layoutX="-1.0" layoutY="62.0" prefHeight="180.0" prefWidth="266.0">
-                     <children>
-                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Leaderboard" textFill="#1c8adb">
-                           <font>
-                              <Font name="Marlett" size="13.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Change Password" textFill="#1c8adb">
-                           <font>
-                              <Font name="Marlett" size="13.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="logout" textFill="#1c8adb">
-                           <font>
-                              <Font name="Marlett" size="13.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-   </children>
+    <children>
+        <AnchorPane fx:id="mainPane" layoutX="10.0" layoutY="10.0" prefHeight="611.0" prefWidth="981.0"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <children>
+                <AnchorPane layoutX="263.0" layoutY="-2.0" maxHeight="1.7976931348623157E308"
+                            maxWidth="1.7976931348623157E308" prefHeight="630.0" prefWidth="721.0"
+                            style="-fx-background-color: white;" AnchorPane.bottomAnchor="-5.0"
+                            AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-2.0">
+                    <children>
+                        <ImageView fitHeight="630.0" fitWidth="834.0" layoutX="-113.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@../../resources/poss.jpg"/>
+                            </image>
+                        </ImageView>
+                        <AnchorPane layoutX="6.0" layoutY="1.0" prefHeight="542.0" prefWidth="708.0">
+                            <children>
+                                <TextFlow layoutX="3.0" layoutY="22.0" opacity="0.29" prefHeight="542.0"
+                                          prefWidth="699.0"
+                                          style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;"
+                                          AnchorPane.bottomAnchor="-22.0" AnchorPane.leftAnchor="3.0"
+                                          AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="22.0"/>
+                                <TableView fx:id="tableView" blendMode="SCREEN" layoutX="8.0" layoutY="67.0"
+                                           prefHeight="213.0" prefWidth="677.0" stylesheets="@../table-view.css">
+                                    <columns>
+                                        <TableColumn fx:id="username" prefWidth="156.0" style="-fx-text-fill: red;"
+                                                     text="Username"/>
+                                        <TableColumn fx:id="score" prefWidth="155.0" style="-fx-text-fill: red;"
+                                                     text="Score"/>
+                                        <TableColumn fx:id="category" prefWidth="147.0" style="-fx-text-fill: red;"
+                                                     text="Category"/>
+                                        <TableColumn fx:id="duration" minWidth="0.0" prefWidth="150.0"
+                                                     style="-fx-text-fill: red;" text="Duration"/>
+                                    </columns>
+                                    <effect>
+                                        <Glow level="0.25"/>
+                                    </effect>
+                                </TableView>
+                                <LineChart fx:id="lineChart" cache="true" cacheHint="SPEED" layoutX="302.0"
+                                           layoutY="366.0" prefHeight="173.0" prefWidth="365.0"
+                                           stylesheets="@../StyleSheet.css">
+                                    <xAxis>
+                                        <CategoryAxis endMargin="2.0" side="BOTTOM" startMargin="2.0"
+                                                      tickLabelFill="#f5f4f4"/>
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis prefHeight="149.0" prefWidth="24.0" side="LEFT"
+                                                    tickLabelFill="WHITE" upperBound="8.0">
+                                            <tickLabelFont>
+                                                <Font size="12.0"/>
+                                            </tickLabelFont>
+                                        </NumberAxis>
+                                    </yAxis>
+                                    <effect>
+                                        <Glow level="0.41"/>
+                                    </effect>
+                                </LineChart>
+                                <AnchorPane layoutX="-236.0" layoutY="21.0" prefHeight="91.0" prefWidth="179.0"/>
+                                <JFXButton ellipsisString="" layoutX="618.0" layoutY="36.0" onAction="#filterPressed"
+                                           prefHeight="35.0" prefWidth="13.0" textFill="#1c8adb">
+                                    <graphic>
+                                        <ImageView blendMode="GREEN" fitHeight="24.0" fitWidth="36.0"
+                                                   pickOnBounds="true" preserveRatio="true"
+                                                   style="-fx-blend-mode: yellow;">
+                                            <image>
+                                                <Image url="@../../resources/Icons/filter.png"/>
+                                            </image>
+                                            <effect>
+                                                <ColorAdjust brightness="1.0" contrast="-0.04" saturation="1.0"/>
+                                            </effect>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                                <PieChart fx:id="pieChart" labelLineLength="10.0" layoutX="-6.0" layoutY="317.0"
+                                          legendSide="RIGHT" prefHeight="200.0" prefWidth="308.0"
+                                          stylesheets="@../StyleSheet.css"/>
+                                <Label layoutX="270.0" layoutY="302.0" text="Progress statistics" textFill="WHITE">
+                                    <font>
+                                        <Font size="19.0"/>
+                                    </font>
+                                    <effect>
+                                        <Glow level="0.41"/>
+                                    </effect>
+                                </Label>
+                            </children>
+                        </AnchorPane>
+                        <JFXButton fx:id="back" layoutX="582.0" layoutY="569.0" onAction="#mainMenuPressed"
+                                   prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00"
+                                   style="-fx-background-color: #1C8ADB;" text="Back"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutX="-10.0" layoutY="-14.0" prefHeight="607.0" prefWidth="265.0"
+                            style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0"
+                            AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="-14.0">
+                    <children>
+                        <VBox layoutX="6.0" layoutY="156.0" prefHeight="180.0" prefWidth="266.0">
+                            <children>
+                                <JFXButton alignment="BASELINE_LEFT" graphicTextGap="67.0" onAction="#mainMenuPressed"
+                                           prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO"
+                                           stylesheets="@../StyleSheet.css" text="Main menu" textFill="#1c8adb">
+                                    <font>
+                                        <Font name="Marlett" size="14.0"/>
+                                    </font>
+                                    <graphic>
+                                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                            <effect>
+                                                <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17"/>
+                                            </effect>
+                                            <image>
+                                                <Image url="@../../resources/Icons/menu.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                                <JFXButton alignment="BASELINE_LEFT" graphicTextGap="63.0" onAction="#editBtnPressed"
+                                           prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO"
+                                           stylesheets="@../StyleSheet.css" text="Edit Account" textFill="#1c8adb"
+                                           textOverrun="WORD_ELLIPSIS">
+                                    <font>
+                                        <Font name="Marlett" size="14.0"/>
+                                    </font>
+                                    <graphic>
+                                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../resources/Icons/settings-work-tool.png"/>
+                                            </image>
+                                            <effect>
+                                                <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17"/>
+                                            </effect>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                                <JFXButton alignment="BASELINE_LEFT" graphicTextGap="76.0" onAction="#logOutPressed"
+                                           prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO"
+                                           stylesheets="@../StyleSheet.css" text="Log out" textFill="#1c8adb">
+                                    <font>
+                                        <Font name="Marlett" size="14.0"/>
+                                    </font>
+                                    <graphic>
+                                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                            <effect>
+                                                <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17"/>
+                                            </effect>
+                                            <image>
+                                                <Image url="@../../resources/Icons/logout.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                            </children>
+                        </VBox>
+                        <AnchorPane blendMode="ADD" layoutX="45.0" layoutY="14.0" prefHeight="91.0" prefWidth="188.0">
+                            <children>
+                                <ImageView blendMode="ADD" fitHeight="43.0" fitWidth="164.0" layoutX="14.0"
+                                           layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView blendMode="ADD" fitHeight="47.0" fitWidth="55.0" layoutX="64.0" layoutY="4.0"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/creative-idea-512.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <effect>
+                                <Glow level="0.55"/>
+                            </effect>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="filterPane" layoutX="450.0" layoutY="-173.0" prefHeight="173.0" prefWidth="328.0"
+                    style="-fx-background-color: #E6E6FA; -fx-animated: pulse;">
+            <children>
+                <JFXCheckBox fx:id="top10" layoutX="54.0" layoutY="101.0" text="Top 10" textFill="#404780"/>
+                <JFXButton layoutX="248.0" layoutY="134.0" onAction="#okBtnPressed" prefHeight="25.0" prefWidth="55.0"
+                           style="-fx-background-color: #3CB371;" text="Ok" textFill="#272d61">
+                    <font>
+                        <Font name="Marlett" size="12.0"/>
+                    </font>
+                </JFXButton>
+                <Label layoutX="111.0" layoutY="14.0" text="Filter by score" textFill="#404780">
+                    <font>
+                        <Font name="Marlett" size="17.0"/>
+                    </font>
+                </Label>
+                <JFXComboBox fx:id="from" layoutX="38.0" layoutY="55.0" prefHeight="25.0" prefWidth="69.0"/>
+                <JFXComboBox fx:id="to" layoutX="217.0" layoutY="55.0" prefHeight="25.0" prefWidth="69.0"/>
+                <Label layoutX="44.0" layoutY="46.0" text="Score from" textFill="#404780">
+                    <font>
+                        <Font name="Marlett" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="228.0" layoutY="44.0" prefHeight="17.0" prefWidth="47.0" text="Score to"
+                       textFill="#404780">
+                    <font>
+                        <Font name="Marlett" size="12.0"/>
+                    </font>
+                </Label>
+                <JFXButton layoutX="18.0" layoutY="134.0" onAction="#cancellBtnPressed"
+                           style="-fx-background-color: #FA8072;" text="Cancel" textFill="#272d61"/>
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

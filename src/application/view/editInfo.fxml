@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.EditInfoController">
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="application.controller.EditInfoController">
    <children>
       <AnchorPane layoutX="263.0" layoutY="-14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="620.0" prefWidth="703.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-14.0">
          <children>
@@ -21,44 +17,150 @@
             </ImageView>
             <AnchorPane layoutX="14.0" prefHeight="572.0" prefWidth="704.0">
                <children>
-                  <TextFlow layoutX="207.0" layoutY="146.0" opacity="0.29" prefHeight="239.0" prefWidth="290.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="207.0" AnchorPane.topAnchor="146.0" />
-                  <VBox blendMode="ADD" layoutX="240.0" layoutY="185.0" prefHeight="154.0" prefWidth="225.0">
+                  <TextFlow layoutX="203.0" layoutY="134.0" opacity="0.29" prefHeight="251.0" prefWidth="294.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="207.0" AnchorPane.topAnchor="134.0" />
+                  <VBox blendMode="ADD" layoutX="240.0" layoutY="185.0" prefHeight="154.0" prefWidth="225.0" style="-fx-highlight-fill: black;">
                      <children>
-                        <JFXTextField fx:id="username" prefHeight="40.0" prefWidth="225.0" promptText="Username" />
-                        <JFXTextField fx:id="oldPassword" prefHeight="40.0" prefWidth="266.0" promptText="Old Password" />
-                        <JFXTextField fx:id="newPassword" prefHeight="40.0" prefWidth="225.0" promptText="New Password" />
-                        <JFXTextField fx:id="repeatPassword" prefHeight="40.0" prefWidth="225.0" promptText="Repeat Password" />
+                        <JFXTextField fx:id="username" prefHeight="40.0" prefWidth="225.0" promptText="Username" style="-fx-highlight-fill: black;" />
+                        <JFXTextField fx:id="oldPassword" prefHeight="40.0" prefWidth="266.0" promptText="Old Password" style="-fx-highlight-fill: black;" />
+                        <JFXTextField fx:id="newPassword" prefHeight="40.0" prefWidth="225.0" promptText="New Password" style="-fx-highlight-fill: black;" />
+                        <JFXTextField fx:id="repeatPassword" prefHeight="40.0" prefWidth="225.0" promptText="Repeat Password" style="-fx-highlight-fill: black;" />
                      </children>
                      <effect>
                         <Glow level="1.0" />
                      </effect>
                   </VBox>
-                  <JFXButton layoutX="562.0" layoutY="523.0" onAction="#editInfo" prefHeight="35.0" prefWidth="125.0" ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Confirm" />
+                   <JFXButton layoutX="562.0" layoutY="523.0" onAction="#editInfo" prefHeight="35.0" prefWidth="125.0"
+                              ripplerFill="#eaeaea00" style="-fx-background-color: #1C8ADB;" text="Confirm"/>
+                  <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="213.0" layoutY="197.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/00-ELASTOFONT-STORE-READY_user-circle-512.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-1.0" contrast="1.0" saturation="1.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="213.0" layoutY="231.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/104-512.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-1.0" contrast="1.0" saturation="1.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="213.0" layoutY="307.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/104-512.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-1.0" contrast="1.0" saturation="1.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="213.0" layoutY="266.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/104-512.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-1.0" contrast="1.0" saturation="1.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="32.0" layoutX="328.0" layoutY="156.0" opacity="0.68" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/lock-vector.png" />
+                     </image>
+                     <effect>
+                        <Glow level="0.0" />
+                     </effect>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="-15.0" layoutY="-14.0" prefHeight="620.0" prefWidth="265.0" style="-fx-background-color: #1D4464;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-15.0" AnchorPane.topAnchor="-14.0">
          <children>
-            <VBox layoutX="-1.0" layoutY="62.0" prefHeight="180.0" prefWidth="266.0">
+            <VBox layoutX="12.0" layoutY="139.0" prefHeight="180.0" prefWidth="266.0">
                <children>
-                  <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Leaderboard" textFill="#1c8adb">
+                  <JFXButton alignment="BASELINE_LEFT" graphicTextGap="67.0" onAction="#mainMenuPressed" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" stylesheets="@../StyleSheet.css" text="Main menu" textFill="#1c8adb">
                      <font>
-                        <Font name="Marlett" size="13.0" />
+                        <Font name="Marlett" size="14.0" />
                      </font>
+                     <graphic>
+                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                           <effect>
+                              <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17" />
+                           </effect>
+                           <image>
+                              <Image url="@../../Resources/Icons/menu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="Edit Account" textFill="#1c8adb">
+                  <JFXButton alignment="BASELINE_LEFT" graphicTextGap="61.0" onAction="#leaderBoardBtnPressed" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" stylesheets="@../StyleSheet.css" text="Leaderboard" textFill="#1c8adb">
                      <font>
-                        <Font name="Marlett" size="13.0" />
+                        <Font name="Marlett" size="14.0" />
                      </font>
+                     <graphic>
+                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/Icons/trophy.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17" />
+                           </effect>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" text="logout" textFill="#1c8adb">
+                  <JFXButton alignment="BASELINE_LEFT" graphicTextGap="63.0" onAction="#editBtnPressed" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" stylesheets="@../StyleSheet.css" text="Edit Account" textFill="#1c8adb" textOverrun="WORD_ELLIPSIS">
                      <font>
-                        <Font name="Marlett" size="13.0" />
+                        <Font name="Marlett" size="14.0" />
                      </font>
+                     <graphic>
+                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/Icons/settings-work-tool.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17" />
+                           </effect>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton alignment="BASELINE_LEFT" graphicTextGap="76.0" onAction="#logOutPressed" prefHeight="54.0" prefWidth="267.0" ripplerFill="TOMATO" stylesheets="@../StyleSheet.css" text="Log out" textFill="#1c8adb">
+                     <font>
+                        <Font name="Marlett" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView blendMode="ADD" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                           <effect>
+                              <ColorAdjust brightness="-0.24" contrast="-0.83" saturation="0.17" />
+                           </effect>
+                           <image>
+                              <Image url="@../../resources/Icons/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
                </children>
             </VBox>
+            <AnchorPane blendMode="ADD" layoutX="45.0" layoutY="14.0" prefHeight="91.0" prefWidth="188.0">
+               <children>
+                  <ImageView blendMode="ADD" fitHeight="43.0" fitWidth="164.0" layoutX="14.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/picturetopeople.org-8441cbf40202e70f30af5bd2a4c2ad8be63bb0f03ab1d8fbf8.png" />
+                     </image>
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ImageView>
+                  <ImageView blendMode="ADD" fitHeight="47.0" fitWidth="55.0" layoutX="64.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/creative-idea-512.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <effect>
+                  <Glow level="0.55" />
+               </effect>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

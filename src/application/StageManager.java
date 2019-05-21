@@ -1,6 +1,5 @@
 package application;
 
-import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class StageManager {
 
@@ -48,10 +46,6 @@ public class StageManager {
         changeIntoNewScene("game", "Quiz");
     }
 
-    public void getPlayerStatistics() {
-        //TODO player statistics scene
-    }
-
     public void getLeaderBoard() {
         changeIntoNewScene("leaderBoard", "Leader Board");
     }
@@ -63,7 +57,7 @@ public class StageManager {
     private void changeIntoNewScene(String fxmlFile, String stageTitle) {
         //Handles the changing of the scene in the Main thread as it is illegal to do it in a separate Thread
         Platform.runLater(() -> {
-            Stage stage = (Stage)Stage.getWindows().filtered(window -> window.isShowing()).get(0);
+            Stage stage = (Stage) Stage.getWindows().filtered(window -> window.isShowing()).get(0);
             Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("view/" + fxmlFile + ".fxml"));
@@ -95,4 +89,17 @@ public class StageManager {
     public void stopProgressBar() {
         progressStage.close();
     }
+    /*public void getMeAnotherScene(ActionEvent event) throws Exception {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SecondScene.fxml"));
+        Parent root = loader.load();
+        root.getStylesheets().add((getClass().getResource("MyStyle.css")).toExternalForm());
+
+        Scene scene = new Scene(root);
+        // stage.setScene(scene);
+        // stage.setTitle("Second one");
+        stage.show();
+    }
+*/
 }

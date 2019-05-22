@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
@@ -68,7 +69,10 @@
                                                 <Image url="@../../resources/Icons/filter.png" />
                                             </image>
                                             <effect>
-                                                <ColorAdjust brightness="1.0" contrast="-0.04" saturation="1.0" />
+                                                <ColorAdjust brightness="1.0" contrast="1.0" saturation="1.0">
+                                       <input>
+                                          <Blend mode="ADD" />
+                                       </input></ColorAdjust>
                                             </effect>
                                         </ImageView>
                                     </graphic>

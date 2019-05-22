@@ -53,7 +53,8 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     private JFXButton cars;
 
     private JFXButton[] myButtons;
-    private String previouslySelected, selectedCategory, theGameMode, theDifficulty;
+    private String previouslySelected, selectedCategory, theDifficulty;
+    public static String theGameMode;
     public static Quiz quiz;
     private ArrayList<Question> possibleQuestions;
 

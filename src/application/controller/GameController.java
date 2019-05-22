@@ -21,6 +21,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController implements Initializable {
 
@@ -69,6 +71,8 @@ public class GameController implements Initializable {
     private AnchorPane endGameAnchor;
     @FXML
     private AnchorPane gameAnchor;
+    @FXML
+    private Label timeCounter;
 
     private Quiz quiz;
     private int quizCounter = 0;
@@ -78,6 +82,21 @@ public class GameController implements Initializable {
     private Instant quizEnd;
     private Duration quizDuration;
     SecureRandom random = new SecureRandom();
+    private boolean exitWhenOneWrong = false;
+    private boolean timeBased = false;
+    private Timer timeQuiz = new Timer();
+    int secondsPassed;
+    TimerTask timeRanOut = new TimerTask() {
+        @Override
+        public void run() {
+            timeCounter.setText(secondsPassed / 60 + ":" + secondsPassed % 60);
+            secondsPassed++;
+            if(secondsPassed<= 60){
+                finishGame();
+                timeRanOut.cancel();
+            }
+        }
+    };
 
     public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
@@ -134,6 +153,7 @@ public class GameController implements Initializable {
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
         quiz.setQuiz_id(getNewQuizID()); //Saves latest quiz_id to object, will later also save to database
+
         timeTakenLabel.setText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
         gameAnchor.toBack();
         endGameAnchor.toFront();
@@ -142,6 +162,11 @@ public class GameController implements Initializable {
 
     public void nextOrPreviousQuestion(ActionEvent event) {
         boolean isAnswerCorrect = isAnswerCorrect();
+        if(exitWhenOneWrong && !isAnswerCorrect){
+
+            System.out.println(exitWhenOneWrong+ "answer was wrong");
+            finishGame();
+        }
         scoreKeeping(isAnswerCorrect); //checks if selected answer is correct
         setEndGameDisplay(quizCounter,isAnswerCorrect);//calls to set the end game radio buttons selected or not
         /*  Previous button disabled, no need to check event as of now
@@ -218,7 +243,22 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        quiz = application.controller.MainMenuController.quiz;
+        quiz = MainMenuController.quiz;
+        String gameMode = MainMenuController.theGameMode;
+        System.out.println(gameMode);
+        if (gameMode.equalsIgnoreCase("time based")){
+            secondsPassed = 0;
+            //timeQuiz.scheduleAtFixedRate(timeRanOut,0,1000);
+            timeBased = true;
+            exitWhenOneWrong = false;
+        } else if(gameMode.equalsIgnoreCase("exit when one wrong")){
+            System.out.println("Exit when one wrong selected"+exitWhenOneWrong);
+            exitWhenOneWrong = true;
+            timeBased = false;
+        } else {
+            exitWhenOneWrong = false;
+            timeBased = false;
+        }
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);

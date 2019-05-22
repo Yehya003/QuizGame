@@ -34,7 +34,7 @@
             <JFXRadioButton fx:id="question9isCorrectRadio" layoutX="389.0" layoutY="244.0" text="Question 9" textFill="#dadada" />
             <JFXRadioButton fx:id="question10isCorrectRadio" layoutX="389.0" layoutY="278.0" text="Question 10" textFill="#dadada" />
             <JFXButton fx:id="mainMenuButton" layoutX="474.0" layoutY="324.0" onAction="#toMainMenu" text="Main Menu" textFill="#dadada" />
-            <Label layoutX="252.0" layoutY="523.0" text="Questions answered correctly have radio button on." textFill="#dadada">
+            <Label layoutX="252.0" layoutY="458.0" text="Questions answered correctly have radio button on." textFill="#dadada">
                <font>
                   <Font name="Marlett" size="12.0" />
                </font>
@@ -89,6 +89,10 @@
                </font>
             </JFXButton>
             <Group />
+            <Label fx:id="timeCounter" layoutX="418.0" layoutY="36.0" textFill="#dadada">
+               <font>
+                  <Font name="Marlett" size="12.0" />
+               </font></Label>
          </children>
       </AnchorPane>
     </children>

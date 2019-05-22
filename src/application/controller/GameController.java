@@ -108,9 +108,9 @@ public class GameController implements Initializable {
     public String calculateQuizDuration() { //Checks duration of quiz
         quiz.setDuration(secondsPassed); //saves duration in seconds to quiz object
         String durationMinSec;
-        if (secondsPassed%60 == 0){
+        if (secondsPassed % 60 == 0) {
             durationMinSec = secondsPassed / 60 + ":00";
-        } else{
+        } else {
             durationMinSec = secondsPassed / 60 + ":" + secondsPassed % 60;
         }
         return durationMinSec; // returns string in MINUTES:SECONDS
@@ -231,14 +231,14 @@ public class GameController implements Initializable {
     public void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
-        boolean testing = true;
+        boolean testing = false;
         ArrayList<String> answers = new ArrayList<>(); //adds answers to array to display randomly
         answers.add(questions.get(question_id).getAnswer());
         answers.add(questions.get(question_id).getIncorrect_answer1());
         answers.add(questions.get(question_id).getIncorrect_answer2());
         answers.add(questions.get(question_id).getIncorrect_answer3());
         for (int i = 0; i < 4; i++) {
-            if(testing){
+            if (testing) {
                 switch (i) {
                     case 0:
                         rb1.setText(answers.get(i));
@@ -268,7 +268,6 @@ public class GameController implements Initializable {
                         rb4.setText(answers.get(number));
                 }
                 answers.remove(number);
-
             }
         }
     }

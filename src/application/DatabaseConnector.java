@@ -306,7 +306,7 @@ public class DatabaseConnector {
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
         //Here we do the query on the database
         String query = "SELECT user_username,score,category,duration FROM " +
-                "hkrquiz1.quiz group by category order by score desc limit 10";
+                "hkrquiz1.quiz";
         //Here we instantiate the preparedStatement to execute the query we also call the variable theConnection
         //that is assigned in the databaseConnector() above and call the .prepareStatement(Give it the query string)
         try (PreparedStatement statement = theConnection.prepareStatement(query)) {

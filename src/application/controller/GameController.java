@@ -18,8 +18,6 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.security.SecureRandom;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -79,24 +77,21 @@ public class GameController implements Initializable {
     private int quizCounter = 0;
     private ArrayList<Question> questions;
     private boolean isCorrectAnswerSelected;
-    private Instant quizStart;
-    private Instant quizEnd;
-    private Duration quizDuration;
     SecureRandom random = new SecureRandom();
     private boolean exitWhenOneWrong = false;
     private boolean timeBased = false;
     private Timer timeQuiz = new Timer();
-    int secondsPassed;
-    TimerTask timeRanOut = new TimerTask() {
+    private int secondsPassed;
+    TimerTask timerCounter = new TimerTask() {
         @Override
         public void run() {
             Platform.runLater(() -> {
                 timeCounter.setText(secondsPassed / 60 + ":" + secondsPassed % 60);
                 secondsPassed++;
                 //System.out.println(secondsPassed);
-                if (secondsPassed > 60) {
+                if (secondsPassed == 60 && timeBased) {
+                    scoreKeeping(isAnswerCorrect());
                     finishGame();
-                    timeRanOut.cancel();
                 }
             });
         }
@@ -109,11 +104,9 @@ public class GameController implements Initializable {
     }
 
     public String calculateQuizDuration() { //Checks duration of quiz
-        quizEnd = Instant.now();
-        quizDuration = Duration.between(quizStart, quizEnd);
-        long quizDurationLong = quizDuration.getSeconds();
-        quiz.setDuration((int) quizDurationLong); //saves duration in seconds to quiz object
-        return quizDurationLong / 60 + ":" + quizDurationLong % 60; // returns string in MINUTES:SECONDS
+        System.out.println(secondsPassed);
+        quiz.setDuration(secondsPassed); //saves duration in seconds to quiz object
+        return secondsPassed / 60 + ":" + secondsPassed % 60; // returns string in MINUTES:SECONDS
     }
 
     public void insertQuizIntoDatabase() {
@@ -155,6 +148,7 @@ public class GameController implements Initializable {
     }
 
     public void finishGame() { //Ends the game
+        timerCounter.cancel();
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
         insertQuizIntoDatabase();
@@ -249,9 +243,9 @@ public class GameController implements Initializable {
         quiz = MainMenuController.quiz;
         String gameMode = MainMenuController.theGameMode;
         //System.out.println(gameMode);
+        timeQuiz.scheduleAtFixedRate(timerCounter, 0, 1000);
+        secondsPassed = 0;
         if (gameMode.equalsIgnoreCase("time based")) {
-            secondsPassed = 0;
-            timeQuiz.scheduleAtFixedRate(timeRanOut, 0, 1000);
             timeBased = true;
             exitWhenOneWrong = false;
         } else if (gameMode.equalsIgnoreCase("exit when one wrong")) {
@@ -265,6 +259,5 @@ public class GameController implements Initializable {
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);
-        quizStart = Instant.now();
     }
 }

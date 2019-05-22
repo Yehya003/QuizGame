@@ -16,10 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,6 +37,15 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+       //found when testing that the program did not check if the file exists before reading, therefor it was crashing
+        // fixed while testing
+        File file = new File(FileUtils.accountFilePath);
+        if (!file.exists()) {
+            try (ObjectOutputStream createAfile = new ObjectOutputStream(new FileOutputStream(file))) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         try (ObjectInputStream x = new ObjectInputStream(new FileInputStream(FileUtils.accountFilePath))) {
             Account accountFromFile = (Account) x.readObject();
             if (accountFromFile != null) {
@@ -48,6 +54,7 @@ public class LoginController implements Initializable {
                 tfAccountLogin.setText(accountFromFile.getUsername());
                 pfPasswordLogin.setText(accountFromFile.getPassword());
             }
+            // Should have alerts here instead of just printing out to the console
         } catch (EOFException e) {
             System.out.println("There is no account saved yet");
         } catch (IOException e) {

@@ -8,7 +8,6 @@
 .jfx-button:hover {
     -fx-background-color:#1C8ADB;
     -fx-text-fill:white;
-    -fx-effect:glow;
 }
 .bounce {
     -webkit-animation-name: bounce;
@@ -17,7 +16,7 @@
     transform-origin: center bottom;
 }
 .jfx-button:hover{
-    -fx-animated:bouce;
+    -fx-animated:bounce;
 }
 .chart{
     -fx-base: transparent;

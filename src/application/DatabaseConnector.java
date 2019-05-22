@@ -233,8 +233,8 @@ public class DatabaseConnector {
             statement.setInt(1, quizId + 1);
             statement.setString(2, quiz.getCategory());
             statement.setInt(3, quiz.getScore());
-            statement.setLong(4, quiz.getDuration());
-            statement.setObject(5, LocalDate.now());
+            statement.setInt(4, quiz.getDuration());
+            statement.setObject(5, convertToDatabaseColumn(LocalDate.now()));
             statement.setString(6, quiz.getUserName());
 
             statement.executeUpdate();
@@ -506,6 +506,10 @@ public class DatabaseConnector {
         question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
         question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
         return question;
+    }
+
+    public java.sql.Date convertToDatabaseColumn(LocalDate entityValue) {
+        return java.sql.Date.valueOf(entityValue);
     }
 }
 

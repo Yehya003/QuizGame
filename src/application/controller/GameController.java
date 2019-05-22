@@ -6,19 +6,24 @@ import application.model.Question;
 import application.model.Quiz;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXRadioButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController implements Initializable {
 
@@ -34,23 +39,41 @@ public class GameController implements Initializable {
     @FXML
     RadioButton rb4;
     @FXML
-    private JFXButton animals;
-    @FXML
-    private JFXButton history;
-    @FXML
-    private JFXButton sports;
-    @FXML
     private JFXButton next;
     @FXML
     private JFXButton previous;
     @FXML
-    private JFXButton finish;
-    @FXML
     private Label questionLabel;
     @FXML
-    private Label finalScore;
+    private Label timeTakenLabel;
     @FXML
     private JFXProgressBar progressBar;
+    @FXML
+    private JFXRadioButton question1isCorrectRadio;
+    @FXML
+    private JFXRadioButton question2isCorrectRadio;
+    @FXML
+    private JFXRadioButton question3isCorrectRadio;
+    @FXML
+    private JFXRadioButton question4isCorrectRadio;
+    @FXML
+    private JFXRadioButton question5isCorrectRadio;
+    @FXML
+    private JFXRadioButton question6isCorrectRadio;
+    @FXML
+    private JFXRadioButton question7isCorrectRadio;
+    @FXML
+    private JFXRadioButton question8isCorrectRadio;
+    @FXML
+    private JFXRadioButton question9isCorrectRadio;
+    @FXML
+    private JFXRadioButton question10isCorrectRadio;
+    @FXML
+    private AnchorPane endGameAnchor;
+    @FXML
+    private AnchorPane gameAnchor;
+    @FXML
+    private Label timeCounter;
 
     private Quiz quiz;
     private int quizCounter = 0;
@@ -59,7 +82,25 @@ public class GameController implements Initializable {
     private Instant quizStart;
     private Instant quizEnd;
     private Duration quizDuration;
-
+    SecureRandom random = new SecureRandom();
+    private boolean exitWhenOneWrong = false;
+    private boolean timeBased = false;
+    private Timer timeQuiz = new Timer();
+    int secondsPassed;
+    TimerTask timeRanOut = new TimerTask() {
+        @Override
+        public void run() {
+            Platform.runLater(() -> {
+                timeCounter.setText(secondsPassed / 60 + ":" + secondsPassed % 60);
+                secondsPassed++;
+                //System.out.println(secondsPassed);
+                if (secondsPassed > 60) {
+                    finishGame();
+                    timeRanOut.cancel();
+                }
+            });
+        }
+    };
 
     public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
@@ -71,7 +112,7 @@ public class GameController implements Initializable {
         quizEnd = Instant.now();
         quizDuration = Duration.between(quizStart, quizEnd);
         long quizDurationLong = quizDuration.getSeconds();
-        quiz.setDuration(quizDurationLong); //saves duration in seconds to quiz object
+        quiz.setDuration((int) quizDurationLong); //saves duration in seconds to quiz object
         return quizDurationLong / 60 + ":" + quizDurationLong % 60; // returns string in MINUTES:SECONDS
     }
 
@@ -82,19 +123,55 @@ public class GameController implements Initializable {
 
     }
 
+    public void toMainMenu() {
+        StageManager.getInstance().getMainMenu();  //returns to main menu
+    }
+
+    public void setEndGameDisplay(int quizCounter, boolean isCorrectAnswerSelected) {
+        switch (quizCounter) {
+            case 0:
+                question1isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 1:
+                question2isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 2:
+                question3isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 3:
+                question4isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 4:
+                question5isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 5:
+                question6isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 6:
+                question7isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 7:
+                question8isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 8:
+                question9isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            case 9:
+                question10isCorrectRadio.setSelected(isCorrectAnswerSelected);
+            default:
+
+        }
+    }
+
     public void finishGame() { //Ends the game
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
         insertQuizIntoDatabase();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);  //End game message with final score and time taken
-        alert.setHeaderText("Quiz Complete!");
-        alert.setContentText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
-        alert.showAndWait();
-        StageManager.getInstance().getMainMenu();  //returns to main menu
+        timeTakenLabel.setText("Final Score: " + score + "/" + quiz.getQuestions().size() + " with duration: " + duration);
+        gameAnchor.toBack();
+        endGameAnchor.toFront();
     }
 
     public void nextOrPreviousQuestion(ActionEvent event) {
-        scoreKeeping(isAnswerCorrect()); //checks if selected answer is correct
+        boolean isAnswerCorrect = isAnswerCorrect();
+        if (exitWhenOneWrong && !isAnswerCorrect) {
+
+            System.out.println(exitWhenOneWrong + "answer was wrong");
+            finishGame();
+        }
+        scoreKeeping(isAnswerCorrect); //checks if selected answer is correct
+        setEndGameDisplay(quizCounter, isAnswerCorrect);//calls to set the end game radio buttons selected or not
         /*  Previous button disabled, no need to check event as of now
         if (event.getSource().equals(next)) {
             if (quizCounter == questions.size() - 2) {
@@ -145,16 +222,46 @@ public class GameController implements Initializable {
     public void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
-        rb1.setText(questions.get(question_id).getAnswer());
-        rb2.setText(questions.get(question_id).getIncorrect_answer1());
-        rb3.setText(questions.get(question_id).getIncorrect_answer2());
-        rb4.setText(questions.get(question_id).getIncorrect_answer3());
+        ArrayList<String> answers = new ArrayList<>();
+        answers.add(questions.get(question_id).getAnswer());
+        answers.add(questions.get(question_id).getIncorrect_answer1());
+        answers.add(questions.get(question_id).getIncorrect_answer2());
+        answers.add(questions.get(question_id).getIncorrect_answer3());
+        for (int i = 0; i < 4; i++) {
+            int number = random.nextInt(4 - i);
+            switch (i) {
+                case 0:
+                    rb1.setText(answers.get(number));
+                case 1:
+                    rb2.setText(answers.get(number));
+                case 2:
+                    rb3.setText(answers.get(number));
+                case 3:
+                    rb4.setText(answers.get(number));
+            }
+            answers.remove(number);
+        }
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        quiz = application.controller.MainMenuController.quiz;
+        quiz = MainMenuController.quiz;
+        String gameMode = MainMenuController.theGameMode;
+        //System.out.println(gameMode);
+        if (gameMode.equalsIgnoreCase("time based")) {
+            secondsPassed = 0;
+            timeQuiz.scheduleAtFixedRate(timeRanOut, 0, 1000);
+            timeBased = true;
+            exitWhenOneWrong = false;
+        } else if (gameMode.equalsIgnoreCase("exit when one wrong")) {
+            //System.out.println("Exit when one wrong selected"+exitWhenOneWrong);
+            exitWhenOneWrong = true;
+            timeBased = false;
+        } else {
+            exitWhenOneWrong = false;
+            timeBased = false;
+        }
         quizCounter = 0;
         questions = quiz.getQuestions();
         displayQuestion(quizCounter);

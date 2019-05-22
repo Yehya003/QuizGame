@@ -233,7 +233,7 @@ public class DatabaseConnector {
             statement.setInt(1, quizId + 1);
             statement.setString(2, quiz.getCategory());
             statement.setInt(3, quiz.getScore());
-            statement.setLong(4, quiz.getDuration());
+            statement.setInt(4, quiz.getDuration());
             statement.setObject(5, LocalDate.now());
             statement.setString(6, quiz.getUserName());
 

@@ -101,12 +101,19 @@ public class GameController implements Initializable {
         if (isCorrect) {
             quiz.setScore(quiz.getScore() + 1);
         }
+        System.out.println(quizCounter);
+        setEndGameDisplay(quizCounter, isCorrect);//calls to set the end game radio buttons selected or not
     }
 
     public String calculateQuizDuration() { //Checks duration of quiz
-        System.out.println(secondsPassed);
         quiz.setDuration(secondsPassed); //saves duration in seconds to quiz object
-        return secondsPassed / 60 + ":" + secondsPassed % 60; // returns string in MINUTES:SECONDS
+        String durationMinSec;
+        if (secondsPassed%60 == 0){
+            durationMinSec = secondsPassed / 60 + ":00";
+        } else{
+            durationMinSec = secondsPassed / 60 + ":" + secondsPassed % 60;
+        }
+        return durationMinSec; // returns string in MINUTES:SECONDS
     }
 
     public void insertQuizIntoDatabase() {
@@ -121,28 +128,37 @@ public class GameController implements Initializable {
     }
 
     public void setEndGameDisplay(int quizCounter, boolean isCorrectAnswerSelected) {
+        System.out.println(quizCounter);
         switch (quizCounter) {
             case 0:
                 question1isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 1:
                 question2isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 2:
                 question3isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 3:
                 question4isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 4:
                 question5isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 5:
                 question6isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 6:
                 question7isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 7:
                 question8isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 8:
                 question9isCorrectRadio.setSelected(isCorrectAnswerSelected);
+                break;
             case 9:
                 question10isCorrectRadio.setSelected(isCorrectAnswerSelected);
-            default:
 
         }
     }
@@ -165,7 +181,6 @@ public class GameController implements Initializable {
             finishGame();
         }
         scoreKeeping(isAnswerCorrect); //checks if selected answer is correct
-        setEndGameDisplay(quizCounter, isAnswerCorrect);//calls to set the end game radio buttons selected or not
         /*  Previous button disabled, no need to check event as of now
         if (event.getSource().equals(next)) {
             if (quizCounter == questions.size() - 2) {
@@ -216,24 +231,45 @@ public class GameController implements Initializable {
     public void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
-        ArrayList<String> answers = new ArrayList<>();
+        boolean testing = true;
+        ArrayList<String> answers = new ArrayList<>(); //adds answers to array to display randomly
         answers.add(questions.get(question_id).getAnswer());
         answers.add(questions.get(question_id).getIncorrect_answer1());
         answers.add(questions.get(question_id).getIncorrect_answer2());
         answers.add(questions.get(question_id).getIncorrect_answer3());
         for (int i = 0; i < 4; i++) {
-            int number = random.nextInt(4 - i);
-            switch (i) {
-                case 0:
-                    rb1.setText(answers.get(number));
-                case 1:
-                    rb2.setText(answers.get(number));
-                case 2:
-                    rb3.setText(answers.get(number));
-                case 3:
-                    rb4.setText(answers.get(number));
+            if(testing){
+                switch (i) {
+                    case 0:
+                        rb1.setText(answers.get(i));
+                        break;
+                    case 1:
+                        rb2.setText(answers.get(i));
+                        break;
+                    case 2:
+                        rb3.setText(answers.get(i));
+                        break;
+                    case 3:
+                        rb4.setText(answers.get(i));
+                }
+            } else {
+                int number = random.nextInt(4 - i);
+                switch (i) {
+                    case 0:
+                        rb1.setText(answers.get(number));
+                        break;
+                    case 1:
+                        rb2.setText(answers.get(number));
+                        break;
+                    case 2:
+                        rb3.setText(answers.get(number));
+                        break;
+                    case 3:
+                        rb4.setText(answers.get(number));
+                }
+                answers.remove(number);
+
             }
-            answers.remove(number);
         }
     }
 
@@ -241,14 +277,12 @@ public class GameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         quiz = MainMenuController.quiz;
         String gameMode = MainMenuController.theGameMode;
-        //System.out.println(gameMode);
-        timeQuiz.scheduleAtFixedRate(timerCounter, 0, 1000);
         secondsPassed = 0;
+        timeQuiz.scheduleAtFixedRate(timerCounter, 0, 1000);
         if (gameMode.equalsIgnoreCase("time based")) {
             timeBased = true;
             exitWhenOneWrong = false;
         } else if (gameMode.equalsIgnoreCase("exit when one wrong")) {
-            //System.out.println("Exit when one wrong selected"+exitWhenOneWrong);
             exitWhenOneWrong = true;
             timeBased = false;
         } else {

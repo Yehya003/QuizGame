@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -24,7 +23,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController implements Initializable {
-
 
     @FXML
     ToggleGroup answers;
@@ -82,26 +80,34 @@ public class GameController implements Initializable {
     private boolean timeBased = false;
     private Timer timeQuiz = new Timer();
     private int secondsPassed;
-    TimerTask timerCounter = new TimerTask() {
+
+    TimerTask timerCounter = new TimerTask() { //tracks time
         @Override
         public void run() {
             Platform.runLater(() -> {
                 timeCounter.setText(secondsPassed / 60 + ":" + secondsPassed % 60);
                 secondsPassed++;
-                //System.out.println(secondsPassed);
-                if (secondsPassed == 60 && timeBased) {
+                if (secondsPassed == 60 && timeBased) { //if time based game mode, will end after 60 seconds
                     scoreKeeping(isAnswerCorrect());
+                    //disableAnswerRadiosEarlyEnd();
                     finishGame();
                 }
             });
         }
     };
+    /*
+    //makes sure all radio buttons are disabled in case game ends before user got to the end
+    public void disableAnswerRadiosEarlyEnd() {
+        for (int i = quizCounter; i < 10; i++) {
+            setEndGameDisplay(i, isAnswerCorrect());
+        }
+    }
+    */
 
     public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
             quiz.setScore(quiz.getScore() + 1);
         }
-        System.out.println(quizCounter);
         setEndGameDisplay(quizCounter, isCorrect);//calls to set the end game radio buttons selected or not
     }
 
@@ -127,8 +133,8 @@ public class GameController implements Initializable {
         StageManager.getInstance().getMainMenu();  //returns to main menu
     }
 
+    //Sets the after game radio buttons selected/unselected depending on correct or wrong
     public void setEndGameDisplay(int quizCounter, boolean isCorrectAnswerSelected) {
-        System.out.println(quizCounter);
         switch (quizCounter) {
             case 0:
                 question1isCorrectRadio.setSelected(isCorrectAnswerSelected);
@@ -159,7 +165,6 @@ public class GameController implements Initializable {
                 break;
             case 9:
                 question10isCorrectRadio.setSelected(isCorrectAnswerSelected);
-
         }
     }
 
@@ -173,32 +178,14 @@ public class GameController implements Initializable {
         endGameAnchor.toFront();
     }
 
-    public void nextOrPreviousQuestion(ActionEvent event) {
+    public void nextQuestion() {
         boolean isAnswerCorrect = isAnswerCorrect();
         if (exitWhenOneWrong && !isAnswerCorrect) {
-
-            System.out.println(exitWhenOneWrong + "answer was wrong");
+            //System.out.println(exitWhenOneWrong + "answer was wrong");
+            //disableAnswerRadiosEarlyEnd();
             finishGame();
         }
         scoreKeeping(isAnswerCorrect); //checks if selected answer is correct
-        /*  Previous button disabled, no need to check event as of now
-        if (event.getSource().equals(next)) {
-            if (quizCounter == questions.size() - 2) {
-                next.setText("Finish");
-                quizCounter++;
-            } else if (quizCounter == questions.size() - 1) {
-                finishGame();
-            } else {
-                quizCounter++;
-            }
-        } else {
-            if (quizCounter == 0) {
-                return;
-            } else {
-                quizCounter--;
-            }
-        }
-        */
         if (quizCounter == questions.size() - 2) {
             next.setText("Finish"); //changes NEXT button text to finish for the final question
             quizCounter++;
@@ -231,44 +218,27 @@ public class GameController implements Initializable {
     public void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
-        boolean testing = false;
         ArrayList<String> answers = new ArrayList<>(); //adds answers to array to display randomly
         answers.add(questions.get(question_id).getAnswer());
         answers.add(questions.get(question_id).getIncorrect_answer1());
         answers.add(questions.get(question_id).getIncorrect_answer2());
         answers.add(questions.get(question_id).getIncorrect_answer3());
         for (int i = 0; i < 4; i++) {
-            if (testing) {
-                switch (i) {
-                    case 0:
-                        rb1.setText(answers.get(i));
-                        break;
-                    case 1:
-                        rb2.setText(answers.get(i));
-                        break;
-                    case 2:
-                        rb3.setText(answers.get(i));
-                        break;
-                    case 3:
-                        rb4.setText(answers.get(i));
-                }
-            } else {
-                int number = random.nextInt(4 - i);
-                switch (i) {
-                    case 0:
-                        rb1.setText(answers.get(number));
-                        break;
-                    case 1:
-                        rb2.setText(answers.get(number));
-                        break;
-                    case 2:
-                        rb3.setText(answers.get(number));
-                        break;
-                    case 3:
-                        rb4.setText(answers.get(number));
-                }
-                answers.remove(number);
+            int number = random.nextInt(4 - i);
+            switch (i) {
+                case 0:
+                    rb1.setText(answers.get(number));
+                    break;
+                case 1:
+                    rb2.setText(answers.get(number));
+                    break;
+                case 2:
+                    rb3.setText(answers.get(number));
+                    break;
+                case 3:
+                    rb4.setText(answers.get(number));
             }
+            answers.remove(number);
         }
     }
 

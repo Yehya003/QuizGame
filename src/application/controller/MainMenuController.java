@@ -59,6 +59,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     public static String theGameMode;
     public static Quiz quiz;
     private ArrayList<Question> possibleQuestions;
+    private SecureRandom randomNumber = new SecureRandom();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +67,7 @@ public class MainMenuController extends ToggleGroup implements Initializable {
                 , politics, videoGames, tvSeries, sports, geography, random}; //
 
         //Adding Items in combo boxes
+        gameMode.getItems().add("Regular");
         gameMode.getItems().add("Time based");
         gameMode.getItems().add("Exit when one wrong");
         difficulty.getItems().add("Easy");
@@ -116,12 +118,11 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     }
 
     public void populateQuiz() { //Selects 10 random questions from the corresponding possible questions
-        SecureRandom random = new SecureRandom();
         possibleQuestions = getPossibleQuestions();
         ArrayList<Question> questionsForQuiz = new ArrayList<>();
         int quizAmountOfQuestions = 10;
         for (int i = 0; i < quizAmountOfQuestions; i++) {
-            int rand = random.nextInt(possibleQuestions.size()); //nextInt has exclusive upper bound so no need for -1
+            int rand = randomNumber.nextInt(possibleQuestions.size()); //nextInt has exclusive upper bound so no need for -1
             Question questionToAdd = possibleQuestions.get(rand);
             if (questionsForQuiz.contains(questionToAdd)) {
                 i--;//If it has already been picked, do not add it and run the iteration of the loop again
@@ -136,8 +137,8 @@ public class MainMenuController extends ToggleGroup implements Initializable {
     public ArrayList<Question> getPossibleQuestions() {   //Gets all possible, corresponding questions from database
         DatabaseConnector connector = new DatabaseConnector();
         if (selectedCategory.equals("random")) {
-            selectedCategory = "computerScience";
-        }//TODO actually random
+            selectedCategory = selectRandomCategory();
+        }
         possibleQuestions = connector.getQuestionsFromDB(selectedCategory, theDifficulty);
         return possibleQuestions;
     }
@@ -167,6 +168,11 @@ public class MainMenuController extends ToggleGroup implements Initializable {
             StageManager.getInstance().getGame();
             Platform.runLater(() -> StageManager.getInstance().stopProgressBar());
         }).start();
+    }
+
+    public String selectRandomCategory(){
+        String[] categoryList = {"animals", "art", "computerScience", "movies","geography","history","music","sports","tvSeries","videoGames","politics","cars"};
+        return categoryList[randomNumber.nextInt(categoryList.length)];
     }
 
     public void leaderBoardBtnPressed() {

@@ -37,8 +37,6 @@ public class GameController implements Initializable {
     @FXML
     private JFXButton next;
     @FXML
-    private JFXButton previous;
-    @FXML
     private Label questionLabel;
     @FXML
     private Label timeTakenLabel;
@@ -74,14 +72,13 @@ public class GameController implements Initializable {
     private Quiz quiz;
     private int quizCounter = 0;
     private ArrayList<Question> questions;
-    private boolean isCorrectAnswerSelected;
-    SecureRandom random = new SecureRandom();
+    private SecureRandom random = new SecureRandom();
     private boolean exitWhenOneWrong = false;
     private boolean timeBased = false;
     private Timer timeQuiz = new Timer();
     private int secondsPassed;
 
-    TimerTask timerCounter = new TimerTask() { //tracks time
+    private TimerTask timerCounter = new TimerTask() { //tracks time
         @Override
         public void run() {
             Platform.runLater(() -> {
@@ -89,29 +86,20 @@ public class GameController implements Initializable {
                 secondsPassed++;
                 if (secondsPassed == 60 && timeBased) { //if time based game mode, will end after 60 seconds
                     scoreKeeping(isAnswerCorrect());
-                    //disableAnswerRadiosEarlyEnd();
                     finishGame();
                 }
             });
         }
     };
-    /*
-    //makes sure all radio buttons are disabled in case game ends before user got to the end
-    public void disableAnswerRadiosEarlyEnd() {
-        for (int i = quizCounter; i < 10; i++) {
-            setEndGameDisplay(i, isAnswerCorrect());
-        }
-    }
-    */
 
-    public void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
+    private void scoreKeeping(boolean isCorrect) { //adds 1 to score if correct answer is selected
         if (isCorrect) {
             quiz.setScore(quiz.getScore() + 1);
         }
         setEndGameDisplay(quizCounter, isCorrect);//calls to set the end game radio buttons selected or not
     }
 
-    public String calculateQuizDuration() { //Checks duration of quiz
+    private String calculateQuizDuration() { //Checks duration of quiz
         quiz.setDuration(secondsPassed); //saves duration in seconds to quiz object
         String durationMinSec;
         if (secondsPassed % 60 == 0) {
@@ -122,8 +110,8 @@ public class GameController implements Initializable {
         return durationMinSec; // returns string in MINUTES:SECONDS
     }
 
-    public void insertQuizIntoDatabase() {
-        new Thread(() -> { //Simply do this on another thread, no need for comfirmation for the user
+    private void insertQuizIntoDatabase() {
+        new Thread(() -> { //Simply do this on another thread, no need for confirmation for the user
             new DatabaseConnector().insertQuiz(this.quiz);
         }).start();
 
@@ -134,7 +122,7 @@ public class GameController implements Initializable {
     }
 
     //Sets the after game radio buttons selected/unselected depending on correct or wrong
-    public void setEndGameDisplay(int quizCounter, boolean isCorrectAnswerSelected) {
+    private void setEndGameDisplay(int quizCounter, boolean isCorrectAnswerSelected) {
         switch (quizCounter) {
             case 0:
                 question1isCorrectRadio.setSelected(isCorrectAnswerSelected);
@@ -168,7 +156,7 @@ public class GameController implements Initializable {
         }
     }
 
-    public void finishGame() { //Ends the game
+    private void finishGame() { //Ends the game
         timerCounter.cancel();
         String duration = calculateQuizDuration();
         int score = quiz.getScore();
@@ -202,8 +190,9 @@ public class GameController implements Initializable {
         }
     }
 
-    public boolean isAnswerCorrect() {
+    private boolean isAnswerCorrect() {
         String selectedAnswer = questions.get(quizCounter).getAnswer();
+        boolean isCorrectAnswerSelected;
         try {
             isCorrectAnswerSelected = answers.getSelectedToggle().toString().contains(selectedAnswer);
             //If answer is selected will return true if correct, false if incorrect
@@ -215,7 +204,7 @@ public class GameController implements Initializable {
         return isCorrectAnswerSelected;
     }
 
-    public void displayQuestion(int question_id) {
+    private void displayQuestion(int question_id) {
         progressBar.setProgress((double) question_id / (questions.size() - 1));
         questionLabel.setText(questions.get(question_id).getQuestion());
         ArrayList<String> answers = new ArrayList<>(); //adds answers to array to display randomly

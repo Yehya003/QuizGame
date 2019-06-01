@@ -144,6 +144,17 @@ public class AdminController implements Initializable {
             String columnText = productStringCellEditEvent.getTableColumn().getText(); //Column that is being changed
             String newText = productStringCellEditEvent.getNewValue(); //New text that we want to save
 
+            //Fix string to match the name of the columns in the database
+            if (columnText.equals("WrongAnswer1")) {
+                columnText = "incorrect_answer1";
+            }
+            if (columnText.equals("WrongAnswer2")) {
+                columnText = "incorrect_answer2";
+            }
+            if (columnText.equals("WrongAnswer3")) {
+                columnText = "incorrect_answer3";
+            }
+
             DatabaseRunnable runnable = new DatabaseRunnable(); //Database runnable that implements Runnable object
             runnable.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
             Thread updaterThread = new Thread(runnable);

@@ -1,12 +1,17 @@
 package application.controller;
 
+import application.CurrentAccountSingleton;
 import application.DatabaseConnector;
 import application.StageManager;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
-public class EditInfoController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class EditInfoController implements Initializable {
     @FXML
     private JFXTextField oldPassword;
     @FXML
@@ -15,6 +20,7 @@ public class EditInfoController {
     private JFXTextField repeatPassword;
     @FXML
     private JFXTextField username;
+
 
     public void editInfo() {
         Alert myAlert = new Alert(Alert.AlertType.ERROR);
@@ -48,4 +54,9 @@ public class EditInfoController {
     }
     public void mainMenuPressed(){StageManager.getInstance().getMainMenu();}
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        username.setText(CurrentAccountSingleton.getInstance().getAccount().getUsername());
+
+    }
 }

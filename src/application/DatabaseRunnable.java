@@ -16,6 +16,7 @@ public class DatabaseRunnable implements Runnable {
     private String username;
     private String password;
     private boolean rememberMe;
+    private boolean isBlocking = true; //Whether the loading bar will come and block user input or not. Default: true.
 
     private Stage currentStage;
 
@@ -28,12 +29,14 @@ public class DatabaseRunnable implements Runnable {
     public void prepareAddingQuestion(Question questionBeingAdded) {
         currentRun = Running.QUESTION_ADDITION;
 
+        this.isBlocking = false;
         this.questionBeingAdded = questionBeingAdded;
     }
 
     public void prepareQuestionUpdate(Question questionBeingEdited, String columnText, String newText) {
         currentRun = Running.QUESTION_UPDATE;
 
+        this.isBlocking = false;
         this.questionBeingEdited = questionBeingEdited;
         this.columnText = columnText;
         this.newText = newText;
@@ -49,9 +52,11 @@ public class DatabaseRunnable implements Runnable {
 
     @Override
     public void run() {
-        Platform.runLater(() -> {
-            StageManager.getInstance().showProgressBar(currentStage);
-        });
+        if (isBlocking) {
+            Platform.runLater(() -> {
+                StageManager.getInstance().showProgressBar(currentStage);
+            });
+        }
         databaseConnector = new DatabaseConnector();
         String query;
         switch (currentRun) {
@@ -96,9 +101,11 @@ public class DatabaseRunnable implements Runnable {
             default:
                 break;
         }
-        Platform.runLater(() -> {
-            StageManager.getInstance().stopProgressBar();
-        });
+        if (isBlocking) {
+            Platform.runLater(() -> {
+                StageManager.getInstance().stopProgressBar();
+            });
+        }
         System.out.println("Query done");
     }
 }

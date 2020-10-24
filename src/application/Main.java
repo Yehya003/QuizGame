@@ -18,7 +18,7 @@ public class Main extends Application {
         primaryStage.setTitle("Quiz");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.DECORATED);
+        primaryStage.initStyle(StageStyle.TRANSPARENT.DECORATED);
         primaryStage.show();
     }
     public static void main(String[] args) {

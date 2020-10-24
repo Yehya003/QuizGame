@@ -1,15 +1,13 @@
 package application.controller;
 
 import application.DatabaseConnector;
-import application.DatabaseUpdaterThread;
+import application.DatabaseRunnable;
 import application.StageManager;
 import application.model.Question;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -41,6 +39,8 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Question, String> incorrectAnswer3Column;
     @FXML
+    private JFXComboBox<String> categoryFilterComboBox;
+    @FXML
     private JFXComboBox<String> categoryComboBox;
     @FXML
     private JFXComboBox<String> difficultyComboBox;
@@ -61,22 +61,19 @@ public class AdminController implements Initializable {
     @FXML
     private Button buttonExit;
 
-    ObservableList<Question> observableList;
+    private ObservableList<Question> observableList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         buttonAddQuestion.setOnAction(e -> addQuestion());
         buttonDeleteSelected.setOnAction(e -> deleteQuestion());
-        buttonExit.setOnAction(e -> exitAdminMenu(e));
+        buttonExit.setOnAction(e -> exitAdminMenu());
         configureTable();
         configureColumns();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                populateTable();
-                populateComboBoxes();
-            }
-        });
+        new Thread(() -> { //Run the populating of the tables which require Database access on a separate thread
+            populateTable();
+            populateComboBoxes();
+        }).start();
     }
 
     private void configureTable() {
@@ -99,6 +96,10 @@ public class AdminController implements Initializable {
         incorrectAnswer1Column.setCellFactory(TextFieldTableCell.forTableColumn());
         incorrectAnswer2Column.setCellFactory(TextFieldTableCell.forTableColumn());
         incorrectAnswer3Column.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        for (TableColumn<Question, ?> element : tableView.getColumns()) {
+            element.setStyle("-fx-alignment: CENTER");
+        }
 
         categoryColumn.setEditable(false);
         difficultyColumn.setEditable(false);
@@ -143,16 +144,25 @@ public class AdminController implements Initializable {
             String columnText = productStringCellEditEvent.getTableColumn().getText(); //Column that is being changed
             String newText = productStringCellEditEvent.getNewValue(); //New text that we want to save
 
-            DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
-            updater.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
-            Thread updaterThread = new Thread(updater);
+            DatabaseRunnable runnable = new DatabaseRunnable(); //Database runnable that implements Runnable object
+            runnable.prepareQuestionUpdate(questionBeingEdited, columnText, newText); //Prepare for this action
+            Thread updaterThread = new Thread(runnable);
             updaterThread.start();
         }
     }
 
     private void populateTable() {
+        populateTable("");
+    }
+
+    private void populateTable(String category) {
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        ArrayList<Question> questionArrayList = databaseConnector.getAllQuestions();
+        ArrayList<Question> questionArrayList;
+        if (category.equals("")) {
+            questionArrayList = databaseConnector.getAllQuestions();
+        } else {
+            questionArrayList = databaseConnector.getAllQuestionsFromCategory(category);
+        }
         this.observableList = FXCollections.observableList(questionArrayList);
 
         tableView.setItems(this.observableList);
@@ -160,12 +170,20 @@ public class AdminController implements Initializable {
 
     private void populateComboBoxes() {
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        categoryComboBox.getItems().addAll(databaseConnector.getUniqueCategoryList());
+        ArrayList<String> uniqueCategoriesArrayList = databaseConnector.getUniqueCategoryList();
+        categoryFilterComboBox.getItems().addAll(uniqueCategoriesArrayList);
+        categoryComboBox.getItems().addAll(uniqueCategoriesArrayList);
         difficultyComboBox.getItems().addAll(databaseConnector.getUniqueDifficultyList());
+
+        categoryFilterComboBox.setOnAction(e -> {
+            new Thread(() -> {
+                populateTable(categoryFilterComboBox.getValue());
+            }).start();
+        });
     }
 
     private void viewAllPlayers() {
-
+        //TODO possibly add this functionality
     }
 
     private void addQuestion() {
@@ -189,9 +207,9 @@ public class AdminController implements Initializable {
         );
         observableList.add(questionObject);
 
-        DatabaseUpdaterThread updater = new DatabaseUpdaterThread(); //Database updater that implements Runnable object
-        updater.prepareAddingQuestion(questionObject); //Prepare for this action
-        Thread updaterThread = new Thread(updater);
+        DatabaseRunnable runnable = new DatabaseRunnable(); //Database runnable that implements Runnable object
+        runnable.prepareAddingQuestion(questionObject); //Prepare for this action
+        Thread updaterThread = new Thread(runnable);
         updaterThread.start();
     }
 
@@ -211,7 +229,7 @@ public class AdminController implements Initializable {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
-    public void exitAdminMenu(ActionEvent event) {
+    private void exitAdminMenu() {
         StageManager.getInstance().getLogin();
     }
 }

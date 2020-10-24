@@ -1,6 +1,5 @@
 package application;
 
-import application.controller.LoginController;
 import application.model.Account;
 import application.model.Question;
 import application.model.Quiz;
@@ -11,7 +10,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DatabaseConnector {
 
@@ -27,11 +28,11 @@ public class DatabaseConnector {
     private String databaseUrl = protocol + host + port + databaseName + user + userValue + password + passwordValue;
     private String loggedInUser;
 
-    private Connection connection;
+    private Connection theConnection;
 
     public DatabaseConnector() {
         try {
-            connection = DriverManager.getConnection(databaseUrl);
+            theConnection = DriverManager.getConnection(databaseUrl);
         } catch (SQLException sqlException) {
             System.out.println("Error on connecting to database");
             System.out.println("Error code is:");
@@ -45,7 +46,7 @@ public class DatabaseConnector {
 
         String sql = "INSERT INTO hkrquiz1.user (username, password, email, is_admin) values (?,?,?,?)";
 
-        try {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, username);
@@ -64,72 +65,66 @@ public class DatabaseConnector {
                 alert.setContentText("Registration not complete! ");
                 alert.showAndWait();
             }
-
-            connection.close();
-
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error in access database ");
             alert.showAndWait();
-
         }
     }
 
-    public void validateLogin(String username, String password) {
-
+    public boolean validateLogin(String username, String password) {
         String query = "SELECT count(*) FROM hkrquiz1.user WHERE username =? And password =?";
         int i = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, username);
+                statement.setString(2, password);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        i = resultSet.getInt(1);
+                    }
+                }
 
-            statement.setString(1, username);
-            statement.setString(2, password);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    i = resultSet.getInt(1);
+                if (i > 0) {
+                    setAccountSingleton(username);
+                    if (CurrentAccountSingleton.getInstance().getAccount().isAdmin()) {
+                        StageManager.getInstance().getAdminScene();
+                    } else {
+                        StageManager.getInstance().getMainMenu();
+                    }
+                    return true;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText(" Wrong username or password ! ");
+                    alert.showAndWait();
                 }
             }
-
-            if (i > 0) {
-                StageManager.getInstance().setUsername(username);
-                //Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                //alert.setContentText("Login successful! ");
-                //alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(" Wrong username or password ! ");
-                alert.showAndWait();
-            }
-
-            connection.close();
-
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error on fetch data from database ");
             alert.showAndWait();
         }
+        return false;
     }
 
-
-    public void getRole(String username) {
-
+    public void setAccountSingleton(String username) {
         String roleQue = "SELECT * From hkrquiz1.user where username =?";
 
-        try (PreparedStatement statement = connection.prepareStatement(roleQue)) {
-            statement.setString(1, username);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-
-                    Account.getInstance().setUsername(resultSet.getNString("username"));
-                    Account.getInstance().setPassword(resultSet.getNString("password"));
-                    Account.getInstance().setEmail(resultSet.getNString("email"));
-                    Account.getInstance().setAdmin(resultSet.getBoolean("is_admin"));
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(roleQue)) {
+                statement.setString(1, username);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        Account newAccount = new Account();
+                        newAccount.setUsername(resultSet.getNString("username"));
+                        newAccount.setPassword(resultSet.getNString("password"));
+                        newAccount.setEmail(resultSet.getNString("email"));
+                        newAccount.setAdmin(resultSet.getBoolean("is_admin"));
+                        CurrentAccountSingleton.getInstance().setAccount(newAccount);
+                    }
                 }
-
-                connection.close();
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -144,12 +139,12 @@ public class DatabaseConnector {
         String emailQue = "Select email, password from hkrquiz1.user where username =?";
         int x = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(emailQue)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(emailQue)) {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Account.getInstance().setEmail(resultSet.getString("email"));
-                    Account.getInstance().setPassword(resultSet.getNString("password"));
+                    CurrentAccountSingleton.getInstance().getAccount().setEmail(resultSet.getString("email"));
+                    CurrentAccountSingleton.getInstance().getAccount().setPassword(resultSet.getNString("password"));
                 }
 
                 /*if (x>0){
@@ -164,7 +159,7 @@ public class DatabaseConnector {
                     alert.setContentText("The email entered not exist! ");
                     alert.showAndWait();
                 }*/
-                connection.close();
+                theConnection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,33 +179,71 @@ public class DatabaseConnector {
         }
     }
 
-    public ArrayList<Question> QuizFill(String category) {
+    public ArrayList<Question> getQuestionsFromDB(String category, String quizDifficulty) {
         ArrayList<Question> questions = new ArrayList<>();
-        if (connection != null) {
-            try {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("select * from question where category = '" + category + "';");
-                int questionNumber = 1;
-                while (resultSet.next()) {
-                    String question = resultSet.getString("question");
-                    String difficulty = resultSet.getString("difficulty");
-                    String answer = resultSet.getString("answer");
-                    String incorrect_answer1 = resultSet.getString("incorrect_answer1");
-                    String incorrect_answer2 = resultSet.getString("incorrect_answer2");
-                    String incorrect_answer3 = resultSet.getString("incorrect_answer3");
-                    questions.add(new Question(questionNumber, category, difficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
-                    questionNumber++;
-
+        String queryString = "select * from (select * from question where category = '" + category +
+                "') as questions where difficulty = '" + quizDifficulty + "' || difficulty = 'medium';";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery(queryString)) {
+                    while (resultSet.next()) {
+                        int question_id = resultSet.getInt("question_id");
+                        String question = resultSet.getString("question");
+                        String questionDifficulty = resultSet.getString("difficulty");
+                        String answer = resultSet.getString("answer");
+                        String incorrect_answer1 = resultSet.getString("incorrect_answer1");
+                        String incorrect_answer2 = resultSet.getString("incorrect_answer2");
+                        String incorrect_answer3 = resultSet.getString("incorrect_answer3");
+                        questions.add(new Question(question_id, category, questionDifficulty, question, answer, incorrect_answer1, incorrect_answer2, incorrect_answer3));
+                    }
                 }
-                return questions;
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Could not fetch quiz ");
-                alert.showAndWait();
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Could not fetch quiz ");
+            alert.showAndWait();
         }
-        return null;
+        return questions;
+    }
+
+    public boolean insertQuiz(Quiz quiz) {
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            //Since id is not auto-increment, will have to make an extra query
+            Statement idStatement = connection.createStatement();
+            ResultSet resultSet = idStatement.executeQuery("select max(quiz_Id) as quiz_id from quiz;");
+            int quizId = 0;
+            if (resultSet.next()) {
+                quizId = resultSet.getInt("quiz_id");
+            }
+            if (quizId == 0) {
+                //If the query fails for any reason, put a random id to id, to avoid duplication of PK
+                //This will most likely never run anyway
+                quizId = new Random().nextInt(99999999) + 1000;
+            }
+
+            //TODO change all insert queries to look like this (prepared statement with ? and this formatting)
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "INSERT " +
+                    "INTO quiz " +
+                    "(quiz_Id, category, score, duration, date, user_username) " +
+                    "VALUES " +
+                    "( ? , ? , ? , ? , ? , ? )");
+
+            statement.setInt(1, quizId + 1);
+            statement.setString(2, quiz.getCategory());
+            statement.setInt(3, quiz.getScore());
+            statement.setInt(4, quiz.getDuration());
+            statement.setObject(5, convertToDatabaseColumn(LocalDate.now()));
+            statement.setString(6, quiz.getUserName());
+
+            statement.executeUpdate();
+            System.out.println("Quiz inserted: " + quiz);
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     public boolean updatePassword(String username, String oldPassword, String newPassword) {
@@ -218,12 +251,13 @@ public class DatabaseConnector {
         boolean done = false;
         String theStatement = "update hkrquiz1.user set password =? where username =?";
         if (ok) {
-            try (PreparedStatement myStatement = connection.prepareStatement(theStatement)) {
-                myStatement.setString(1, newPassword);
-                myStatement.setString(2, username);
-                done = myStatement.execute();
-                done = true;
-                connection.close();
+            try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+                try (PreparedStatement myStatement = connection.prepareStatement(theStatement)) {
+                    myStatement.setString(1, newPassword);
+                    myStatement.setString(2, username);
+                    myStatement.execute();
+                    done = true;
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -234,7 +268,7 @@ public class DatabaseConnector {
     public boolean checkOldPassword(String username, String oldPassword) {
         String validatePassword = null;
         String sqlStatement = "select password from user where username =?";
-        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(sqlStatement)) {
             statement.setString(1, username);
             try (ResultSet result = statement.executeQuery()) {
                 while (result.next()) {
@@ -246,17 +280,42 @@ public class DatabaseConnector {
         }
         if (validatePassword.equals(oldPassword)) {
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
-    public ObservableList getTheHighestScores() {
+    public boolean checkIfUserAlreadyExists(String username) {
+        String label = "quantity";
+        String checkUsernameQuery = "SELECT COUNT(*) " + label + " FROM user WHERE username = '" + username + "'";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(checkUsernameQuery)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    return resultSet.getInt(label) >= 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public ObservableList<Quiz> getTheHighestScores() {
+        //To work with tableView we will need an ObservableList<The object>
         ObservableList<Quiz> highScoreList = FXCollections.observableArrayList();
+        //Here we do the query on the database
         String query = "SELECT user_username,score,category,duration FROM " +
                 "hkrquiz1.quiz";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        //Here we instantiate the preparedStatement to execute the query we also call the variable theConnection
+        //that is assigned in the databaseConnector() above and call the .prepareStatement(Give it the query string)
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
+            //executing the query by using the resultSet
             try (ResultSet resultSet = statement.executeQuery()) {
+                //putting it on a loop to go through the whole database and execute
                 while (resultSet.next()) {
+                    //adding the result to the ObservableList in the form of a quiz object
+                    //using the resultSet.getString(giving it the name of the column in the database) to populate the quiz object
                     highScoreList.add(new Quiz(resultSet.getNString("user_username"), resultSet.getInt("score"),
                             resultSet.getNString("category"), resultSet.getInt("duration")));
                 }
@@ -266,14 +325,16 @@ public class DatabaseConnector {
         }
         return highScoreList;
     }
-    public ObservableList getPlayedCategoriesRatio(){
+    public ObservableList<PieChart.Data> getPlayedCategoriesRatio() {
         String query="select category,count(*) from quiz where user_username=? group by category";
         ObservableList<PieChart.Data> myPieChart = FXCollections.observableArrayList();
-        try(PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setString(1,StageManager.getInstance().getUsername());
-            try(ResultSet set = statement.executeQuery()){
-                while(set.next()){
-                    myPieChart.add(new PieChart.Data(set.getString(1),Double.valueOf(set.getString(2))));
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        myPieChart.add(new PieChart.Data(resultSet.getString(1), Double.valueOf(resultSet.getString(2))));
+                    }
                 }
             }
         }catch(Exception e){e.printStackTrace();}
@@ -289,7 +350,7 @@ public class DatabaseConnector {
             query="SELECT user_username,score,category,duration FROM hkrquiz1.quiz where score >=? and score <=?";
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
             statement.setString(1,from);
             statement.setString(2,to);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -310,9 +371,9 @@ public class DatabaseConnector {
         XYChart.Series<String,Integer> myChart = new XYChart.Series<>();
         //querying the database
         String query = "select category,score from quiz where user_username=? order by score";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = theConnection.prepareStatement(query)) {
            //setting the preparedStatements input when we use ? we need to specify where it will read from;
-            statement.setString(1,StageManager.getInstance().getUsername());
+            statement.setString(1, CurrentAccountSingleton.getInstance().getAccount().getUsername());
             try (ResultSet result = statement.executeQuery()) {
                 //looping through the database to check all rows
                 while (result.next()) {
@@ -404,26 +465,51 @@ public class DatabaseConnector {
         ArrayList<Question> questions = new ArrayList<>();
 
         String categoryQuery = "SELECT * FROM question";
-        try (PreparedStatement statement = connection.prepareStatement(categoryQuery)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Question question = new Question();
-                    question.setQuestion(resultSet.getNString("question"));
-                    question.setCategory(resultSet.getNString("category"));
-                    question.setDifficulty(resultSet.getNString("difficulty"));
-                    question.setAnswer(resultSet.getNString("answer"));
-                    question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
-                    question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
-                    question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
-                    questions.add(question);
-                }
-                connection.close();
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            PreparedStatement statement = connection.prepareStatement(categoryQuery);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                questions.add(readQuestionFromResultSet(resultSet));
             }
             return questions;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList<Question> getAllQuestionsFromCategory(String category) {
+        ArrayList<Question> questions = new ArrayList<>();
+
+        String categoryQuery = "SELECT * FROM question WHERE category = ?";
+        try (Connection connection = DriverManager.getConnection(databaseUrl)) {
+            PreparedStatement statement = connection.prepareStatement(categoryQuery);
+            statement.setString(1, category);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                questions.add(readQuestionFromResultSet(resultSet));
+            }
+            return questions;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Question readQuestionFromResultSet(ResultSet resultSet) throws SQLException {
+        Question question = new Question();
+        question.setQuestion(resultSet.getNString("question"));
+        question.setCategory(resultSet.getNString("category"));
+        question.setDifficulty(resultSet.getNString("difficulty"));
+        question.setAnswer(resultSet.getNString("answer"));
+        question.setIncorrect_answer1(resultSet.getNString("incorrect_answer1"));
+        question.setIncorrect_answer2(resultSet.getNString("incorrect_answer2"));
+        question.setIncorrect_answer3(resultSet.getNString("incorrect_answer3"));
+        return question;
+    }
+
+    public java.sql.Date convertToDatabaseColumn(LocalDate entityValue) {
+        return java.sql.Date.valueOf(entityValue);
     }
 }
 

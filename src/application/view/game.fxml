@@ -3,30 +3,98 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXRadioButton?>
-<?import javafx.scene.ParallelCamera?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameController">
-
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameController">
+    
     <children>
-        <Label fx:id="questionLabel" layoutX="142.0" layoutY="125.0" text="Question" />
-        <ParallelCamera />
-        <JFXRadioButton fx:id="rb1" layoutX="142.0" layoutY="174.0" text="answer1">
-            <toggleGroup>
-                <ToggleGroup fx:id="answers" />
-            </toggleGroup>
-        </JFXRadioButton>
-        <JFXRadioButton fx:id="rb2" layoutX="142.0" layoutY="200.0" text="answer2" toggleGroup="$answers" />
-        <JFXRadioButton fx:id="rb3" layoutX="142.0" layoutY="224.0" text="answer3" toggleGroup="$answers" />
-        <JFXRadioButton fx:id="rb4" layoutX="142.0" layoutY="248.0" text="answer4" toggleGroup="$answers" />
-        <JFXButton fx:id="next" layoutX="589.0" layoutY="418.0" onAction="#nextOrPreviousQuestion" text="Next" />
-        <JFXButton fx:id="previous" layoutX="239.0" layoutY="417.0" text="Previous" />
-        <JFXProgressBar fx:id="progressBar" layoutX="350.0" layoutY="429.0" progress="0.0" />
-        <JFXButton fx:id="finish" layoutX="668.0" layoutY="478.0" onAction="#finishGame" text="Finish" />
-        <Label fx:id="finalScore" layoutX="335.0" layoutY="79.0" prefHeight="17.0" prefWidth="188.0" />
+      <AnchorPane fx:id="endGameAnchor" layoutX="209.0" layoutY="21.0" prefHeight="507.0" prefWidth="582.0">
+         <children>
+            <Group />
+            <Label fx:id="timeTakenLabel" layoutX="239.0" layoutY="76.0" text="Time Taken" textFill="#dadada">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </Label>
+            <JFXRadioButton fx:id="question1isCorrectRadio" focusTraversable="false" layoutX="239.0" layoutY="138.0" mouseTransparent="true" text="Question 1" textFill="#dadada" />
+            <JFXRadioButton fx:id="question2isCorrectRadio" focusTraversable="false" layoutX="239.0" layoutY="172.0" mouseTransparent="true" text="Question 2" textFill="#dadada" />
+            <JFXRadioButton fx:id="question3isCorrectRadio" focusTraversable="false" layoutX="239.0" layoutY="208.0" mouseTransparent="true" text="Question 3" textFill="#dadada" />
+            <JFXRadioButton fx:id="question4isCorrectRadio" focusTraversable="false" layoutX="239.0" layoutY="243.0" mouseTransparent="true" text="Question 4" textFill="#dadada" />
+            <JFXRadioButton fx:id="question5isCorrectRadio" focusTraversable="false" layoutX="239.0" layoutY="277.0" mouseTransparent="true" text="Question 5" textFill="#dadada" />
+            <JFXRadioButton fx:id="question6isCorrectRadio" focusTraversable="false" layoutX="389.0" layoutY="139.0" mouseTransparent="true" text="Question 6" textFill="#dadada" />
+            <JFXRadioButton fx:id="question7isCorrectRadio" focusTraversable="false" layoutX="389.0" layoutY="173.0" mouseTransparent="true" text="Question 7" textFill="#dadada" />
+            <JFXRadioButton fx:id="question8isCorrectRadio" focusTraversable="false" layoutX="389.0" layoutY="209.0" mouseTransparent="true" text="Question 8" textFill="#dadada" />
+            <JFXRadioButton fx:id="question9isCorrectRadio" focusTraversable="false" layoutX="389.0" layoutY="244.0" mouseTransparent="true" text="Question 9" textFill="#dadada" />
+            <JFXRadioButton fx:id="question10isCorrectRadio" focusTraversable="false" layoutX="389.0" layoutY="278.0" mouseTransparent="true" text="Question 10" textFill="#dadada" />
+            <JFXButton fx:id="mainMenuButton" layoutX="474.0" layoutY="324.0" onAction="#toMainMenu" text="Main Menu" textFill="#dadada" />
+            <Label layoutX="252.0" layoutY="458.0" text="Questions answered correctly have radio button on." textFill="#dadada">
+               <font>
+                  <Font name="Marlett" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="608.0" fitWidth="978.0" layoutX="-4.0" layoutY="-3.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../resources/poss.jpg" />
+         </image>
+      </ImageView>
+      <TextFlow layoutX="12.0" layoutY="-1.0" opacity="0.29" prefHeight="534.0" prefWidth="916.0" style="-fx-background-color: #1C8ADB; -fx-background-radius: 50;" />
+      <AnchorPane fx:id="gameAnchor" layoutX="188.0" layoutY="14.0" prefHeight="534.0" prefWidth="624.0">
+         <children>
+              <Label fx:id="questionLabel" prefHeight="52.0" prefWidth="624.0" text="Question" textFill="#dadada" wrapText="true">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </Label>
+              <JFXRadioButton fx:id="rb1" layoutX="13.0" layoutY="68.0" text="answer1" textFill="#dadada">
+                  <toggleGroup>
+                      <ToggleGroup fx:id="answers" />
+                  </toggleGroup>
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+              </JFXRadioButton>
+              <JFXRadioButton fx:id="rb2" layoutX="13.0" layoutY="100.0" text="answer2" textFill="#dadada" toggleGroup="$answers">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </JFXRadioButton>
+              <JFXRadioButton fx:id="rb3" layoutX="13.0" layoutY="136.0" text="answer3" textFill="#dadada" toggleGroup="$answers">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </JFXRadioButton>
+              <JFXRadioButton fx:id="rb4" layoutX="13.0" layoutY="170.0" text="answer4" textFill="#dadada" toggleGroup="$answers">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </JFXRadioButton>
+              <JFXButton fx:id="previous" layoutX="65.0" layoutY="456.0" text="Previous" textFill="#dadada" visible="false">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </JFXButton>
+              <JFXProgressBar fx:id="progressBar" layoutX="232.0" layoutY="468.0" progress="0.0" />
+              <JFXButton fx:id="next" layoutX="480.0" layoutY="454.0" onAction="#nextQuestion" text="Next" textFill="#dadada">
+               <font>
+                  <Font name="Marlett" size="18.0" />
+               </font>
+            </JFXButton>
+            <Group />
+            <Label fx:id="timeCounter" layoutX="472.0" layoutY="61.0" prefHeight="14.0" prefWidth="28.0" textFill="#dadada">
+               <font>
+                  <Font name="Marlett" size="12.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+
     </children>
 </AnchorPane>
